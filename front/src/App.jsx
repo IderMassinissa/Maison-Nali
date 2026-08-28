@@ -3,6 +3,7 @@ import BanniereAnnonce from "./components/BanniereAnnonce";
 import Hero from "./components/Hero";
 import GrillePatisseries from "./components/GrillePatisseries";
 import BlocHistoire from "./components/BlocHistoire";
+import BlocLocalisation from "./components/BlocLocalisation";
 import Footer from "./components/Footer";
 
 function App() {
@@ -10,10 +11,14 @@ function App() {
     <div>
       <Header />
       <div className="pt-24">
-        <BanniereAnnonce message="Fermeture exceptionnelle !" active={true} />
+        <BanniereAnnonce
+          message="Fermeture exceptionnelle le 15 septembre"
+          active={true}
+        />
         <Hero />
         <GrillePatisseries />
         <BlocHistoire />
+        <BlocLocalisation />
         <Footer />
       </div>
     </div>
