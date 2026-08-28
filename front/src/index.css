@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-dark: #0d231a;
+  --color-brand-light: #faf6f0;
+  --color-brand-border: #e3dac9;
+  --color-brand-accent: #d4af37;
+  --color-brand-surface: #f4eee3;
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+}
