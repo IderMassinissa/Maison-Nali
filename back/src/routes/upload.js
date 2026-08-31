@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 const TYPES_AUTORISES = ["image/jpeg", "image/png", "image/webp"];
-const TAILLE_MAX = 5 * 1024 * 1024; // 5 Mo
+const TAILLE_MAX = 5 * 1024 * 1024;
 
 const upload = multer({
   storage,
@@ -31,9 +31,21 @@ const upload = multer({
   },
 });
 
-router.post("/", requireAuth, upload.single("photo"), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: "Aucun fichier reçu" });
-  res.json({ url: `/uploads/${req.file.filename}` });
+router.post("/", requireAuth, (req, res) => {
+  upload.single("photo")(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res
+        .status(400)
+        .json({ error: `Erreur d'upload : ${err.message}` });
+    }
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: "Aucun fichier reçu" });
+    }
+    res.json({ url: `/uploads/${req.file.filename}` });
+  });
 });
 
 module.exports = router;

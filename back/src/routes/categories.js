@@ -7,15 +7,29 @@ const {
 } = require("../repositories/categories");
 
 router.get("/", (req, res) => {
-  res.json(getAllCategories());
+  try {
+    res.json(getAllCategories());
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des catégories" });
+  }
 });
 
 router.post("/", requireAuth, (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ error: "Le nom est requis" });
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
-  const result = createCategory(name);
-  res.status(201).json({ id: result.lastInsertRowid });
+    const result = createCategory(name);
+    res.status(201).json({ id: result.lastInsertRowid });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la création de la catégorie" });
+  }
 });
 
 module.exports = router;

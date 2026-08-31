@@ -7,14 +7,28 @@ const {
 } = require("../repositories/announcements");
 
 router.get("/", (req, res) => {
-  const announcement = getActiveAnnouncement();
-  res.json(announcement || null);
+  try {
+    const announcement = getActiveAnnouncement();
+    res.json(announcement || null);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération de la bannière" });
+  }
 });
 
 router.put("/", requireAuth, (req, res) => {
-  const { message, active } = req.body;
-  setAnnouncement(message, active);
-  res.json({ message: "Bannière mise à jour" });
+  try {
+    const { message, active } = req.body;
+    setAnnouncement(message, active);
+    res.json({ message: "Bannière mise à jour" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la mise à jour de la bannière" });
+  }
 });
 
 module.exports = router;

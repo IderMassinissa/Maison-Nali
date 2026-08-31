@@ -9,50 +9,77 @@ const {
   deleteProduct,
 } = require("../repositories/products");
 
-// Lecture publique — le site public en a besoin
 router.get("/", (req, res) => {
-  res.json(getAllProducts());
+  try {
+    res.json(getAllProducts());
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des produits" });
+  }
 });
 
 router.get("/:id", (req, res) => {
-  const product = getProductById(req.params.id);
-  if (!product) return res.status(404).json({ error: "Produit introuvable" });
-  res.json(product);
+  try {
+    const product = getProductById(req.params.id);
+    if (!product) return res.status(404).json({ error: "Produit introuvable" });
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération du produit" });
+  }
 });
 
-// Écriture réservée à l'admin
 router.post("/", requireAuth, (req, res) => {
-  const { name, description, photoUrl, videoUrl, categoryId } = req.body;
-  if (!name) return res.status(400).json({ error: "Le nom est requis" });
+  try {
+    const { name, description, photoUrl, videoUrl, categoryId } = req.body;
+    if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
-  const result = createProduct(
-    name,
-    description,
-    photoUrl,
-    videoUrl,
-    categoryId,
-  );
-  res.status(201).json({ id: result.lastInsertRowid });
+    const result = createProduct(
+      name,
+      description,
+      photoUrl,
+      videoUrl,
+      categoryId,
+    );
+    res.status(201).json({ id: result.lastInsertRowid });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la création du produit" });
+  }
 });
 
 router.put("/:id", requireAuth, (req, res) => {
-  const { name, description, photoUrl, videoUrl, categoryId } = req.body;
-  if (!name) return res.status(400).json({ error: "Le nom est requis" });
+  try {
+    const { name, description, photoUrl, videoUrl, categoryId } = req.body;
+    if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
-  updateProduct(
-    req.params.id,
-    name,
-    description,
-    photoUrl,
-    videoUrl,
-    categoryId,
-  );
-  res.json({ message: "Produit mis à jour" });
+    updateProduct(
+      req.params.id,
+      name,
+      description,
+      photoUrl,
+      videoUrl,
+      categoryId,
+    );
+    res.json({ message: "Produit mis à jour" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la mise à jour du produit" });
+  }
 });
 
 router.delete("/:id", requireAuth, (req, res) => {
-  deleteProduct(req.params.id);
-  res.json({ message: "Produit supprimé" });
+  try {
+    deleteProduct(req.params.id);
+    res.json({ message: "Produit supprimé" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la suppression du produit" });
+  }
 });
 
 module.exports = router;

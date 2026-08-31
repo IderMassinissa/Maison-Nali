@@ -34,6 +34,15 @@ app.use("/api/opening-hours", openingHoursRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 app.use("/api/upload", uploadRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({ error: "Route introuvable" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Une erreur est survenue sur le serveur" });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
