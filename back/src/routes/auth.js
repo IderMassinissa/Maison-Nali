@@ -26,4 +26,11 @@ router.post("/logout", (req, res) => {
   });
 });
 
+router.get("/me", (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Non authentifié" });
+  }
+  res.json({ userId: req.session.userId });
+});
+
 module.exports = router;
