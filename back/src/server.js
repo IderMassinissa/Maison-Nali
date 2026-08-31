@@ -4,6 +4,7 @@ const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
+const pageRoutes = require("./routes/pages");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/pages", pageRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
