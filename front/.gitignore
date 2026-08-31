@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# uploads
+back/public/uploads/*
+!back/public/uploads/.gitkeep

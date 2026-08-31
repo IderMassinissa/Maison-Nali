@@ -8,6 +8,8 @@ const pageRoutes = require("./routes/pages");
 const announcementRoutes = require("./routes/announcements");
 const settingsRoutes = require("./routes/settings");
 const openingHoursRoutes = require("./routes/openingHours");
+const path = require("path");
+const uploadRoutes = require("./routes/upload");
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use("/api/pages", pageRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/opening-hours", openingHoursRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
+app.use("/api/upload", uploadRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
