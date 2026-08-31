@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const authRoutes = require("./routes/auth");
+const productRoutes = require("./routes/products");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
