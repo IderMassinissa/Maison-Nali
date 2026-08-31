@@ -4,6 +4,7 @@ const requireAuth = require("../middleware/requireAuth");
 const { getAllPages, getPageBySlug } = require("../repositories/pages");
 const {
   getSectionsByPageId,
+  getSectionById,
   updateSectionContent,
   updateSectionPosition,
 } = require("../repositories/sections");
@@ -53,6 +54,17 @@ router.put("/sections/:id/position", requireAuth, (req, res) => {
     res
       .status(500)
       .json({ error: "Erreur lors de la mise à jour de la position" });
+  }
+});
+
+router.get("/sections/:id", (req, res) => {
+  try {
+    const section = getSectionById(req.params.id);
+    if (!section) return res.status(404).json({ error: "Bloc introuvable" });
+    res.json(section);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la récupération du bloc" });
   }
 });
 

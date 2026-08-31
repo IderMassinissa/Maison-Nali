@@ -17,7 +17,6 @@ const insertSection = db.prepare(
 
 const sectionsParPage = {
   accueil: [
-    "banniere",
     "hero",
     "grille-patisseries",
     "bloc-histoire",

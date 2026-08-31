@@ -18,8 +18,13 @@ function updateSectionPosition(id, position) {
     .run(position, id);
 }
 
+function getSectionById(id) {
+  return db.prepare("SELECT * FROM sections WHERE id = ?").get(id);
+}
+
 module.exports = {
   getSectionsByPageId,
+  getSectionById,
   updateSectionContent,
   updateSectionPosition,
 };
