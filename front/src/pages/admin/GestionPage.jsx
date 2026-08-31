@@ -1,15 +1,68 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export default function GestionPage() {
   const { slug } = useParams();
   return <ContenuPage key={slug} slug={slug} />;
 }
 
+function BlocTriable({ section, slug }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: section.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex items-center gap-4 p-4 bg-white border border-brand-border rounded-xl"
+    >
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab text-lg opacity-40"
+        aria-label="Réordonner"
+      >
+        ⠿
+      </button>
+      <span className="text-xs uppercase tracking-widest opacity-50">
+        {section.type}
+      </span>
+      <span className="flex-1 text-sm">Position {section.position}</span>
+      <Link
+        to={`/admin/pages/${slug}/blocs/${section.id}`}
+        className="text-xs uppercase tracking-widest text-brand-accent hover:underline"
+      >
+        Éditer
+      </Link>
+    </div>
+  );
+}
+
 function ContenuPage({ slug }) {
   const [page, setPage] = useState(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState("");
+
+  const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/pages/${slug}`)
@@ -21,6 +74,28 @@ function ContenuPage({ slug }) {
       .catch((err) => setErreur(err.message))
       .finally(() => setChargement(false));
   }, [slug]);
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = page.sections.findIndex((s) => s.id === active.id);
+    const newIndex = page.sections.findIndex((s) => s.id === over.id);
+    const nouvelOrdre = arrayMove(page.sections, oldIndex, newIndex);
+
+    // Mise à jour de l'affichage
+    setPage({ ...page, sections: nouvelOrdre });
+
+    // Persistance en base : chaque bloc reçoit sa nouvelle position (index + 1)
+    nouvelOrdre.forEach((section, index) => {
+      fetch(`http://localhost:3001/api/pages/sections/${section.id}/position`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ position: index + 1 }),
+      });
+    });
+  }
 
   if (chargement) return <p>Chargement...</p>;
   if (erreur) return <p className="text-red-600">{erreur}</p>;
@@ -34,27 +109,22 @@ function ContenuPage({ slug }) {
           Aucun bloc sur cette page pour l'instant.
         </p>
       ) : (
-        <div className="flex flex-col gap-3">
-          {page.sections.map((section) => (
-            <div
-              key={section.id}
-              className="flex items-center gap-4 p-4 bg-white border border-brand-border rounded-xl"
-            >
-              <span className="text-xs uppercase tracking-widest opacity-50">
-                {section.type}
-              </span>
-              <span className="flex-1 text-sm">
-                Position {section.position}
-              </span>
-              <Link
-                to={`/admin/pages/${slug}/blocs/${section.id}`}
-                className="text-xs uppercase tracking-widest text-brand-accent hover:underline"
-              >
-                Éditer
-              </Link>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={page.sections.map((s) => s.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="flex flex-col gap-3">
+              {page.sections.map((section) => (
+                <BlocTriable key={section.id} section={section} slug={slug} />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       <button className="mt-6 px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest">
