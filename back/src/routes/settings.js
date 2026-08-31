@@ -3,7 +3,17 @@ const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
 const { getSetting, setSetting } = require("../repositories/settings");
 
-const POLICES_AUTORISEES = ["Cormorant Garamond", "Inter"];
+const POLICES_AUTORISEES = [
+  "Cormorant Garamond",
+  "Playfair Display",
+  "Marcellus",
+  "Cinzel",
+  "EB Garamond",
+  "Inter",
+  "Work Sans",
+  "Jost",
+  "Nunito Sans",
+];
 const REGEX_COULEUR_HEX = /^#[0-9A-Fa-f]{6}$/;
 
 router.get("/:key", (req, res) => {
@@ -24,11 +34,9 @@ router.put("/:key", requireAuth, (req, res) => {
     const key = req.params.key;
 
     if (key.startsWith("color_") && !REGEX_COULEUR_HEX.test(value)) {
-      return res
-        .status(400)
-        .json({
-          error: "Couleur invalide, format hexadécimal attendu (#RRGGBB)",
-        });
+      return res.status(400).json({
+        error: "Couleur invalide, format hexadécimal attendu (#RRGGBB)",
+      });
     }
 
     if (key.startsWith("font_") && !POLICES_AUTORISEES.includes(value)) {
