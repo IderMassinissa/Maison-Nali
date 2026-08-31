@@ -5,6 +5,9 @@ const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
 const pageRoutes = require("./routes/pages");
+const announcementRoutes = require("./routes/announcements");
+const settingsRoutes = require("./routes/settings");
+const openingHoursRoutes = require("./routes/openingHours");
 
 const app = express();
 
@@ -23,6 +26,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/pages", pageRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/settings", settingsRoutes);
+app.use("/api/opening-hours", openingHoursRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
