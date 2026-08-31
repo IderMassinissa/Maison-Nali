@@ -5,6 +5,7 @@ import Accueil from "./pages/Accueil";
 import Patisseries from "./pages/Patisseries";
 import APropos from "./pages/APropos";
 import Adresse from "./pages/Adresse";
+import Connexion from "./pages/admin/Connexion";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/patisseries" element={<Patisseries />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/adresse" element={<Adresse />} />
+          <Route path="/admin/connexion" element={<Connexion />} />
         </Routes>
       </div>
       <Footer />

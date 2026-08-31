@@ -10,8 +10,16 @@ const settingsRoutes = require("./routes/settings");
 const openingHoursRoutes = require("./routes/openingHours");
 const path = require("path");
 const uploadRoutes = require("./routes/upload");
+const cors = require("cors");
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 
