@@ -1,4 +1,6 @@
-export default function BlocReseauxSociaux() {
+import { FaInstagram, FaFacebookF } from "react-icons/fa";
+
+export default function BlocReseauxSociaux({ instagram, facebook }) {
   return (
     <section className="py-24 md:py-32 px-6 md:px-12 bg-brand-dark text-brand-light">
       <div className="max-w-3xl mx-auto text-center">
@@ -13,19 +15,26 @@ export default function BlocReseauxSociaux() {
           temps forts saisonniers sur les réseaux.
         </p>
         <div className="flex items-center justify-center gap-6">
-          <a
-            href="#"
-            className="w-14 h-14 rounded-full border border-brand-accent/40 flex items-center justify-center text-lg transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
-          >
-            IG
-          </a>
-
-          <a
-            href="#"
-            className="w-14 h-14 rounded-full border border-brand-accent/40 flex items-center justify-center text-lg transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
-          >
-            FB
-          </a>
+          {instagram && (
+            <a
+              href={instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 rounded-full border border-brand-accent/40 flex items-center justify-center text-lg transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
+            >
+              <FaInstagram />
+            </a>
+          )}
+          {facebook && (
+            <a
+              href={facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 rounded-full border border-brand-accent/40 flex items-center justify-center text-lg transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
+            >
+              <FaFacebookF />
+            </a>
+          )}
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function Hero({ titre, sousTitre }) {
   return (
     <section className="relative h-[800px]">
       <div className="absolute inset-0 z-0">
@@ -15,8 +15,11 @@ export default function Hero() {
           Haut artisanat algérien
         </p>
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-12">
-          L'ART DU MIEL ET DE LA FLEUR D'ORANGER
+          {titre || "L'ART DU MIEL ET DE LA FLEUR D'ORANGER"}
         </h1>
+        {sousTitre && (
+          <p className="text-sm opacity-80 mb-8 max-w-xl">{sousTitre}</p>
+        )}
 
         <a
           href="/patisseries"

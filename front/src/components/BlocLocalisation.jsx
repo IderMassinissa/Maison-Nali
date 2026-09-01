@@ -1,4 +1,4 @@
-export default function BlocLocalisation() {
+export default function BlocLocalisation({ adresse, horaires }) {
   return (
     <section className="py-24 md:py-32 px-6 md:px-12 bg-brand-light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -9,20 +9,11 @@ export default function BlocLocalisation() {
           <h2 className="font-display text-4xl md:text-5xl tracking-tight mb-8">
             La boutique parisienne
           </h2>
-          <div className="space-y-6 text-sm leading-relaxed opacity-80">
+          <div className="space-y-6 text-sm leading-relaxed opacity-80 whitespace-pre-line">
+            <p>{adresse || "42 Rue des Glycines\n75016 Paris, France"}</p>
             <p>
-              7 Av. de la Prte de Montrouge
-              <br />
-              75014 Paris, France
-            </p>
-            <p>
-              Ouvert du mardi au dimanche,
-              <br />
-              de 9h à 19h. Fermé le lundi.
-            </p>
-            <p>
-              Commandes spéciales sur rendez-vous pour vos événements et fêtes
-              familiales.
+              {horaires ||
+                "Ouvert du mardi au dimanche,\nde 9h à 19h. Fermé le lundi."}
             </p>
           </div>
 

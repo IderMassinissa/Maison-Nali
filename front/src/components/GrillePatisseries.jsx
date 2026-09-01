@@ -1,47 +1,4 @@
-const patisseries = [
-  {
-    nom: "Baklawa Royale",
-    description:
-      "Trente couches de pâte extra-fine étirée à la main, un cœur d'amandes de Kabylie torréfiées et une infusion lente de miel pur à la fleur d'oranger.",
-    image: "/images/baklawa.jpg",
-    taille: "large",
-  },
-  {
-    nom: "Makrout El Louz",
-    description:
-      "Le joyau blanc d'Alger : un cœur fondant d'amandes parfumées au zeste de citron, délicatement poudré de sucre glace.",
-    image: "/images/makrout.jpg",
-    taille: "small",
-  },
-  {
-    nom: "Tcharek El Aryane",
-    description:
-      "Croissant de lune parsemé d'amandes effilées, offrant un contraste parfait entre le croquant extérieur et le fondant intérieur.",
-    image: "/images/tcharek.jpg",
-    taille: "small",
-  },
-  {
-    nom: "Dziriyet",
-    description:
-      "Petits paniers de dentelle de pâte, garnis d'une frangipane délicate aux amandes et à la fleur d'oranger, glacés au sirop de miel.",
-    image: "/images/dziriyet.jpg",
-    taille: "large",
-  },
-  {
-    nom: "Griwech",
-    description:
-      "Pâte tressée croustillante au sésame, plongée dans un bain de miel tiède. Une texture aérienne et addictive.",
-    image: "/images/griwech.jpg",
-    taille: "large",
-  },
-  {
-    nom: "M'chewek",
-    description:
-      "Boules fondantes aux amandes, parsemées d'amandes concassées pour un aspect \"hérisson\", décorées d'une cerise confite.",
-    image: "/images/mchewek.jpg",
-    taille: "small",
-  },
-];
+import { useEffect, useState } from "react";
 
 function CartePatisserie({ nom, description, image, taille }) {
   const hauteurImage = taille === "large" ? "md:h-[450px]" : "md:h-auto";
@@ -76,31 +33,48 @@ function CartePatisserie({ nom, description, image, taille }) {
   );
 }
 
+// Motif d'alternance grande/petite carte, répété tant qu'il y a des produits
+const TAILLES = ["large", "small", "small", "large", "large", "small"];
+const SPANS_DESKTOP = [
+  "md:col-span-8",
+  "md:col-span-4",
+  "md:col-span-4",
+  "md:col-span-8",
+  "md:col-span-7",
+  "md:col-span-5",
+];
+
 export default function GrillePatisseries() {
+  const [produits, setProduits] = useState([]);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/products")
+      .then((res) => res.json())
+      .then((data) => setProduits(data))
+      .finally(() => setChargement(false));
+  }, []);
+
+  if (chargement) return null;
+  if (produits.length === 0) return null;
+
   return (
     <section className="px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          <div className="md:col-span-8">
-            <CartePatisserie {...patisseries[0]} />
-          </div>
-          <div className="md:col-span-4">
-            <CartePatisserie {...patisseries[1]} />
-          </div>
-
-          <div className="md:col-span-4 order-2 md:order-1">
-            <CartePatisserie {...patisseries[2]} />
-          </div>
-          <div className="md:col-span-8 order-1 md:order-2">
-            <CartePatisserie {...patisseries[3]} />
-          </div>
-
-          <div className="md:col-span-7">
-            <CartePatisserie {...patisseries[4]} />
-          </div>
-          <div className="md:col-span-5">
-            <CartePatisserie {...patisseries[5]} />
-          </div>
+          {produits.map((produit, index) => (
+            <div
+              key={produit.id}
+              className={SPANS_DESKTOP[index % SPANS_DESKTOP.length]}
+            >
+              <CartePatisserie
+                nom={produit.name}
+                description={produit.description}
+                image={produit.photo_url}
+                taille={TAILLES[index % TAILLES.length]}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+import useTheme from "./hooks/useTheme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -12,12 +13,32 @@ import Dashboard from "./pages/admin/Dashboard";
 import RouteProtegee from "./components/admin/RouteProtegee";
 import { Outlet } from "react-router-dom";
 import GestionPage from "./pages/admin/GestionPage";
+import EditionBloc from "./pages/admin/EditionBloc";
+import GestionProduits from "./pages/admin/GestionProduits";
+import GestionTheme from "./pages/admin/GestionTheme";
+import GestionBanniere from "./pages/admin/GestionBanniere";
+import { useEffect, useState } from "react";
+import BanniereAnnonce from "./components/BanniereAnnonce";
 
 function SiteLayout() {
+  const [annonce, setAnnonce] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/announcements")
+      .then((res) => res.json())
+      .then((data) => setAnnonce(data));
+  }, []);
+
   return (
     <>
       <Header />
       <div className="pt-24">
+        {annonce && (
+          <BanniereAnnonce
+            message={annonce.message}
+            active={!!annonce.active}
+          />
+        )}
         <Outlet />
       </div>
       <Footer />
@@ -26,6 +47,8 @@ function SiteLayout() {
 }
 
 function App() {
+  useTheme();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -42,6 +65,10 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="pages/:slug" element={<GestionPage />} />
+            <Route path="pages/:slug/blocs/:id" element={<EditionBloc />} />
+            <Route path="produits" element={<GestionProduits />} />
+            <Route path="theme" element={<GestionTheme />} />
+            <Route path="banniere" element={<GestionBanniere />} />
           </Route>
         </Route>
       </Routes>
