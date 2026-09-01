@@ -35,7 +35,15 @@ router.get("/:id", (req, res) => {
 
 router.post("/", requireAuth, (req, res) => {
   try {
-    const { name, description, photoUrl, videoUrl, categoryId } = req.body;
+    const {
+      name,
+      description,
+      photoUrl,
+      videoUrl,
+      categoryId,
+      focusX,
+      focusY,
+    } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
     const result = createProduct(
@@ -44,6 +52,8 @@ router.post("/", requireAuth, (req, res) => {
       photoUrl,
       videoUrl,
       categoryId,
+      focusX,
+      focusY,
     );
     res.status(201).json({ id: result.lastInsertRowid });
   } catch (err) {
@@ -54,7 +64,15 @@ router.post("/", requireAuth, (req, res) => {
 
 router.put("/:id", requireAuth, (req, res) => {
   try {
-    const { name, description, photoUrl, videoUrl, categoryId } = req.body;
+    const {
+      name,
+      description,
+      photoUrl,
+      videoUrl,
+      categoryId,
+      focusX,
+      focusY,
+    } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
     updateProduct(
@@ -64,6 +82,8 @@ router.put("/:id", requireAuth, (req, res) => {
       photoUrl,
       videoUrl,
       categoryId,
+      focusX,
+      focusY,
     );
     res.json({ message: "Produit mis à jour" });
   } catch (err) {

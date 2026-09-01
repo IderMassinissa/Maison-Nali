@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionProduits() {
@@ -68,6 +69,9 @@ export default function GestionProduits() {
                   src={produit.photo_url}
                   alt={produit.name}
                   className="w-12 h-12 rounded-lg object-cover"
+                  style={{
+                    objectPosition: `${produit.focus_x ?? 50}% ${produit.focus_y ?? 50}%`,
+                  }}
                 />
               )}
               <span className="flex-1 text-sm font-medium">{produit.name}</span>
@@ -102,6 +106,8 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
   );
   const [photoUrl, setPhotoUrl] = useState(produitExistant?.photo_url || "");
   const [videoUrl, setVideoUrl] = useState(produitExistant?.video_url || "");
+  const [focusX, setFocusX] = useState(produitExistant?.focus_x ?? 50);
+  const [focusY, setFocusY] = useState(produitExistant?.focus_y ?? 50);
   const [enregistrement, setEnregistrement] = useState(false);
   const [uploadEnCours, setUploadEnCours] = useState(false);
 
@@ -122,11 +128,21 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setPhotoUrl(`${API_URL}${data.url}`);
+      setFocusX(50);
+      setFocusY(50);
     } catch (err) {
       alert("Erreur upload : " + err.message);
     } finally {
       setUploadEnCours(false);
     }
+  }
+
+  function handleClicPhoto(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setFocusX(Math.round(x));
+    setFocusY(Math.round(y));
   }
 
   async function handleSubmit(e) {
@@ -149,6 +165,8 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           photoUrl,
           videoUrl,
           categoryId: null,
+          focusX,
+          focusY,
         }),
       });
       if (!res.ok) {
@@ -197,11 +215,26 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             Photo
           </label>
           {photoUrl && (
-            <img
-              src={photoUrl}
-              alt="Aperçu"
-              className="w-32 h-32 rounded-lg object-cover mb-3"
-            />
+            <div
+              className="relative mb-3 cursor-crosshair w-32 h-32"
+              onClick={handleClicPhoto}
+            >
+              <img
+                src={photoUrl}
+                alt="Aperçu"
+                className="w-full h-full rounded-lg object-cover"
+                style={{ objectPosition: `${focusX}% ${focusY}%` }}
+              />
+              <div
+                className="absolute w-4 h-4 border-2 border-brand-accent rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ left: `${focusX}%`, top: `${focusY}%` }}
+              />
+            </div>
+          )}
+          {photoUrl && (
+            <p className="text-xs opacity-60 mb-2">
+              Clique sur la photo pour choisir la zone à mettre en avant.
+            </p>
           )}
           <label
             htmlFor="photo-input"
@@ -217,7 +250,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             className="hidden"
           />
           {uploadEnCours && (
-            <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
+            <p className="text-xs opacity-60 mt-1">Envoi en cours...</p>
           )}
         </div>
         <div>

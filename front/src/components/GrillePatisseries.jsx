@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
-function CartePatisserie({ nom, description, image, taille }) {
+function CartePatisserie({ nom, description, image, taille, focusX, focusY }) {
   const hauteurImage = taille === "large" ? "md:h-[450px]" : "md:h-auto";
   return (
     <article className="bg-brand-surface rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 flex flex-col h-full">
       <div
         className={`aspect-[16/9] md:aspect-auto ${hauteurImage} overflow-hidden`}
       >
-        <img className="w-full h-full object-cover" src={image} alt={nom} />
+        <img
+          className="w-full h-full object-cover"
+          src={image}
+          alt={nom}
+          style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+        />
       </div>
-      <div className={taille === "large" ? "p-8 md:p-12" : "p-8"}>
+      <div className={taille === "large" ? "p-6 md:p-8" : "p-5"}>
         <h3
           className={
             taille === "large"
-              ? "font-display text-3xl md:text-4xl mb-4"
-              : "font-display text-2xl mb-3"
+              ? "font-display text-3xl md:text-4xl mb-2"
+              : "font-display text-2xl mb-1.5"
           }
         >
           {nom}
@@ -73,6 +78,8 @@ export default function GrillePatisseries() {
                 description={produit.description}
                 image={produit.photo_url}
                 taille={TAILLES[index % TAILLES.length]}
+                focusX={produit.focus_x}
+                focusY={produit.focus_y}
               />
             </div>
           ))}

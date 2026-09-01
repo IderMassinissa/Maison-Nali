@@ -8,18 +8,52 @@ function getProductById(id) {
   return db.prepare("SELECT * FROM products WHERE id = ?").get(id);
 }
 
-function createProduct(name, description, photoUrl, videoUrl, categoryId) {
+function createProduct(
+  name,
+  description,
+  photoUrl,
+  videoUrl,
+  categoryId,
+  focusX,
+  focusY,
+) {
   const stmt = db.prepare(
-    "INSERT INTO products (name, description, photo_url, video_url, category_id) VALUES (?, ?, ?, ?, ?)",
+    "INSERT INTO products (name, description, photo_url, video_url, category_id, focus_x, focus_y) VALUES (?, ?, ?, ?, ?, ?, ?)",
   );
-  return stmt.run(name, description, photoUrl, videoUrl, categoryId);
+  return stmt.run(
+    name,
+    description,
+    photoUrl,
+    videoUrl,
+    categoryId,
+    focusX ?? 50,
+    focusY ?? 50,
+  );
 }
 
-function updateProduct(id, name, description, photoUrl, videoUrl, categoryId) {
+function updateProduct(
+  id,
+  name,
+  description,
+  photoUrl,
+  videoUrl,
+  categoryId,
+  focusX,
+  focusY,
+) {
   const stmt = db.prepare(
-    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ? WHERE id = ?",
+    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ?, focus_x = ?, focus_y = ? WHERE id = ?",
   );
-  return stmt.run(name, description, photoUrl, videoUrl, categoryId, id);
+  return stmt.run(
+    name,
+    description,
+    photoUrl,
+    videoUrl,
+    categoryId,
+    focusX ?? 50,
+    focusY ?? 50,
+    id,
+  );
 }
 
 function deleteProduct(id) {
