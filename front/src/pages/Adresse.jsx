@@ -8,10 +8,7 @@ export default function Adresse() {
 
   return (
     <div>
-      <BlocLocalisation
-        adresse={sections["bloc-localisation"]?.adresse}
-        horaires={sections["bloc-localisation"]?.horaires}
-      />
+      <BlocLocalisation adresse={sections["bloc-localisation"]?.adresse} />
       <BlocReseauxSociaux
         instagram={sections["bloc-reseaux"]?.instagram}
         facebook={sections["bloc-reseaux"]?.facebook}

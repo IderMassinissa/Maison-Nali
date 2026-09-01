@@ -18,10 +18,7 @@ export default function Accueil() {
         titre={sections["bloc-histoire"]?.titre}
         texte={sections["bloc-histoire"]?.texte}
       />
-      <BlocLocalisation
-        adresse={sections["bloc-localisation"]?.adresse}
-        horaires={sections["bloc-localisation"]?.horaires}
-      />
+      <BlocLocalisation adresse={sections["bloc-localisation"]?.adresse} />
       <BlocReseauxSociaux
         instagram={sections["bloc-reseaux"]?.instagram}
         facebook={sections["bloc-reseaux"]?.facebook}
