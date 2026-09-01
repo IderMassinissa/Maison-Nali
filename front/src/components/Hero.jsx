@@ -1,11 +1,14 @@
-export default function Hero({ titre, sousTitre }) {
+import { Link } from "react-router-dom";
+
+export default function Hero({ titre, sousTitre, photo, focusX, focusY }) {
   return (
     <section className="relative h-[800px]">
       <div className="absolute inset-0 z-0">
         <img
           className="w-full h-full object-cover"
-          src="/images/hero-baklawa.jpg"
+          src={photo || "/images/hero-baklawa.jpg"}
           alt="Pâtisseries algériennes dorées, glacées au miel"
+          style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/35 to-brand-dark/55"></div>
       </div>
@@ -20,13 +23,12 @@ export default function Hero({ titre, sousTitre }) {
         {sousTitre && (
           <p className="text-sm opacity-80 mb-8 max-w-xl">{sousTitre}</p>
         )}
-
-        <a
-          href="/patisseries"
+        <Link
+          to="/patisseries"
           className="px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest bg-brand-accent/10 hover:scale-105 transition-transform"
         >
           Découvrir nos pâtisseries
-        </a>
+        </Link>
       </div>
     </section>
   );

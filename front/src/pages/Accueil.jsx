@@ -11,7 +11,13 @@ export default function Accueil() {
 
   return (
     <>
-      <Hero titre={sections.hero?.titre} sousTitre={sections.hero?.sousTitre} />
+      <Hero
+        titre={sections.hero?.titre}
+        sousTitre={sections.hero?.sousTitre}
+        photo={sections.hero?.photo}
+        focusX={sections.hero?.focusX}
+        focusY={sections.hero?.focusY}
+      />
       <GrillePatisseries />
       <BlocHistoire
         titre={sections["bloc-histoire"]?.titre}
