@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import useSauvegardeBloc from "./SauvegardeBloc";
 
 const ORDRE_JOURS = [
   "Lundi",
@@ -11,16 +10,20 @@ const ORDRE_JOURS = [
   "Dimanche",
 ];
 
-export default function EditionBlocLocalisation({ section }) {
-  const contenuInitial = JSON.parse(section.content || "{}");
-  const [adresse, setAdresse] = useState(contenuInitial.adresse || "");
-  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+export default function EditionBlocLocalisation() {
+  const [adresse, setAdresse] = useState("");
+  const [enregistrementAdresse, setEnregistrementAdresse] = useState(false);
+  const [succesAdresse, setSuccesAdresse] = useState(false);
 
   const [horaires, setHoraires] = useState([]);
   const [chargementHoraires, setChargementHoraires] = useState(true);
   const [enregistrementHoraire, setEnregistrementHoraire] = useState(null);
 
   useEffect(() => {
+    fetch("http://localhost:3001/api/settings/address_text")
+      .then((res) => res.json())
+      .then((data) => setAdresse(data.value || ""));
+
     fetch("http://localhost:3001/api/opening-hours")
       .then((res) => res.json())
       .then((data) => {
@@ -32,9 +35,24 @@ export default function EditionBlocLocalisation({ section }) {
       .finally(() => setChargementHoraires(false));
   }, []);
 
-  function handleSubmitAdresse(e) {
+  async function handleSubmitAdresse(e) {
     e.preventDefault();
-    sauvegarder({ adresse });
+    setEnregistrementAdresse(true);
+    setSuccesAdresse(false);
+    try {
+      const res = await fetch(
+        "http://localhost:3001/api/settings/address_text",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ value: adresse }),
+        },
+      );
+      if (res.ok) setSuccesAdresse(true);
+    } finally {
+      setEnregistrementAdresse(false);
+    }
   }
 
   async function sauvegarderHoraire(id, openTime, closeTime) {
@@ -72,6 +90,10 @@ export default function EditionBlocLocalisation({ section }) {
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Localisation</h1>
+      <p className="text-xs opacity-60 mb-6">
+        L'adresse et les horaires sont communs à tout le site — les modifier ici
+        les met à jour partout où ils apparaissent.
+      </p>
 
       <form onSubmit={handleSubmitAdresse} className="max-w-lg space-y-4 mb-12">
         <div>
@@ -87,12 +109,14 @@ export default function EditionBlocLocalisation({ section }) {
         </div>
         <button
           type="submit"
-          disabled={enregistrement}
+          disabled={enregistrementAdresse}
           className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
         >
-          {enregistrement ? "Enregistrement..." : "Enregistrer"}
+          {enregistrementAdresse ? "Enregistrement..." : "Enregistrer"}
         </button>
-        {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {succesAdresse && (
+          <p className="text-green-600 text-sm">Enregistré !</p>
+        )}
       </form>
 
       <div className="max-w-lg">
@@ -113,7 +137,6 @@ export default function EditionBlocLocalisation({ section }) {
                   <span className="w-24 text-sm font-medium">
                     {horaire.day}
                   </span>
-
                   {ferme ? (
                     <span className="flex-1 text-sm opacity-60">Fermé</span>
                   ) : (
@@ -155,7 +178,6 @@ export default function EditionBlocLocalisation({ section }) {
                       />
                     </div>
                   )}
-
                   <label className="flex items-center gap-2 text-xs cursor-pointer">
                     <input
                       type="checkbox"
@@ -166,7 +188,6 @@ export default function EditionBlocLocalisation({ section }) {
                     />
                     Fermé
                   </label>
-
                   {enregistrementHoraire === horaire.id && (
                     <span className="text-xs opacity-50">...</span>
                   )}

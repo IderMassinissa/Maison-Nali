@@ -20,6 +20,7 @@ import GestionBanniere from "./pages/admin/GestionBanniere";
 import { useEffect, useState } from "react";
 import BanniereAnnonce from "./components/BanniereAnnonce";
 import ChangerMotDePasse from "./pages/admin/ChangerMotDePasse";
+import GestionReseaux from "./pages/admin/GestionReseaux";
 
 function SiteLayout() {
   const [annonce, setAnnonce] = useState(null);
@@ -70,6 +71,7 @@ function App() {
             <Route path="produits" element={<GestionProduits />} />
             <Route path="theme" element={<GestionTheme />} />
             <Route path="banniere" element={<GestionBanniere />} />
+            <Route path="reseaux" element={<GestionReseaux />} />
             <Route path="mot-de-passe" element={<ChangerMotDePasse />} />
           </Route>
         </Route>

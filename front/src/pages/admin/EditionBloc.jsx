@@ -4,14 +4,12 @@ import EditionHero from "../../components/admin/editeurs/EditionHero";
 import EditionGrillePatisseries from "../../components/admin/editeurs/EditionGrillePatisseries";
 import EditionBlocHistoire from "../../components/admin/editeurs/EditionBlocHistoire";
 import EditionBlocLocalisation from "../../components/admin/editeurs/EditionBlocLocalisation";
-import EditionBlocReseaux from "../../components/admin/editeurs/EditionBlocReseaux";
 
 const EDITEURS = {
   hero: EditionHero,
   "grille-patisseries": EditionGrillePatisseries,
   "bloc-histoire": EditionBlocHistoire,
   "bloc-localisation": EditionBlocLocalisation,
-  "bloc-reseaux": EditionBlocReseaux,
 };
 
 export default function EditionBloc() {

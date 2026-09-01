@@ -1,12 +1,21 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
 
-export default function BlocLocalisation({ adresse }) {
-  const adresseTexte = adresse || "42 Rue des Glycines\n75016 Paris, France";
+export default function BlocLocalisation() {
+  const [adresse, setAdresse] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/settings/address_text")
+      .then((res) => res.json())
+      .then((data) =>
+        setAdresse(data.value || "42 Rue des Glycines\n75016 Paris, France"),
+      );
+  }, []);
+
   const lienMaps = useMemo(
     () =>
-      `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(adresseTexte.replace(/\n/g, ", "))}`,
-    [adresseTexte],
+      `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(adresse.replace(/\n/g, ", "))}`,
+    [adresse],
   );
 
   return (
@@ -20,7 +29,7 @@ export default function BlocLocalisation({ adresse }) {
             La boutique parisienne
           </h2>
           <p className="text-sm leading-relaxed opacity-80 whitespace-pre-line mb-6">
-            {adresseTexte}
+            {adresse}
           </p>
           <HorairesTable />
 

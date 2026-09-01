@@ -16,16 +16,10 @@ const insertSection = db.prepare(
 );
 
 const sectionsParPage = {
-  accueil: [
-    "hero",
-    "grille-patisseries",
-    "bloc-histoire",
-    "bloc-localisation",
-    "bloc-reseaux",
-  ],
+  accueil: ["hero", "grille-patisseries", "bloc-histoire", "bloc-localisation"],
   patisseries: ["grille-patisseries"],
   "a-propos": ["bloc-histoire"],
-  adresse: ["bloc-localisation", "bloc-reseaux"],
+  adresse: ["bloc-localisation"],
 };
 
 for (const page of pages) {
