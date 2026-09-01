@@ -62,6 +62,13 @@ export default function DashboardLayout() {
           </Link>
         </nav>
 
+        <Link
+          to="/admin/mot-de-passe"
+          className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100 mb-4"
+        >
+          Changer mon mot de passe
+        </Link>
+
         <button
           onClick={handleLogout}
           className="mt-auto text-xs uppercase tracking-widest opacity-60 hover:opacity-100 text-left"

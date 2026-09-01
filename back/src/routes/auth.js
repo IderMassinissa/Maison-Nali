@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { getUserByEmail } = require("../repositories/users");
-const { verifyPassword } = require("../repositories/auth");
+const requireAuth = require("../middleware/requireAuth");
+const {
+  getUserByEmail,
+  createUser,
+  updatePassword,
+} = require("../repositories/users");
+const { verifyPassword, hashPassword } = require("../repositories/auth");
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -31,6 +36,38 @@ router.get("/me", (req, res) => {
     return res.status(401).json({ error: "Non authentifié" });
   }
   res.json({ userId: req.session.userId });
+});
+
+router.put("/password", requireAuth, async (req, res) => {
+  try {
+    const { ancienMotDePasse, nouveauMotDePasse } = req.body;
+
+    if (!nouveauMotDePasse || nouveauMotDePasse.length < 8) {
+      return res.status(400).json({
+        error: "Le nouveau mot de passe doit faire au moins 8 caractères",
+      });
+    }
+
+    const db = require("../db/connection");
+    const user = db
+      .prepare("SELECT * FROM users WHERE id = ?")
+      .get(req.session.userId);
+
+    const valide = await verifyPassword(ancienMotDePasse, user.password_hash);
+    if (!valide) {
+      return res.status(401).json({ error: "Ancien mot de passe incorrect" });
+    }
+
+    const nouveauHash = await hashPassword(nouveauMotDePasse);
+    updatePassword(user.id, nouveauHash);
+
+    res.json({ message: "Mot de passe mis à jour" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors du changement de mot de passe" });
+  }
 });
 
 module.exports = router;

@@ -11,4 +11,10 @@ function createUser(email, passwordHash) {
   return stmt.run(email, passwordHash);
 }
 
-module.exports = { getUserByEmail, createUser };
+function updatePassword(userId, newPasswordHash) {
+  return db
+    .prepare("UPDATE users SET password_hash = ? WHERE id = ?")
+    .run(newPasswordHash, userId);
+}
+
+module.exports = { getUserByEmail, createUser, updatePassword };
