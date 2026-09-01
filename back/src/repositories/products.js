@@ -16,9 +16,10 @@ function createProduct(
   categoryId,
   focusX,
   focusY,
+  cardSize,
 ) {
   const stmt = db.prepare(
-    "INSERT INTO products (name, description, photo_url, video_url, category_id, focus_x, focus_y) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO products (name, description, photo_url, video_url, category_id, focus_x, focus_y, card_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
   );
   return stmt.run(
     name,
@@ -28,6 +29,7 @@ function createProduct(
     categoryId,
     focusX ?? 50,
     focusY ?? 50,
+    cardSize || "small",
   );
 }
 
@@ -40,9 +42,10 @@ function updateProduct(
   categoryId,
   focusX,
   focusY,
+  cardSize,
 ) {
   const stmt = db.prepare(
-    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ?, focus_x = ?, focus_y = ? WHERE id = ?",
+    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ?, focus_x = ?, focus_y = ?, card_size = ? WHERE id = ?",
   );
   return stmt.run(
     name,
@@ -52,6 +55,7 @@ function updateProduct(
     categoryId,
     focusX ?? 50,
     focusY ?? 50,
+    cardSize || "small",
     id,
   );
 }

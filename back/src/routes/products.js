@@ -43,6 +43,7 @@ router.post("/", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
@@ -54,6 +55,7 @@ router.post("/", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     );
     res.status(201).json({ id: result.lastInsertRowid });
   } catch (err) {
@@ -72,6 +74,7 @@ router.put("/:id", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
@@ -84,6 +87,7 @@ router.put("/:id", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     );
     res.json({ message: "Produit mis à jour" });
   } catch (err) {

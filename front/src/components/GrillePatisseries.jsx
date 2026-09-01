@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
 
 function CartePatisserie({ nom, description, image, taille, focusX, focusY }) {
   const hauteurImage = taille === "large" ? "md:h-[450px]" : "md:h-auto";
@@ -39,16 +38,7 @@ function CartePatisserie({ nom, description, image, taille, focusX, focusY }) {
   );
 }
 
-// Motif d'alternance grande/petite carte, répété tant qu'il y a des produits
-const TAILLES = ["large", "small", "small", "large", "large", "small"];
-const SPANS_DESKTOP = [
-  "md:col-span-8",
-  "md:col-span-4",
-  "md:col-span-4",
-  "md:col-span-8",
-  "md:col-span-7",
-  "md:col-span-5",
-];
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GrillePatisseries() {
   const [produits, setProduits] = useState([]);
@@ -68,16 +58,20 @@ export default function GrillePatisseries() {
     <section className="px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          {produits.map((produit, index) => (
+          {produits.map((produit) => (
             <div
               key={produit.id}
-              className={SPANS_DESKTOP[index % SPANS_DESKTOP.length]}
+              className={
+                produit.card_size === "large"
+                  ? "md:col-span-8"
+                  : "md:col-span-4"
+              }
             >
               <CartePatisserie
                 nom={produit.name}
                 description={produit.description}
                 image={produit.photo_url}
-                taille={TAILLES[index % TAILLES.length]}
+                taille={produit.card_size === "large" ? "large" : "small"}
                 focusX={produit.focus_x}
                 focusY={produit.focus_y}
               />

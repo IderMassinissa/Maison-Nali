@@ -108,6 +108,9 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
   const [videoUrl, setVideoUrl] = useState(produitExistant?.video_url || "");
   const [focusX, setFocusX] = useState(produitExistant?.focus_x ?? 50);
   const [focusY, setFocusY] = useState(produitExistant?.focus_y ?? 50);
+  const [cardSize, setCardSize] = useState(
+    produitExistant?.card_size || "small",
+  );
   const [enregistrement, setEnregistrement] = useState(false);
   const [uploadEnCours, setUploadEnCours] = useState(false);
 
@@ -167,6 +170,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           categoryId: null,
           focusX,
           focusY,
+          cardSize,
         }),
       });
       if (!res.ok) {
@@ -252,6 +256,35 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           {uploadEnCours && (
             <p className="text-xs opacity-60 mt-1">Envoi en cours...</p>
           )}
+        </div>
+        <div>
+          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+            Taille de la carte sur le site
+          </label>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => setCardSize("small")}
+              className={`px-6 py-3 rounded-full text-xs uppercase tracking-widest border ${
+                cardSize === "small"
+                  ? "bg-brand-dark text-brand-light border-brand-dark"
+                  : "border-brand-border"
+              }`}
+            >
+              Petite (photo haute)
+            </button>
+            <button
+              type="button"
+              onClick={() => setCardSize("large")}
+              className={`px-6 py-3 rounded-full text-xs uppercase tracking-widest border ${
+                cardSize === "large"
+                  ? "bg-brand-dark text-brand-light border-brand-dark"
+                  : "border-brand-border"
+              }`}
+            >
+              Grande (photo large)
+            </button>
+          </div>
         </div>
         <div>
           <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
