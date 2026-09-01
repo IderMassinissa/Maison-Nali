@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function useSauvegardeBloc(sectionId) {
   const [enregistrement, setEnregistrement] = useState(false);
@@ -12,7 +13,7 @@ export default function useSauvegardeBloc(sectionId) {
 
     try {
       const res = await fetch(
-        `http://localhost:3001/api/pages/sections/${sectionId}/content`,
+        `${API_URL}/api/pages/sections/${sectionId}/content`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function BlocLocalisation() {
   const [adresse, setAdresse] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/settings/address_text")
+    fetch(`${API_URL}/api/settings/address_text`)
       .then((res) => res.json())
       .then((data) =>
         setAdresse(data.value || "42 Rue des Glycines\n75016 Paris, France"),

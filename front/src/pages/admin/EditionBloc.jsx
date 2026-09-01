@@ -4,6 +4,7 @@ import EditionHero from "../../components/admin/editeurs/EditionHero";
 import EditionGrillePatisseries from "../../components/admin/editeurs/EditionGrillePatisseries";
 import EditionBlocHistoire from "../../components/admin/editeurs/EditionBlocHistoire";
 import EditionBlocLocalisation from "../../components/admin/editeurs/EditionBlocLocalisation";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EDITEURS = {
   hero: EditionHero,
@@ -23,7 +24,7 @@ function ChargeurBloc({ id }) {
   const [erreur, setErreur] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/pages/sections/${id}`)
+    fetch(`${API_URL}/api/pages/sections/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Bloc introuvable");
         return res.json();

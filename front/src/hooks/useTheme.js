@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function useTheme() {
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function useTheme() {
 
     Promise.all(
       cles.map((key) =>
-        fetch(`http://localhost:3001/api/settings/${key}`)
+        fetch(`${API_URL}/api/settings/${key}`)
           .then((res) => res.json())
           .then((data) => [key, data.value]),
       ),

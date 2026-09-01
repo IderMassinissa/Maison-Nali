@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function RouteProtegee() {
   const [statut, setStatut] = useState("chargement");
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/auth/me", { credentials: "include" })
+    fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
       .then((res) => {
         setStatut(res.ok ? "connecte" : "non-connecte");
       })

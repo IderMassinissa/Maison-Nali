@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Footer() {
   const [reseaux, setReseaux] = useState({});
@@ -8,7 +9,7 @@ export default function Footer() {
   useEffect(() => {
     Promise.all(
       ["social_instagram", "social_facebook", "social_tiktok"].map((key) =>
-        fetch(`http://localhost:3001/api/settings/${key}`)
+        fetch(`${API_URL}/api/settings/${key}`)
           .then((res) => res.json())
           .then((data) => [key, data.value]),
       ),
@@ -84,12 +85,12 @@ export default function Footer() {
               </a>
             )}
           </div>
-          <p className="text-[10px] opacity-40">
+          <p className="text-xs opacity-40">
             © 2026 Maison Nali. Tous droits réservés.
           </p>
           <Link
             to="/mentions-legales"
-            className="text-[10px] opacity-40 hover:opacity-100 transition-opacity"
+            className="text-xs opacity-40 hover:opacity-100 transition-opacity"
           >
             Mentions légales
           </Link>

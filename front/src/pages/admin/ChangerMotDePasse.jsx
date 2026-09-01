@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ChangerMotDePasse() {
   const [ancienMotDePasse, setAncienMotDePasse] = useState("");
@@ -20,7 +21,7 @@ export default function ChangerMotDePasse() {
 
     setEnregistrement(true);
     try {
-      const res = await fetch("http://localhost:3001/api/auth/password", {
+      const res = await fetch(`${API_URL}/api/auth/password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

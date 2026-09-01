@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionProduits() {
   const [produits, setProduits] = useState([]);
@@ -6,7 +7,7 @@ export default function GestionProduits() {
   const [modeEdition, setModeEdition] = useState(null); // null = liste, 'nouveau' ou un id = formulaire
 
   function chargerProduits() {
-    fetch("http://localhost:3001/api/products")
+    fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProduits(data))
       .finally(() => setChargement(false));
@@ -19,7 +20,7 @@ export default function GestionProduits() {
   async function handleDelete(id) {
     if (!confirm("Supprimer ce produit ?")) return;
 
-    await fetch(`http://localhost:3001/api/products/${id}`, {
+    await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -113,14 +114,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
     formData.append("photo", fichier);
 
     try {
-      const res = await fetch("http://localhost:3001/api/upload", {
+      const res = await fetch(`${API_URL}/api/upload`, {
         method: "POST",
         credentials: "include",
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setPhotoUrl(`http://localhost:3001${data.url}`);
+      setPhotoUrl(`${API_URL}${data.url}`);
     } catch (err) {
       alert("Erreur upload : " + err.message);
     } finally {
@@ -133,8 +134,8 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
     setEnregistrement(true);
 
     const url = produitId
-      ? `http://localhost:3001/api/products/${produitId}`
-      : "http://localhost:3001/api/products";
+      ? `${API_URL}/api/products/${produitId}`
+      : `${API_URL}/api/products`;
     const method = produitId ? "PUT" : "POST";
 
     try {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
   "Lundi",
@@ -20,11 +21,11 @@ export default function EditionBlocLocalisation() {
   const [enregistrementHoraire, setEnregistrementHoraire] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/settings/address_text")
+    fetch(`${API_URL}/api/settings/address_text`)
       .then((res) => res.json())
       .then((data) => setAdresse(data.value || ""));
 
-    fetch("http://localhost:3001/api/opening-hours")
+    fetch(`${API_URL}/api/opening-hours`)
       .then((res) => res.json())
       .then((data) => {
         const trie = [...data].sort(
@@ -40,15 +41,12 @@ export default function EditionBlocLocalisation() {
     setEnregistrementAdresse(true);
     setSuccesAdresse(false);
     try {
-      const res = await fetch(
-        "http://localhost:3001/api/settings/address_text",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ value: adresse }),
-        },
-      );
+      const res = await fetch(`${API_URL}/api/settings/address_text`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ value: adresse }),
+      });
       if (res.ok) setSuccesAdresse(true);
     } finally {
       setEnregistrementAdresse(false);
@@ -58,7 +56,7 @@ export default function EditionBlocLocalisation() {
   async function sauvegarderHoraire(id, openTime, closeTime) {
     setEnregistrementHoraire(id);
     try {
-      await fetch(`http://localhost:3001/api/opening-hours/${id}`, {
+      await fetch(`${API_URL}/api/opening-hours/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useSauvegardeBloc from "./SauvegardeBloc";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function EditionHero({ section }) {
   const contenuInitial = JSON.parse(section.content || "{}");
@@ -20,14 +21,14 @@ export default function EditionHero({ section }) {
     formData.append("photo", fichier);
 
     try {
-      const res = await fetch("http://localhost:3001/api/upload", {
+      const res = await fetch(`${API_URL}/api/upload`, {
         method: "POST",
         credentials: "include",
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setPhoto(`http://localhost:3001${data.url}`);
+      setPhoto(`${API_URL}${data.url}`);
       setFocusX(50);
       setFocusY(50);
     } catch (err) {

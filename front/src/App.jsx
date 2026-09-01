@@ -21,12 +21,13 @@ import { useEffect, useState } from "react";
 import BanniereAnnonce from "./components/BanniereAnnonce";
 import ChangerMotDePasse from "./pages/admin/ChangerMotDePasse";
 import GestionReseaux from "./pages/admin/GestionReseaux";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function SiteLayout() {
   const [annonce, setAnnonce] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/announcements")
+    fetch(`${API_URL}/api/announcements`)
       .then((res) => res.json())
       .then((data) => setAnnonce(data));
   }, []);

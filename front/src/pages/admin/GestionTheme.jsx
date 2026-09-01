@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const POLICES_AUTORISEES = [
   "Cormorant Garamond",
@@ -31,7 +32,7 @@ export default function GestionTheme() {
 
     Promise.all(
       cles.map((key) =>
-        fetch(`http://localhost:3001/api/settings/${key}`)
+        fetch(`${API_URL}/api/settings/${key}`)
           .then((res) => res.json())
           .then((data) => [key, data.value]),
       ),
@@ -46,7 +47,7 @@ export default function GestionTheme() {
     setErreurs((prev) => ({ ...prev, [key]: "" }));
 
     try {
-      const res = await fetch(`http://localhost:3001/api/settings/${key}`, {
+      const res = await fetch(`${API_URL}/api/settings/${key}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

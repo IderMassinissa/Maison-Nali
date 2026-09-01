@@ -14,6 +14,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionPage() {
   const { slug } = useParams();
@@ -65,7 +66,7 @@ function ContenuPage({ slug }) {
   const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/pages/${slug}`)
+    fetch(`${API_URL}/api/pages/${slug}`)
       .then((res) => {
         if (!res.ok) throw new Error("Page introuvable");
         return res.json();
@@ -88,7 +89,7 @@ function ContenuPage({ slug }) {
 
     // Persistance en base : chaque bloc reçoit sa nouvelle position (index + 1)
     nouvelOrdre.forEach((section, index) => {
-      fetch(`http://localhost:3001/api/pages/sections/${section.id}/position`, {
+      fetch(`${API_URL}/api/pages/sections/${section.id}/position`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

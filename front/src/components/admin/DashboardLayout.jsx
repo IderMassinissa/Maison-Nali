@@ -1,4 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const PAGES = [
   { label: "Accueil", slug: "accueil" },
@@ -11,7 +12,7 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
 
   async function handleLogout() {
-    await fetch("http://localhost:3001/api/auth/logout", {
+    await fetch(`${API_URL}/api/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

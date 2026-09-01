@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CartePatisserie({ nom, description, image, taille }) {
   const hauteurImage = taille === "large" ? "md:h-[450px]" : "md:h-auto";
@@ -49,7 +50,7 @@ export default function GrillePatisseries() {
   const [chargement, setChargement] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/products")
+    fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProduits(data))
       .finally(() => setChargement(false));

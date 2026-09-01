@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionBanniere() {
   const [message, setMessage] = useState("");
@@ -8,7 +9,7 @@ export default function GestionBanniere() {
   const [succes, setSucces] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/announcements")
+    fetch(`${API_URL}/api/announcements`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -25,7 +26,7 @@ export default function GestionBanniere() {
     setSucces(false);
 
     try {
-      const res = await fetch("http://localhost:3001/api/announcements", {
+      const res = await fetch(`${API_URL}/api/announcements`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

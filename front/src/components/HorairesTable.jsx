@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
   "Lundi",
@@ -14,7 +15,7 @@ export default function HorairesTable() {
   const [horaires, setHoraires] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/opening-hours")
+    fetch(`${API_URL}/api/opening-hours`)
       .then((res) => res.json())
       .then((data) => setHoraires(data));
   }, []);

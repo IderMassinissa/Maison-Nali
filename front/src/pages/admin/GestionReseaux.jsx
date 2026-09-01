@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CHAMPS = [
   { key: "social_instagram", label: "Lien Instagram" },
@@ -15,7 +16,7 @@ export default function GestionReseaux() {
   useEffect(() => {
     Promise.all(
       CHAMPS.map((c) =>
-        fetch(`http://localhost:3001/api/settings/${c.key}`)
+        fetch(`${API_URL}/api/settings/${c.key}`)
           .then((res) => res.json())
           .then((data) => [c.key, data.value || ""]),
       ),
@@ -29,7 +30,7 @@ export default function GestionReseaux() {
     setEnregistrement(key);
     setSucces(null);
     try {
-      const res = await fetch(`http://localhost:3001/api/settings/${key}`, {
+      const res = await fetch(`${API_URL}/api/settings/${key}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
