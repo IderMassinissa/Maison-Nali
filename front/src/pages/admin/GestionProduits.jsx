@@ -1,11 +1,73 @@
 import { useEffect, useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+function ProduitTriable({ produit, onEditer, onSupprimer }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: produit.id });
+  const style = { transform: CSS.Transform.toString(transform), transition };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex items-center gap-4 p-4 bg-white border border-brand-border rounded-xl"
+    >
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab text-lg opacity-40"
+        aria-label="Réordonner"
+      >
+        ⠿
+      </button>
+      {produit.photo_url && (
+        <img
+          src={produit.photo_url}
+          alt={produit.name}
+          className="w-12 h-12 rounded-lg object-cover"
+          style={{
+            objectPosition: `${produit.focus_x ?? 50}% ${produit.focus_y ?? 50}%`,
+          }}
+        />
+      )}
+      <span className="flex-1 text-sm font-medium">{produit.name}</span>
+      <button
+        onClick={() => onEditer(produit.id)}
+        className="text-xs uppercase tracking-widest text-brand-accent hover:underline"
+      >
+        Éditer
+      </button>
+      <button
+        onClick={() => onSupprimer(produit.id)}
+        className="text-xs uppercase tracking-widest text-red-600 hover:underline"
+      >
+        Supprimer
+      </button>
+    </div>
+  );
+}
 
 export default function GestionProduits() {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
-  const [modeEdition, setModeEdition] = useState(null); // null = liste, 'nouveau' ou un id = formulaire
+  const [modeEdition, setModeEdition] = useState(null);
+
+  const sensors = useSensors(useSensor(PointerSensor));
 
   function chargerProduits() {
     fetch(`${API_URL}/api/products`)
@@ -20,12 +82,31 @@ export default function GestionProduits() {
 
   async function handleDelete(id) {
     if (!confirm("Supprimer ce produit ?")) return;
-
     await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
     chargerProduits();
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = produits.findIndex((p) => p.id === active.id);
+    const newIndex = produits.findIndex((p) => p.id === over.id);
+    const nouvelOrdre = arrayMove(produits, oldIndex, newIndex);
+
+    setProduits(nouvelOrdre);
+
+    nouvelOrdre.forEach((produit, index) => {
+      fetch(`${API_URL}/api/products/${produit.id}/position`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ position: index + 1 }),
+      });
+    });
   }
 
   if (modeEdition !== null) {
@@ -58,38 +139,27 @@ export default function GestionProduits() {
       ) : produits.length === 0 ? (
         <p className="opacity-60 text-sm">Aucune pâtisserie pour l'instant.</p>
       ) : (
-        <div className="flex flex-col gap-3">
-          {produits.map((produit) => (
-            <div
-              key={produit.id}
-              className="flex items-center gap-4 p-4 bg-white border border-brand-border rounded-xl"
-            >
-              {produit.photo_url && (
-                <img
-                  src={produit.photo_url}
-                  alt={produit.name}
-                  className="w-12 h-12 rounded-lg object-cover"
-                  style={{
-                    objectPosition: `${produit.focus_x ?? 50}% ${produit.focus_y ?? 50}%`,
-                  }}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={produits.map((p) => p.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="flex flex-col gap-3">
+              {produits.map((produit) => (
+                <ProduitTriable
+                  key={produit.id}
+                  produit={produit}
+                  onEditer={setModeEdition}
+                  onSupprimer={handleDelete}
                 />
-              )}
-              <span className="flex-1 text-sm font-medium">{produit.name}</span>
-              <button
-                onClick={() => setModeEdition(produit.id)}
-                className="text-xs uppercase tracking-widest text-brand-accent hover:underline"
-              >
-                Éditer
-              </button>
-              <button
-                onClick={() => handleDelete(produit.id)}
-                className="text-xs uppercase tracking-widest text-red-600 hover:underline"
-              >
-                Supprimer
-              </button>
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );

@@ -17,77 +17,92 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[#0b1a14] text-brand-light py-24 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-end">
-        <div>
-          <Link
-            to="/"
-            className="font-display text-2xl tracking-tight block mb-4 text-brand-accent uppercase"
-          >
-            Maison Nali
-          </Link>
-          <p className="text-xs uppercase tracking-widest opacity-60">
-            Gardiens de la douceur algérienne
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <Link
-            to="/patisseries"
-            className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
-          >
-            Pâtisseries
-          </Link>
-          <Link
-            to="/a-propos"
-            className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
-          >
-            À propos
-          </Link>
-          <Link
-            to="/adresse"
-            className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
-          >
-            Adresse
-          </Link>
-        </div>
-
-        <div className="flex flex-col items-start gap-4">
-          <div className="flex gap-4">
-            {reseaux.social_instagram && (
-              <a
-                href={reseaux.social_instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-accent transition-colors"
-              >
-                <FaInstagram />
-              </a>
-            )}
-            {reseaux.social_facebook && (
-              <a
-                href={reseaux.social_facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-accent transition-colors"
-              >
-                <FaFacebookF />
-              </a>
-            )}
-            {reseaux.social_tiktok && (
-              <a
-                href={reseaux.social_tiktok}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-accent transition-colors"
-              >
-                <FaTiktok />
-              </a>
-            )}
+    <footer
+      className="text-brand-light py-16 px-6 md:px-12"
+      style={{
+        backgroundColor: "var(--color-brand-footer, #0b1a14)",
+        backgroundImage: "var(--gradient-brand-footer, none)",
+      }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center text-center gap-12 md:grid md:grid-cols-3 md:items-start md:text-left">
+          <div>
+            <Link
+              to="/"
+              className="font-display text-2xl tracking-tight block mb-4 text-brand-accent uppercase"
+            >
+              Maison Nali
+            </Link>
+            <p className="text-xs uppercase tracking-widest opacity-60">
+              Gardiens de la douceur algérienne
+            </p>
           </div>
+
+          <div className="flex flex-col items-center gap-4">
+            <Link
+              to="/patisseries"
+              className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
+            >
+              Pâtisseries
+            </Link>
+            <Link
+              to="/a-propos"
+              className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
+            >
+              À propos
+            </Link>
+            <Link
+              to="/adresse"
+              className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
+            >
+              Adresse
+            </Link>
+          </div>
+
+          <div className="flex flex-col items-center gap-4 md:items-end md:justify-self-end">
+            <p className="text-xs uppercase tracking-widest opacity-60">
+              Suivez-nous
+            </p>
+            <div className="flex gap-4">
+              {reseaux.social_instagram && (
+                <a
+                  href={reseaux.social_instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-accent transition-colors"
+                >
+                  <FaInstagram />
+                </a>
+              )}
+              {reseaux.social_facebook && (
+                <a
+                  href={reseaux.social_facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-accent transition-colors"
+                >
+                  <FaFacebookF />
+                </a>
+              )}
+              {reseaux.social_tiktok && (
+                <a
+                  href={reseaux.social_tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-accent transition-colors"
+                >
+                  <FaTiktok />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center gap-2 mt-16">
           <p className="text-xs opacity-40">
             © 2026 Maison Nali. Tous droits réservés.
           </p>
+          <span className="text-xs opacity-40">·</span>
           <Link
             to="/mentions-legales"
             className="text-xs opacity-40 hover:opacity-100 transition-opacity"

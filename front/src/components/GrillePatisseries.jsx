@@ -1,56 +1,110 @@
 import { useEffect, useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
+import { Link } from "react-router-dom";
+import { construireDegradeCss } from "../utils/degrade";
 
-function CartePatisserie({ nom, description, image, taille, focusX, focusY }) {
-  const hauteurImage = taille === "large" ? "md:h-[450px]" : "md:h-auto";
+const API_URL = import.meta.env.VITE_API_URL;
+const COULEUR_FOND_DEFAUT = "#f4eee3";
+
+// Motif fixe de tailles selon la position (index % 6), répété tous les 6 produits :
+// index 0=grande(8), 1=petite(4), 2=petite(4), 3=grande(8), 4=moyenne(7), 5=moyenne(5).
+const MOTIF = [8, 4, 4, 8, 7, 5];
+
+const COL_SPAN_CLASSES = {
+  4: "md:col-span-4",
+  5: "md:col-span-5",
+  7: "md:col-span-7",
+  8: "md:col-span-8",
+};
+
+const IMAGE_ASPECT = {
+  8: "aspect-[4/3]",
+  7: "aspect-[4/3]",
+  5: "aspect-[3/4]",
+  4: "aspect-[3/4]",
+};
+
+function CartePatisserie({
+  id,
+  nom,
+  description,
+  image,
+  grande,
+  aspectImage,
+  focusX,
+  focusY,
+  couleur,
+  couleurGradientActif,
+  couleurGradientFin,
+  couleurGradientStyle,
+}) {
+  const couleurBase = couleur || COULEUR_FOND_DEFAUT;
+  // Le dégradé n'est visible que sur les cartes grandes/moyennes ; les petites
+  // restent toujours en couleur unie, même si le dégradé est activé en admin.
+  const styleCarte =
+    grande && couleurGradientActif && couleurGradientFin
+      ? {
+          backgroundColor: couleurBase,
+          backgroundImage: construireDegradeCss(
+            couleurGradientStyle,
+            couleurBase,
+            couleurGradientFin,
+          ),
+        }
+      : { backgroundColor: couleurBase };
+
   return (
-    <article className="bg-brand-surface rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 flex flex-col h-full">
-      <div
-        className={`aspect-[16/9] md:aspect-auto ${hauteurImage} overflow-hidden`}
+    <Link to={`/patisseries/${id}`} className="block">
+      <article
+        className="rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow"
+        style={styleCarte}
       >
-        <img
-          className="w-full h-full object-cover"
-          src={image}
-          alt={nom}
-          style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-        />
-      </div>
-      <div className={taille === "large" ? "p-6 md:p-8" : "p-5"}>
-        <h3
-          className={
-            taille === "large"
-              ? "font-display text-3xl md:text-4xl mb-2"
-              : "font-display text-2xl mb-1.5"
-          }
+        <div
+          className={`${aspectImage} overflow-hidden bg-brand-border/20 flex items-center justify-center`}
         >
-          {nom}
-        </h3>
-        <p
-          className={
-            taille === "large"
-              ? "text-sm md:text-base opacity-70 leading-relaxed max-w-lg"
-              : "text-xs opacity-70 leading-relaxed"
-          }
-        >
-          {description}
-        </p>
-      </div>
-    </article>
+          {image ? (
+            <img
+              className="w-full h-full object-cover"
+              src={image}
+              alt={nom}
+              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+            />
+          ) : (
+            <span className="text-xs uppercase tracking-widest opacity-40">
+              Photo à venir
+            </span>
+          )}
+        </div>
+        <div className={grande ? "p-4 md:p-5" : "p-4"}>
+          <h3
+            className={
+              grande
+                ? "font-display text-2xl md:text-3xl mb-2"
+                : "font-display text-2xl mb-1.5"
+            }
+          >
+            {nom}
+          </h3>
+          <p
+            className={
+              grande
+                ? "text-sm md:text-base opacity-70 leading-relaxed max-w-lg"
+                : "text-xs opacity-70 leading-relaxed"
+            }
+          >
+            {description}
+          </p>
+        </div>
+      </article>
+    </Link>
   );
 }
 
-// Motif d'alternance grande/petite carte, répété tant qu'il y a des produits
-const TAILLES = ["large", "small", "small", "large", "large", "small"];
-const SPANS_DESKTOP = [
-  "md:col-span-8",
-  "md:col-span-4",
-  "md:col-span-4",
-  "md:col-span-8",
-  "md:col-span-7",
-  "md:col-span-5",
-];
-
-export default function GrillePatisseries() {
+export default function GrillePatisseries({
+  couleur,
+  couleurGradientActif,
+  couleurGradientFin,
+  couleurGradientStyle,
+}) {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
 
@@ -65,24 +119,30 @@ export default function GrillePatisseries() {
   if (produits.length === 0) return null;
 
   return (
-    <section className="px-6 md:px-12">
+    <section className="px-6 md:px-12 py-12 md:py-16">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          {produits.map((produit, index) => (
-            <div
-              key={produit.id}
-              className={SPANS_DESKTOP[index % SPANS_DESKTOP.length]}
-            >
-              <CartePatisserie
-                nom={produit.name}
-                description={produit.description}
-                image={produit.photo_url}
-                taille={TAILLES[index % TAILLES.length]}
-                focusX={produit.focus_x}
-                focusY={produit.focus_y}
-              />
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 md:items-start">
+          {produits.map((produit, index) => {
+            const cols = MOTIF[index % 6];
+            return (
+              <div key={produit.id} className={COL_SPAN_CLASSES[cols]}>
+                <CartePatisserie
+                  id={produit.id}
+                  nom={produit.name}
+                  description={produit.description}
+                  image={produit.photo_url}
+                  grande={cols >= 7}
+                  aspectImage={IMAGE_ASPECT[cols]}
+                  focusX={produit.focus_x}
+                  focusY={produit.focus_y}
+                  couleur={couleur}
+                  couleurGradientActif={couleurGradientActif}
+                  couleurGradientFin={couleurGradientFin}
+                  couleurGradientStyle={couleurGradientStyle}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

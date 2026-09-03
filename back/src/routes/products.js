@@ -6,6 +6,7 @@ const {
   getProductById,
   createProduct,
   updateProduct,
+  updateProductPosition,
   deleteProduct,
 } = require("../repositories/products");
 
@@ -43,6 +44,7 @@ router.post("/", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
@@ -54,6 +56,7 @@ router.post("/", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     );
     res.status(201).json({ id: result.lastInsertRowid });
   } catch (err) {
@@ -72,6 +75,7 @@ router.put("/:id", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
@@ -84,11 +88,25 @@ router.put("/:id", requireAuth, (req, res) => {
       categoryId,
       focusX,
       focusY,
+      cardSize,
     );
     res.json({ message: "Produit mis à jour" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur lors de la mise à jour du produit" });
+  }
+});
+
+router.put("/:id/position", requireAuth, (req, res) => {
+  try {
+    const { position } = req.body;
+    updateProductPosition(req.params.id, position);
+    res.json({ message: "Position mise à jour" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la mise à jour de la position" });
   }
 });
 

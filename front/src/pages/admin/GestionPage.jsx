@@ -14,6 +14,8 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { BLOCS_DISPONIBLES } from "../../blockRegistry";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionPage() {
@@ -21,7 +23,7 @@ export default function GestionPage() {
   return <ContenuPage key={slug} slug={slug} />;
 }
 
-function BlocTriable({ section, slug }) {
+function BlocTriable({ section, slug, onSupprimer }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: section.id });
 
@@ -54,6 +56,12 @@ function BlocTriable({ section, slug }) {
       >
         Éditer
       </Link>
+      <button
+        onClick={() => onSupprimer(section.id)}
+        className="text-xs uppercase tracking-widest text-red-600 hover:underline"
+      >
+        Supprimer
+      </button>
     </div>
   );
 }
@@ -62,6 +70,7 @@ function ContenuPage({ slug }) {
   const [page, setPage] = useState(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState("");
+  const [ajoutOuvert, setAjoutOuvert] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -84,10 +93,8 @@ function ContenuPage({ slug }) {
     const newIndex = page.sections.findIndex((s) => s.id === over.id);
     const nouvelOrdre = arrayMove(page.sections, oldIndex, newIndex);
 
-    // Mise à jour de l'affichage
     setPage({ ...page, sections: nouvelOrdre });
 
-    // Persistance en base : chaque bloc reçoit sa nouvelle position (index + 1)
     nouvelOrdre.forEach((section, index) => {
       fetch(`${API_URL}/api/pages/sections/${section.id}/position`, {
         method: "PUT",
@@ -96,6 +103,26 @@ function ContenuPage({ slug }) {
         body: JSON.stringify({ position: index + 1 }),
       });
     });
+  }
+
+  async function handleAjouterBloc(type) {
+    await fetch(`${API_URL}/api/pages/${slug}/sections`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ type }),
+    });
+    setAjoutOuvert(false);
+    window.location.reload();
+  }
+
+  async function handleSupprimerBloc(id) {
+    if (!confirm("Supprimer ce bloc ?")) return;
+    await fetch(`${API_URL}/api/pages/sections/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    window.location.reload();
   }
 
   if (chargement) return <p>Chargement...</p>;
@@ -121,16 +148,44 @@ function ContenuPage({ slug }) {
           >
             <div className="flex flex-col gap-3">
               {page.sections.map((section) => (
-                <BlocTriable key={section.id} section={section} slug={slug} />
+                <BlocTriable
+                  key={section.id}
+                  section={section}
+                  slug={slug}
+                  onSupprimer={handleSupprimerBloc}
+                />
               ))}
             </div>
           </SortableContext>
         </DndContext>
       )}
 
-      <button className="mt-6 px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest">
-        + Ajouter un bloc
-      </button>
+      {ajoutOuvert ? (
+        <div className="mt-6 flex flex-wrap gap-2">
+          {BLOCS_DISPONIBLES.map((b) => (
+            <button
+              key={b.type}
+              onClick={() => handleAjouterBloc(b.type)}
+              className="px-4 py-2 border border-brand-border rounded-full text-xs uppercase tracking-widest hover:bg-brand-surface"
+            >
+              {b.label}
+            </button>
+          ))}
+          <button
+            onClick={() => setAjoutOuvert(false)}
+            className="px-4 py-2 text-xs uppercase tracking-widest opacity-60"
+          >
+            Annuler
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setAjoutOuvert(true)}
+          className="mt-6 px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest"
+        >
+          + Ajouter un bloc
+        </button>
+      )}
     </div>
   );
 }
