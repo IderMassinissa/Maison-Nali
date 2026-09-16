@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const EDITEURS = {
   hero: EditionHero,
-  "grille-patisseries": EditionGrillePatisseries,
+  "bloc-patisseries": EditionGrillePatisseries,
   "bloc-histoire": EditionBlocHistoire,
   "bloc-localisation": EditionBlocLocalisation,
 };

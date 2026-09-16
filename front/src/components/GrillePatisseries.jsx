@@ -50,6 +50,14 @@ const SPANS_DESKTOP = [
   "md:col-span-5",
 ];
 
+// Chaque paire d'index consécutifs (0-1, 2-3, 4-5) totalise 12/12 : si le
+// nombre de produits est impair, le dernier n'a pas de binôme pour compléter
+// sa ligne. On lui donne alors toute la largeur pour éviter le vide.
+function obtenirSpanDesktop(index, total) {
+  const estOrphelin = index === total - 1 && total % 2 === 1;
+  return estOrphelin ? "md:col-span-12" : SPANS_DESKTOP[index % SPANS_DESKTOP.length];
+}
+
 export default function GrillePatisseries() {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
@@ -65,13 +73,13 @@ export default function GrillePatisseries() {
   if (produits.length === 0) return null;
 
   return (
-    <section className="px-6 md:px-12">
+    <section className="my-24 md:my-32 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
           {produits.map((produit, index) => (
             <div
               key={produit.id}
-              className={SPANS_DESKTOP[index % SPANS_DESKTOP.length]}
+              className={obtenirSpanDesktop(index, produits.length)}
             >
               <CartePatisserie
                 nom={produit.name}
