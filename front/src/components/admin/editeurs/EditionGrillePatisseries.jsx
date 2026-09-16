@@ -37,9 +37,9 @@ export default function EditionGrillePatisseries({ section }) {
         menu.
       </p>
 
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Couleur de fond des cartes
           </label>
           <p className="text-xs opacity-50 mb-3">

@@ -47,10 +47,10 @@ export default function GestionReseaux() {
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Réseaux sociaux</h1>
-      <div className="max-w-lg space-y-6">
+      <div className="max-w-2xl space-y-6">
         {CHAMPS.map(({ key, label }) => (
           <div key={key}>
-            <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
               {label}
             </label>
             <div className="flex gap-3">
@@ -61,7 +61,7 @@ export default function GestionReseaux() {
                   setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
                 }
                 placeholder="https://..."
-                className="flex-1 px-4 py-3 border border-brand-border rounded-lg bg-white"
+                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
               />
               <button
                 onClick={() => sauvegarder(key)}

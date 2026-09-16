@@ -35,31 +35,31 @@ export default function EditionBlocHistoire({ section }) {
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Histoire</h1>
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Titre
           </label>
           <input
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Texte
           </label>
           <textarea
             value={texte}
             onChange={(e) => setTexte(e.target.value)}
             rows={5}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Couleur de fond de la section
           </label>
           <EditeurCouleurBloc

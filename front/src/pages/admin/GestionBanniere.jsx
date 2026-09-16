@@ -47,7 +47,7 @@ export default function GestionBanniere() {
     <div>
       <h1 className="font-display text-3xl mb-8">Bannière d'annonce</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-6">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -56,13 +56,13 @@ export default function GestionBanniere() {
             onChange={(e) => setActive(e.target.checked)}
             className="w-5 h-5"
           />
-          <label htmlFor="banniere-active" className="text-sm">
+          <label htmlFor="banniere-active" className="text-base">
             Afficher la bannière sur le site
           </label>
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Message
           </label>
           <input
@@ -70,13 +70,13 @@ export default function GestionBanniere() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="ex : Fermé pour l'Aïd, réouverture le..."
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
 
         {message && (
           <div>
-            <p className="text-xs uppercase tracking-widest opacity-60 mb-2">
+            <p className="text-sm uppercase tracking-widest opacity-60 mb-2">
               Aperçu
             </p>
             <div className="bg-brand-accent text-brand-dark text-center py-3 px-4 text-sm font-medium rounded-lg">

@@ -121,8 +121,8 @@ export default function EditionBlocLocalisation({ section }) {
         les met à jour partout où ils apparaissent.
       </p>
 
-      <form onSubmit={handleSubmitCouleur} className="max-w-lg space-y-4 mb-12">
-        <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+      <form onSubmit={handleSubmitCouleur} className="max-w-2xl space-y-5 mb-12">
+        <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
           Couleur de fond de la section
         </label>
         <EditeurCouleurBloc
@@ -147,16 +147,16 @@ export default function EditionBlocLocalisation({ section }) {
         {succesCouleur && <p className="text-green-600 text-sm">Enregistré !</p>}
       </form>
 
-      <form onSubmit={handleSubmitAdresse} className="max-w-lg space-y-4 mb-12">
+      <form onSubmit={handleSubmitAdresse} className="max-w-2xl space-y-5 mb-12">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Adresse
           </label>
           <textarea
             value={adresse}
             onChange={(e) => setAdresse(e.target.value)}
             rows={3}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <button
@@ -171,7 +171,7 @@ export default function EditionBlocLocalisation({ section }) {
         )}
       </form>
 
-      <div className="max-w-lg">
+      <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-widest opacity-60 mb-4">
           Horaires d'ouverture
         </p>

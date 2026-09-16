@@ -50,9 +50,9 @@ export default function ChangerMotDePasse() {
     <div>
       <h1 className="font-display text-3xl mb-8">Changer mon mot de passe</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-sm space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Mot de passe actuel
           </label>
           <input
@@ -60,11 +60,11 @@ export default function ChangerMotDePasse() {
             value={ancienMotDePasse}
             onChange={(e) => setAncienMotDePasse(e.target.value)}
             required
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Nouveau mot de passe
           </label>
           <input
@@ -73,11 +73,11 @@ export default function ChangerMotDePasse() {
             onChange={(e) => setNouveauMotDePasse(e.target.value)}
             required
             minLength={8}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Confirmer le nouveau mot de passe
           </label>
           <input
@@ -85,7 +85,7 @@ export default function ChangerMotDePasse() {
             value={confirmation}
             onChange={(e) => setConfirmation(e.target.value)}
             required
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
 

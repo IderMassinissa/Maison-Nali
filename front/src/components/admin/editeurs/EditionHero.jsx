@@ -77,31 +77,31 @@ export default function EditionHero({ section }) {
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Hero</h1>
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Titre principal
           </label>
           <input
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Sous-titre
           </label>
           <input
             type="text"
             value={sousTitre}
             onChange={(e) => setSousTitre(e.target.value)}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Photo de fond
           </label>
           {photo && (
@@ -144,7 +144,7 @@ export default function EditionHero({ section }) {
           )}
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Couleur du voile sur la photo
           </label>
           <EditeurCouleurBloc

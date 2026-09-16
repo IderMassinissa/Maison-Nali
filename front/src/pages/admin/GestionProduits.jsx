@@ -256,9 +256,9 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       <h1 className="font-display text-3xl mb-8">
         {produitId ? "Modifier" : "Ajouter"} une pâtisserie
       </h1>
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Nom
           </label>
           <input
@@ -266,22 +266,22 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Photo
           </label>
           {photoUrl && (
@@ -324,7 +324,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           )}
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
             Lien vidéo (optionnel)
           </label>
           <input
@@ -332,7 +332,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="https://youtube.com/... ou instagram.com/..."
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
         <div className="flex gap-3">

@@ -87,7 +87,7 @@ export default function GestionTheme() {
     <div>
       <h1 className="font-display text-3xl mb-8">Thème du site</h1>
 
-      <div className="max-w-lg space-y-8">
+      <div className="max-w-2xl space-y-8">
         <div>
           <p className="text-xs uppercase tracking-widest opacity-60 mb-4">
             Couleurs
@@ -143,7 +143,7 @@ export default function GestionTheme() {
           <select
             value={valeurs.font_heading || POLICES_AUTORISEES[0]}
             onChange={(e) => sauvegarderChamp("font_heading", e.target.value)}
-            className="w-full px-4 py-3 border border-brand-border rounded-lg bg-white mb-3"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base mb-3"
           >
             {POLICES_AUTORISEES.map((police) => (
               <option key={police} value={police}>
