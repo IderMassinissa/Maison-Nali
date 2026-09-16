@@ -7,7 +7,16 @@ const {
   getSectionById,
   updateSectionContent,
   updateSectionPosition,
+  createSection,
+  deleteSection,
 } = require("../repositories/sections");
+
+const TYPES_BLOC_AUTORISES = [
+  "hero",
+  "bloc-patisseries",
+  "bloc-histoire",
+  "bloc-localisation",
+];
 
 router.get("/", (req, res) => {
   try {
@@ -65,6 +74,34 @@ router.get("/sections/:id", (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur lors de la récupération du bloc" });
+  }
+});
+
+router.post("/:slug/sections", requireAuth, (req, res) => {
+  try {
+    const { type } = req.body;
+    if (!TYPES_BLOC_AUTORISES.includes(type)) {
+      return res.status(400).json({ error: "Type de bloc invalide" });
+    }
+
+    const page = getPageBySlug(req.params.slug);
+    if (!page) return res.status(404).json({ error: "Page introuvable" });
+
+    const result = createSection(page.id, type);
+    res.status(201).json({ id: result.lastInsertRowid });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la création du bloc" });
+  }
+});
+
+router.delete("/sections/:id", requireAuth, (req, res) => {
+  try {
+    deleteSection(req.params.id);
+    res.json({ message: "Bloc supprimé" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la suppression du bloc" });
   }
 });
 

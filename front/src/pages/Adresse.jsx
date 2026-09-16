@@ -1,13 +1,15 @@
 import usePageContent from "../hooks/usePageContent";
-import BlocLocalisation from "../components/BlocLocalisation";
+import { RenduBloc } from "../blockRegistry";
 
 export default function Adresse() {
-  const { chargement } = usePageContent("adresse");
+  const { sections, chargement } = usePageContent("adresse");
   if (chargement) return null;
 
   return (
-    <div>
-      <BlocLocalisation />
-    </div>
+    <>
+      {sections.map((s) => (
+        <RenduBloc key={s.id} type={s.type} content={s.content} />
+      ))}
+    </>
   );
 }

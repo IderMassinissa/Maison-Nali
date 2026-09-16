@@ -1,6 +1,10 @@
-import GrillePatisseries from "../components/GrillePatisseries";
+import usePageContent from "../hooks/usePageContent";
+import { RenduBloc } from "../blockRegistry";
 
 export default function Patisseries() {
+  const { sections, chargement } = usePageContent("patisseries");
+  if (chargement) return null;
+
   return (
     <div className="pt-16 pb-24">
       <section className="px-6 md:px-12 mb-16 md:mb-24 text-center">
@@ -11,7 +15,9 @@ export default function Patisseries() {
           Nos Pâtisseries
         </h1>
       </section>
-      <GrillePatisseries />
+      {sections.map((s) => (
+        <RenduBloc key={s.id} type={s.type} content={s.content} />
+      ))}
     </div>
   );
 }

@@ -14,6 +14,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { BLOCS_DISPONIBLES } from "../../blocsDisponibles";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionPage() {
@@ -21,7 +22,7 @@ export default function GestionPage() {
   return <ContenuPage key={slug} slug={slug} />;
 }
 
-function BlocTriable({ section, slug }) {
+function BlocTriable({ section, slug, onSupprimer }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: section.id });
 
@@ -54,6 +55,12 @@ function BlocTriable({ section, slug }) {
       >
         Éditer
       </Link>
+      <button
+        onClick={() => onSupprimer(section.id)}
+        className="text-xs uppercase tracking-widest text-red-600 hover:underline"
+      >
+        Supprimer
+      </button>
     </div>
   );
 }
@@ -62,11 +69,12 @@ function ContenuPage({ slug }) {
   const [page, setPage] = useState(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState("");
+  const [ajoutOuvert, setAjoutOuvert] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/pages/${slug}`)
+  function chargerPage() {
+    return fetch(`${API_URL}/api/pages/${slug}`)
       .then((res) => {
         if (!res.ok) throw new Error("Page introuvable");
         return res.json();
@@ -74,7 +82,31 @@ function ContenuPage({ slug }) {
       .then((data) => setPage(data))
       .catch((err) => setErreur(err.message))
       .finally(() => setChargement(false));
+  }
+
+  useEffect(() => {
+    chargerPage();
   }, [slug]);
+
+  async function handleAjouterBloc(type) {
+    await fetch(`${API_URL}/api/pages/${slug}/sections`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ type }),
+    });
+    setAjoutOuvert(false);
+    chargerPage();
+  }
+
+  async function handleSupprimerBloc(id) {
+    if (!window.confirm("Supprimer ce bloc ?")) return;
+    await fetch(`${API_URL}/api/pages/sections/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    chargerPage();
+  }
 
   function handleDragEnd(event) {
     const { active, over } = event;
@@ -121,16 +153,44 @@ function ContenuPage({ slug }) {
           >
             <div className="flex flex-col gap-3">
               {page.sections.map((section) => (
-                <BlocTriable key={section.id} section={section} slug={slug} />
+                <BlocTriable
+                  key={section.id}
+                  section={section}
+                  slug={slug}
+                  onSupprimer={handleSupprimerBloc}
+                />
               ))}
             </div>
           </SortableContext>
         </DndContext>
       )}
 
-      <button className="mt-6 px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest">
-        + Ajouter un bloc
-      </button>
+      {ajoutOuvert ? (
+        <div className="mt-6 flex flex-wrap gap-2">
+          {BLOCS_DISPONIBLES.map((b) => (
+            <button
+              key={b.type}
+              onClick={() => handleAjouterBloc(b.type)}
+              className="px-4 py-2 border border-brand-border rounded-full text-xs uppercase tracking-widest hover:bg-brand-surface"
+            >
+              {b.label}
+            </button>
+          ))}
+          <button
+            onClick={() => setAjoutOuvert(false)}
+            className="px-4 py-2 text-xs uppercase tracking-widest opacity-60"
+          >
+            Annuler
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setAjoutOuvert(true)}
+          className="mt-6 px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest"
+        >
+          + Ajouter un bloc
+        </button>
+      )}
     </div>
   );
 }
