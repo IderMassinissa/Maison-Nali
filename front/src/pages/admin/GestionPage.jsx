@@ -116,10 +116,8 @@ function ContenuPage({ slug }) {
     const newIndex = page.sections.findIndex((s) => s.id === over.id);
     const nouvelOrdre = arrayMove(page.sections, oldIndex, newIndex);
 
-    // Mise à jour de l'affichage
     setPage({ ...page, sections: nouvelOrdre });
 
-    // Persistance en base : chaque bloc reçoit sa nouvelle position (index + 1)
     nouvelOrdre.forEach((section, index) => {
       fetch(`${API_URL}/api/pages/sections/${section.id}/position`, {
         method: "PUT",

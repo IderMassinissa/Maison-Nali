@@ -1,14 +1,26 @@
 import { useEffect } from "react";
+import { construireDegradeCss } from "../utils/degrade";
 const API_URL = import.meta.env.VITE_API_URL;
+
+// color_dark / color_light / color_surface / color_border restent en base (settings)
+// mais ne sont plus lus ici : chaque bloc gère désormais sa propre couleur via son
+// content JSON (voir blockRegistry.jsx). Seuls color_primary (accent global) et
+// color_header/color_footer (uniques, hors système de blocs) restent globaux.
+const MAPPING_COULEURS = [
+  { key: "color_primary", varCouleur: "--color-brand-accent", varDegrade: "--gradient-brand-accent" },
+  { key: "color_header", varCouleur: "--color-brand-header", varDegrade: "--gradient-brand-header" },
+  { key: "color_footer", varCouleur: "--color-brand-footer", varDegrade: "--gradient-brand-footer" },
+];
 
 export default function useTheme() {
   useEffect(() => {
     const cles = [
-      "color_primary",
-      "color_dark",
-      "color_light",
-      "color_surface",
-      "color_border",
+      ...MAPPING_COULEURS.flatMap((c) => [
+        c.key,
+        `${c.key}_gradient_enabled`,
+        `${c.key}_gradient_end`,
+        `${c.key}_gradient_style`,
+      ]),
       "font_heading",
     ];
 
@@ -22,19 +34,24 @@ export default function useTheme() {
       const valeurs = Object.fromEntries(entries);
       const racine = document.documentElement;
 
-      if (valeurs.color_primary)
-        racine.style.setProperty("--color-brand-accent", valeurs.color_primary);
-      if (valeurs.color_dark)
-        racine.style.setProperty("--color-brand-dark", valeurs.color_dark);
-      if (valeurs.color_light)
-        racine.style.setProperty("--color-brand-light", valeurs.color_light);
-      if (valeurs.color_surface)
-        racine.style.setProperty(
-          "--color-brand-surface",
-          valeurs.color_surface,
-        );
-      if (valeurs.color_border)
-        racine.style.setProperty("--color-brand-border", valeurs.color_border);
+      MAPPING_COULEURS.forEach(({ key, varCouleur, varDegrade }) => {
+        if (valeurs[key]) racine.style.setProperty(varCouleur, valeurs[key]);
+
+        const fin = valeurs[`${key}_gradient_end`];
+        if (valeurs[`${key}_gradient_enabled`] === "true" && valeurs[key] && fin) {
+          racine.style.setProperty(
+            varDegrade,
+            construireDegradeCss(
+              valeurs[`${key}_gradient_style`],
+              valeurs[key],
+              fin,
+            ),
+          );
+        } else {
+          racine.style.setProperty(varDegrade, "none");
+        }
+      });
+
       if (valeurs.font_heading) {
         racine.style.setProperty(
           "--font-display",

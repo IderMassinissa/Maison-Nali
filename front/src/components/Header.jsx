@@ -12,7 +12,13 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 h-24 flex items-center justify-between bg-brand-light/90 backdrop-blur-md border-b border-brand-border/50">
+      <header
+        className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 h-24 flex items-center justify-between border-b border-brand-border/50"
+        style={{
+          backgroundColor: "var(--color-brand-header, #faf6f0)",
+          backgroundImage: "var(--gradient-brand-header, none)",
+        }}
+      >
         <div className="w-10 flex-shrink-0 md:flex-1 md:w-auto"></div>
 
         <div className="flex-shrink-0">

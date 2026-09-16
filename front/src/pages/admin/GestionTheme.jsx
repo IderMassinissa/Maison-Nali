@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import EditeurCouleurBloc from "../../components/admin/editeurs/EditeurCouleurBloc";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const POLICES_AUTORISEES = [
@@ -13,12 +14,14 @@ const POLICES_AUTORISEES = [
   "Nunito Sans",
 ];
 
+// color_dark / color_light / color_surface / color_border restent en base mais ne
+// sont plus des réglages globaux : chaque bloc gère désormais sa propre couleur
+// depuis son éditeur (voir front/src/components/admin/editeurs/). Cet onglet ne
+// garde que l'accent global et les deux éléments uniques du site (Header, Footer).
 const CHAMPS_COULEUR = [
-  { key: "color_primary", label: "Couleur primaire (accent doré)" },
-  { key: "color_dark", label: "Couleur foncée (fonds sombres)" },
-  { key: "color_light", label: "Couleur claire (fond principal)" },
-  { key: "color_surface", label: "Couleur surface (cartes, sections)" },
-  { key: "color_border", label: "Couleur des bordures" },
+  { key: "color_primary", label: "Couleur primaire (accent doré)", couleurDefaut: "#d4af37" },
+  { key: "color_header", label: "Couleur du header", couleurDefaut: "#faf6f0" },
+  { key: "color_footer", label: "Couleur du footer", couleurDefaut: "#0b1a14" },
 ];
 
 export default function GestionTheme() {
@@ -28,7 +31,15 @@ export default function GestionTheme() {
   const [erreurs, setErreurs] = useState({});
 
   useEffect(() => {
-    const cles = [...CHAMPS_COULEUR.map((c) => c.key), "font_heading"];
+    const cles = [
+      ...CHAMPS_COULEUR.flatMap((c) => [
+        c.key,
+        `${c.key}_gradient_enabled`,
+        `${c.key}_gradient_end`,
+        `${c.key}_gradient_style`,
+      ]),
+      "font_heading",
+    ];
 
     Promise.all(
       cles.map((key) =>
@@ -81,29 +92,46 @@ export default function GestionTheme() {
           <p className="text-xs uppercase tracking-widest opacity-60 mb-4">
             Couleurs
           </p>
-          <div className="space-y-4">
-            {CHAMPS_COULEUR.map(({ key, label }) => (
-              <div key={key}>
-                <label className="block text-sm mb-2">{label}</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    defaultValue={valeurs[key] || "#000000"}
-                    onChange={(e) => sauvegarderChamp(key, e.target.value)}
-                    className="w-12 h-12 rounded-lg border border-brand-border cursor-pointer"
+          <div className="space-y-6">
+            {CHAMPS_COULEUR.map(({ key, label, couleurDefaut }) => {
+              const cleActif = `${key}_gradient_enabled`;
+              const cleFin = `${key}_gradient_end`;
+              const cleStyle = `${key}_gradient_style`;
+              const gradientActif = valeurs[cleActif] === "true";
+
+              return (
+                <div key={key}>
+                  <EditeurCouleurBloc
+                    label={label}
+                    couleurDefaut={couleurDefaut}
+                    couleur={valeurs[key]}
+                    gradientActif={gradientActif}
+                    gradientFin={valeurs[cleFin]}
+                    gradientStyle={valeurs[cleStyle]}
+                    onChangeCouleur={(v) => sauvegarderChamp(key, v)}
+                    onChangeGradientActif={(v) =>
+                      sauvegarderChamp(cleActif, v ? "true" : "false")
+                    }
+                    onChangeGradientFin={(v) => sauvegarderChamp(cleFin, v)}
+                    onChangeGradientStyle={(v) => sauvegarderChamp(cleStyle, v)}
                   />
-                  <span className="text-sm font-mono">{valeurs[key]}</span>
-                  {enregistrement === key && (
+
+                  {(enregistrement === key ||
+                    enregistrement === cleActif ||
+                    enregistrement === cleFin ||
+                    enregistrement === cleStyle) && (
                     <span className="text-xs opacity-60">
                       Enregistrement...
                     </span>
                   )}
+                  {(erreurs[key] || erreurs[cleFin] || erreurs[cleStyle]) && (
+                    <p className="text-red-600 text-xs mt-1">
+                      {erreurs[key] || erreurs[cleFin] || erreurs[cleStyle]}
+                    </p>
+                  )}
                 </div>
-                {erreurs[key] && (
-                  <p className="text-red-600 text-xs mt-1">{erreurs[key]}</p>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import useTheme from "./hooks/useTheme";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Accueil from "./pages/Accueil";
@@ -9,7 +9,6 @@ import Adresse from "./pages/Adresse";
 import MentionsLegales from "./pages/MentionsLegales";
 import Connexion from "./pages/admin/Connexion";
 import DashboardLayout from "./components/admin/DashboardLayout";
-import Dashboard from "./pages/admin/Dashboard";
 import RouteProtegee from "./components/admin/RouteProtegee";
 import { Outlet } from "react-router-dom";
 import GestionPage from "./pages/admin/GestionPage";
@@ -21,6 +20,8 @@ import { useEffect, useState } from "react";
 import BanniereAnnonce from "./components/BanniereAnnonce";
 import ChangerMotDePasse from "./pages/admin/ChangerMotDePasse";
 import GestionReseaux from "./pages/admin/GestionReseaux";
+import ProduitDetail from "./pages/ProduitDetail";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function SiteLayout() {
@@ -58,6 +59,7 @@ function App() {
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Accueil />} />
           <Route path="/patisseries" element={<Patisseries />} />
+          <Route path="/patisseries/:id" element={<ProduitDetail />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/adresse" element={<Adresse />} />
           <Route path="/mentions-legales" element={<MentionsLegales />} />
@@ -66,7 +68,7 @@ function App() {
         <Route path="/admin/connexion" element={<Connexion />} />
         <Route path="/admin" element={<RouteProtegee />}>
           <Route element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route index element={<Navigate to="produits" replace />} />
             <Route path="pages/:slug" element={<GestionPage />} />
             <Route path="pages/:slug/blocs/:id" element={<EditionBloc />} />
             <Route path="produits" element={<GestionProduits />} />

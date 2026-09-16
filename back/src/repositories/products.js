@@ -1,7 +1,7 @@
 const db = require("../db/connection");
 
 function getAllProducts() {
-  return db.prepare("SELECT * FROM products").all();
+  return db.prepare("SELECT * FROM products ORDER BY position").all();
 }
 
 function getProductById(id) {
@@ -16,9 +16,15 @@ function createProduct(
   categoryId,
   focusX,
   focusY,
+  cardSize,
 ) {
+  const maxPosition = db
+    .prepare("SELECT MAX(position) as max FROM products")
+    .get();
+  const nouvellePosition = (maxPosition.max || 0) + 1;
+
   const stmt = db.prepare(
-    "INSERT INTO products (name, description, photo_url, video_url, category_id, focus_x, focus_y) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO products (name, description, photo_url, video_url, category_id, focus_x, focus_y, card_size, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
   );
   return stmt.run(
     name,
@@ -28,6 +34,8 @@ function createProduct(
     categoryId,
     focusX ?? 50,
     focusY ?? 50,
+    cardSize || "small",
+    nouvellePosition,
   );
 }
 
@@ -40,9 +48,10 @@ function updateProduct(
   categoryId,
   focusX,
   focusY,
+  cardSize,
 ) {
   const stmt = db.prepare(
-    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ?, focus_x = ?, focus_y = ? WHERE id = ?",
+    "UPDATE products SET name = ?, description = ?, photo_url = ?, video_url = ?, category_id = ?, focus_x = ?, focus_y = ?, card_size = ? WHERE id = ?",
   );
   return stmt.run(
     name,
@@ -52,8 +61,15 @@ function updateProduct(
     categoryId,
     focusX ?? 50,
     focusY ?? 50,
+    cardSize || "small",
     id,
   );
+}
+
+function updateProductPosition(id, position) {
+  return db
+    .prepare("UPDATE products SET position = ? WHERE id = ?")
+    .run(position, id);
 }
 
 function deleteProduct(id) {
@@ -65,5 +81,6 @@ module.exports = {
   getProductById,
   createProduct,
   updateProduct,
+  updateProductPosition,
   deleteProduct,
 };

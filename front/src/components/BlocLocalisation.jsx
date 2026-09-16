@@ -1,8 +1,29 @@
 import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
+import { construireDegradeCss } from "../utils/degrade";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function BlocLocalisation() {
+const COULEUR_FOND_DEFAUT = "#faf6f0";
+
+export default function BlocLocalisation({
+  couleur,
+  couleurGradientActif,
+  couleurGradientFin,
+  couleurGradientStyle,
+}) {
+  const couleurBase = couleur || COULEUR_FOND_DEFAUT;
+  const styleFond =
+    couleurGradientActif && couleurGradientFin
+      ? {
+          backgroundColor: couleurBase,
+          backgroundImage: construireDegradeCss(
+            couleurGradientStyle,
+            couleurBase,
+            couleurGradientFin,
+          ),
+        }
+      : { backgroundColor: couleurBase };
+
   const [adresse, setAdresse] = useState("");
 
   useEffect(() => {
@@ -20,7 +41,7 @@ export default function BlocLocalisation() {
   );
 
   return (
-    <section className="py-24 md:py-32 px-6 md:px-12 bg-brand-light">
+    <section className="py-24 md:py-32 px-6 md:px-12" style={styleFond}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-5">
           <span className="text-xs uppercase tracking-[0.2em] mb-6 block opacity-60">

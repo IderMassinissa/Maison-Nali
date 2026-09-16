@@ -1,6 +1,9 @@
 import { useState } from "react";
 import useSauvegardeBloc from "./SauvegardeBloc";
+import EditeurCouleurBloc from "./EditeurCouleurBloc";
 const API_URL = import.meta.env.VITE_API_URL;
+
+const COULEUR_OVERLAY_DEFAUT = "#0d231a";
 
 export default function EditionHero({ section }) {
   const contenuInitial = JSON.parse(section.content || "{}");
@@ -9,6 +12,16 @@ export default function EditionHero({ section }) {
   const [photo, setPhoto] = useState(contenuInitial.photo || "");
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
+  const [couleur, setCouleur] = useState(contenuInitial.couleur || "");
+  const [couleurGradientActif, setCouleurGradientActif] = useState(
+    contenuInitial.couleurGradientActif || false,
+  );
+  const [couleurGradientFin, setCouleurGradientFin] = useState(
+    contenuInitial.couleurGradientFin || "",
+  );
+  const [couleurGradientStyle, setCouleurGradientStyle] = useState(
+    contenuInitial.couleurGradientStyle || "",
+  );
   const [uploadEnCours, setUploadEnCours] = useState(false);
   const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
 
@@ -48,7 +61,17 @@ export default function EditionHero({ section }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    sauvegarder({ titre, sousTitre, photo, focusX, focusY });
+    sauvegarder({
+      titre,
+      sousTitre,
+      photo,
+      focusX,
+      focusY,
+      couleur,
+      couleurGradientActif,
+      couleurGradientFin,
+      couleurGradientStyle,
+    });
   }
 
   return (
@@ -119,6 +142,23 @@ export default function EditionHero({ section }) {
           {uploadEnCours && (
             <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
           )}
+        </div>
+        <div>
+          <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+            Couleur du voile sur la photo
+          </label>
+          <EditeurCouleurBloc
+            label="Voile (overlay)"
+            couleurDefaut={COULEUR_OVERLAY_DEFAUT}
+            couleur={couleur}
+            gradientActif={couleurGradientActif}
+            gradientFin={couleurGradientFin}
+            gradientStyle={couleurGradientStyle}
+            onChangeCouleur={setCouleur}
+            onChangeGradientActif={setCouleurGradientActif}
+            onChangeGradientFin={setCouleurGradientFin}
+            onChangeGradientStyle={setCouleurGradientStyle}
+          />
         </div>
         <button
           type="submit"

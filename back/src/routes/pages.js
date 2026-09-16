@@ -10,6 +10,7 @@ const {
   createSection,
   deleteSection,
 } = require("../repositories/sections");
+const { validerCouleursContenu } = require("../utils/couleurBloc");
 
 const TYPES_BLOC_AUTORISES = [
   "hero",
@@ -45,6 +46,17 @@ router.get("/:slug", (req, res) => {
 router.put("/sections/:id/content", requireAuth, (req, res) => {
   try {
     const { content } = req.body;
+
+    let contenuParse;
+    try {
+      contenuParse = JSON.parse(content);
+    } catch {
+      return res.status(400).json({ error: "Contenu JSON invalide" });
+    }
+
+    const erreurCouleur = validerCouleursContenu(contenuParse);
+    if (erreurCouleur) return res.status(400).json({ error: erreurCouleur });
+
     updateSectionContent(req.params.id, content);
     res.json({ message: "Contenu du bloc mis à jour" });
   } catch (err) {

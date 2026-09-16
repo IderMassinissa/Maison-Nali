@@ -13,14 +13,41 @@ export function RenduBloc({ type, content }) {
           photo={content.photo}
           focusX={content.focusX}
           focusY={content.focusY}
+          couleur={content.couleur}
+          couleurGradientActif={content.couleurGradientActif}
+          couleurGradientFin={content.couleurGradientFin}
+          couleurGradientStyle={content.couleurGradientStyle}
         />
       );
     case "bloc-patisseries":
-      return <GrillePatisseries />;
+      return (
+        <GrillePatisseries
+          couleur={content.couleur}
+          couleurGradientActif={content.couleurGradientActif}
+          couleurGradientFin={content.couleurGradientFin}
+          couleurGradientStyle={content.couleurGradientStyle}
+        />
+      );
     case "bloc-histoire":
-      return <BlocHistoire titre={content.titre} texte={content.texte} />;
+      return (
+        <BlocHistoire
+          titre={content.titre}
+          texte={content.texte}
+          couleur={content.couleur}
+          couleurGradientActif={content.couleurGradientActif}
+          couleurGradientFin={content.couleurGradientFin}
+          couleurGradientStyle={content.couleurGradientStyle}
+        />
+      );
     case "bloc-localisation":
-      return <BlocLocalisation />;
+      return (
+        <BlocLocalisation
+          couleur={content.couleur}
+          couleurGradientActif={content.couleurGradientActif}
+          couleurGradientFin={content.couleurGradientFin}
+          couleurGradientStyle={content.couleurGradientStyle}
+        />
+      );
     default:
       return null;
   }
