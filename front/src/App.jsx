@@ -5,6 +5,7 @@ import Accueil from "./pages/Accueil";
 import Patisseries from "./pages/Patisseries";
 import APropos from "./pages/APropos";
 import Adresse from "./pages/Adresse";
+import Evenements from "./pages/Evenements";
 import MentionsLegales from "./pages/MentionsLegales";
 import Connexion from "./pages/admin/Connexion";
 import DashboardLayout from "./components/admin/DashboardLayout";
@@ -18,6 +19,7 @@ import { useEffect, useState } from "react";
 import BanniereAnnonce from "./components/BanniereAnnonce";
 import ChangerMotDePasse from "./pages/admin/ChangerMotDePasse";
 import GestionReseaux from "./pages/admin/GestionReseaux";
+import GestionPhotosEvenements from "./pages/admin/GestionPhotosEvenements";
 import ProduitDetail from "./pages/ProduitDetail";
 import NotFound from "./pages/NotFound";
 
@@ -60,6 +62,7 @@ function App() {
           <Route path="/patisseries/:id" element={<ProduitDetail />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/adresse" element={<Adresse />} />
+          <Route path="/evenements" element={<Evenements />} />
           <Route path="/mentions-legales" element={<MentionsLegales />} />
           <Route path="*" element={<NotFound />} />
         </Route>
@@ -74,8 +77,16 @@ function App() {
             <Route path="banniere" element={<GestionBanniere />} />
             <Route path="coordonnees" element={<GestionReseaux />} />
             <Route
+              path="photos-evenements"
+              element={<GestionPhotosEvenements />}
+            />
+            <Route
               path="reseaux"
               element={<Navigate to="/admin/coordonnees" replace />}
+            />
+            <Route
+              path="prestations"
+              element={<Navigate to="/admin/photos-evenements" replace />}
             />
             <Route path="mot-de-passe" element={<ChangerMotDePasse />} />
             <Route path="*" element={<Navigate to="/admin/produits" replace />} />

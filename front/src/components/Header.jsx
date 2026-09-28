@@ -6,6 +6,7 @@ export default function Header() {
 
   const liens = [
     { href: "/patisseries", label: "Pâtisseries" },
+    { href: "/evenements", label: "Événements" },
     { href: "/a-propos", label: "À propos" },
     { href: "/adresse", label: "Adresse" },
   ];

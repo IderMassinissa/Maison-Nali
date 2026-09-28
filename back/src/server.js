@@ -8,6 +8,7 @@ const pageRoutes = require("./routes/pages");
 const announcementRoutes = require("./routes/announcements");
 const settingsRoutes = require("./routes/settings");
 const openingHoursRoutes = require("./routes/openingHours");
+const eventPhotoRoutes = require("./routes/eventPhotos");
 const path = require("path");
 const uploadRoutes = require("./routes/upload");
 const cors = require("cors");
@@ -39,6 +40,7 @@ app.use("/api/pages", pageRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/opening-hours", openingHoursRoutes);
+app.use("/api/event-photos", eventPhotoRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 app.use("/api/upload", uploadRoutes);
 

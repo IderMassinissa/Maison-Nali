@@ -6,6 +6,7 @@ const PAGES = [
   { label: "Pâtisseries", slug: "patisseries" },
   { label: "À propos", slug: "a-propos" },
   { label: "Adresse", slug: "adresse" },
+  { label: "Événements", slug: "evenements" },
 ];
 
 export default function DashboardLayout() {
@@ -48,6 +49,12 @@ export default function DashboardLayout() {
             className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
           >
             Produits
+          </Link>
+          <Link
+            to="/admin/photos-evenements"
+            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+          >
+            Photos événements
           </Link>
           <Link
             to="/admin/banniere"

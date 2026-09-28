@@ -54,6 +54,12 @@ export default function Footer() {
               Pâtisseries
             </Link>
             <Link
+              to="/evenements"
+              className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
+            >
+              Événements
+            </Link>
+            <Link
               to="/a-propos"
               className="text-xs uppercase tracking-widest hover:text-brand-accent transition-colors"
             >

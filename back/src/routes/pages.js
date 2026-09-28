@@ -36,10 +36,31 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
   try {
     const { content } = req.body;
 
+    let parsed;
     try {
-      JSON.parse(content);
+      parsed = JSON.parse(content);
     } catch {
       return res.status(400).json({ error: "Contenu JSON invalide" });
+    }
+
+    const section = getSectionById(req.params.id);
+    if (section && section.type === "bloc-evenements") {
+      const { titre = "", intro = "", formats = "" } = parsed || {};
+      if (titre.length > 100) {
+        return res
+          .status(400)
+          .json({ error: "Le titre ne doit pas dépasser 100 caractères" });
+      }
+      if (intro.length > 1000) {
+        return res
+          .status(400)
+          .json({ error: "L'introduction ne doit pas dépasser 1000 caractères" });
+      }
+      if (formats.length > 1000) {
+        return res.status(400).json({
+          error: "La liste des formats ne doit pas dépasser 1000 caractères",
+        });
+      }
     }
 
     updateSectionContent(req.params.id, content);

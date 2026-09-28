@@ -60,3 +60,10 @@ CREATE TABLE settings (
   key VARCHAR NOT NULL UNIQUE,
   value VARCHAR
 );
+
+CREATE TABLE event_photos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  image_url TEXT NOT NULL,
+  alt TEXT,
+  position INTEGER NOT NULL DEFAULT 0
+);

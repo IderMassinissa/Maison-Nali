@@ -4,6 +4,7 @@ import EditionHero from "../../components/admin/editeurs/EditionHero";
 import EditionGrillePatisseries from "../../components/admin/editeurs/EditionGrillePatisseries";
 import EditionBlocHistoire from "../../components/admin/editeurs/EditionBlocHistoire";
 import EditionBlocLocalisation from "../../components/admin/editeurs/EditionBlocLocalisation";
+import EditionBlocEvenements from "../../components/admin/editeurs/EditionBlocEvenements";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const EDITEURS = {
@@ -11,6 +12,7 @@ const EDITEURS = {
   "bloc-patisseries": EditionGrillePatisseries,
   "bloc-histoire": EditionBlocHistoire,
   "bloc-localisation": EditionBlocLocalisation,
+  "bloc-evenements": EditionBlocEvenements,
 };
 
 export default function EditionBloc() {
