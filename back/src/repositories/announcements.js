@@ -1,21 +1,23 @@
 const db = require("../db/connection");
 
-function getActiveAnnouncement() {
-  return db
-    .prepare("SELECT * FROM announcements WHERE active = 1 LIMIT 1")
-    .get();
+function getAnnouncement() {
+  return db.prepare("SELECT * FROM announcements LIMIT 1").get();
 }
 
-function setAnnouncement(message, active) {
+function setAnnouncement(message, active, startDate, endDate) {
   const existing = db.prepare("SELECT id FROM announcements LIMIT 1").get();
   if (existing) {
     return db
-      .prepare("UPDATE announcements SET message = ?, active = ? WHERE id = ?")
-      .run(message, active ? 1 : 0, existing.id);
+      .prepare(
+        "UPDATE announcements SET message = ?, active = ?, start_date = ?, end_date = ? WHERE id = ?",
+      )
+      .run(message, active ? 1 : 0, startDate, endDate, existing.id);
   }
   return db
-    .prepare("INSERT INTO announcements (message, active) VALUES (?, ?)")
-    .run(message, active ? 1 : 0);
+    .prepare(
+      "INSERT INTO announcements (message, active, start_date, end_date) VALUES (?, ?, ?, ?)",
+    )
+    .run(message, active ? 1 : 0, startDate, endDate);
 }
 
-module.exports = { getActiveAnnouncement, setAnnouncement };
+module.exports = { getAnnouncement, setAnnouncement };

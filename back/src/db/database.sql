@@ -43,7 +43,9 @@ CREATE TABLE products (
 CREATE TABLE announcements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   message VARCHAR NOT NULL,
-  active BOOLEAN NOT NULL DEFAULT 0
+  active BOOLEAN NOT NULL DEFAULT 0,
+  start_date TEXT,
+  end_date TEXT
 );
 
 CREATE TABLE opening_hours (

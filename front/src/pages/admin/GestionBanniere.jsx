@@ -1,41 +1,62 @@
 import { useEffect, useState } from "react";
+import { statutBanniere } from "../../utils/bannerStatus";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function GestionBanniere() {
   const [message, setMessage] = useState("");
   const [active, setActive] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [statut, setStatut] = useState("Désactivée");
   const [chargement, setChargement] = useState(true);
   const [enregistrement, setEnregistrement] = useState(false);
   const [succes, setSucces] = useState(false);
+  const [erreur, setErreur] = useState("");
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/announcements`)
-      .then((res) => res.json())
+  function chargerAnnonce() {
+    return fetch(`${API_URL}/api/announcements/admin`, {
+      credentials: "include",
+    })
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data) {
           setMessage(data.message || "");
           setActive(!!data.active);
+          setStartDate(data.start_date || "");
+          setEndDate(data.end_date || "");
+          setStatut(statutBanniere(data));
         }
-      })
-      .finally(() => setChargement(false));
+      });
+  }
+
+  useEffect(() => {
+    chargerAnnonce().finally(() => setChargement(false));
   }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setEnregistrement(true);
     setSucces(false);
+    setErreur("");
 
     try {
       const res = await fetch(`${API_URL}/api/announcements`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ message, active }),
+        body: JSON.stringify({ message, active, startDate, endDate }),
       });
-      if (!res.ok) throw new Error("Échec de la sauvegarde");
+
+      if (!res.ok) {
+        const data = await res.json();
+        setErreur(data.error || "Échec de la sauvegarde");
+        return;
+      }
+
       setSucces(true);
-    } catch (err) {
-      alert(err.message);
+      await chargerAnnonce();
+    } catch {
+      setErreur("Impossible de contacter le serveur");
     } finally {
       setEnregistrement(false);
     }
@@ -74,6 +95,66 @@ export default function GestionBanniere() {
           />
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+              Début
+            </label>
+            <div className="flex items-center gap-3">
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+              />
+              {startDate && (
+                <button
+                  type="button"
+                  onClick={() => setStartDate("")}
+                  className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100"
+                >
+                  Effacer
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+              Fin
+            </label>
+            <div className="flex items-center gap-3">
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+              />
+              {endDate && (
+                <button
+                  type="button"
+                  onClick={() => setEndDate("")}
+                  className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100"
+                >
+                  Effacer
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <p className="text-xs opacity-60">
+          Les dates sont en heure de Paris, début et fin inclus. Laisse vide
+          pour une bannière sans limite de durée.
+        </p>
+
+        <div>
+          <p className="text-sm uppercase tracking-widest opacity-60 mb-2">
+            Statut
+          </p>
+          <p className="text-sm">{statut}</p>
+        </div>
+
         {message && (
           <div>
             <p className="text-sm uppercase tracking-widest opacity-60 mb-2">
@@ -93,6 +174,7 @@ export default function GestionBanniere() {
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {erreur && <p className="text-red-600 text-sm">{erreur}</p>}
       </form>
     </div>
   );
