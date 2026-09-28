@@ -16,8 +16,12 @@ export default function HorairesTable() {
 
   useEffect(() => {
     fetch(`${API_URL}/api/opening-hours`)
-      .then((res) => res.json())
-      .then((data) => setHoraires(data));
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => setHoraires(data))
+      .catch(() => setHoraires([]));
   }, []);
 
   if (horaires.length === 0) return null;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --test src/repositories/*.test.js src/routes/*.test.js",
+    "test": "node --test src/repositories/*.test.js src/routes/*.test.js src/utils/*.test.js",
     "init-db": "node src/db/init.js"
   },
   "keywords": [],

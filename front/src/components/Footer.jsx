@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
+import { telHref } from "../utils/telephone";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Footer() {
@@ -8,10 +9,15 @@ export default function Footer() {
 
   useEffect(() => {
     Promise.all(
-      ["social_instagram", "social_facebook", "social_tiktok"].map((key) =>
-        fetch(`${API_URL}/api/settings/${key}`)
-          .then((res) => res.json())
-          .then((data) => [key, data.value]),
+      ["social_instagram", "social_facebook", "social_tiktok", "phone"].map(
+        (key) =>
+          fetch(`${API_URL}/api/settings/${key}`)
+            .then((res) => {
+              if (!res.ok) throw new Error("Réponse API non ok");
+              return res.json();
+            })
+            .then((data) => [key, data.value])
+            .catch(() => [key, null]),
       ),
     ).then((entries) => setReseaux(Object.fromEntries(entries)));
   }, []);
@@ -30,6 +36,14 @@ export default function Footer() {
             <p className="text-xs uppercase tracking-widest opacity-60">
               Gardiens de la douceur algérienne
             </p>
+            {reseaux.phone && (
+              <a
+                href={telHref(reseaux.phone)}
+                className="text-xs opacity-60 hover:opacity-100 hover:text-brand-accent transition-colors block mt-3"
+              >
+                {reseaux.phone}
+              </a>
+            )}
           </div>
 
           <div className="flex flex-col items-center gap-4">

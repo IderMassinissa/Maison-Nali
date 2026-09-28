@@ -1,16 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
+import { telHref } from "../utils/telephone";
 const API_URL = import.meta.env.VITE_API_URL;
+
+const ADRESSE_REPLI = "42 Rue des Glycines\n75016 Paris, France";
 
 export default function BlocLocalisation() {
   const [adresse, setAdresse] = useState("");
+  const [telephone, setTelephone] = useState("");
 
   useEffect(() => {
     fetch(`${API_URL}/api/settings/address_text`)
-      .then((res) => res.json())
-      .then((data) =>
-        setAdresse(data.value || "42 Rue des Glycines\n75016 Paris, France"),
-      );
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => setAdresse(data.value || ADRESSE_REPLI))
+      .catch(() => setAdresse(ADRESSE_REPLI));
+
+    fetch(`${API_URL}/api/settings/phone`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => setTelephone(data.value || ""))
+      .catch(() => setTelephone(""));
   }, []);
 
   const lienMaps = useMemo(
@@ -29,9 +43,19 @@ export default function BlocLocalisation() {
           <h2 className="font-display text-4xl md:text-5xl tracking-tight mb-8">
             La boutique parisienne
           </h2>
-          <p className="text-sm leading-relaxed opacity-80 whitespace-pre-line mb-6">
-            {adresse}
-          </p>
+          <div className="mb-6">
+            <p className="text-sm leading-relaxed opacity-80 whitespace-pre-line mb-2">
+              {adresse}
+            </p>
+            {telephone && (
+              <a
+                href={telHref(telephone)}
+                className="text-sm opacity-80 hover:opacity-100 hover:text-brand-accent transition-colors block"
+              >
+                {telephone}
+              </a>
+            )}
+          </div>
           <HorairesTable />
 
           <a

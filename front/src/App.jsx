@@ -19,6 +19,7 @@ import BanniereAnnonce from "./components/BanniereAnnonce";
 import ChangerMotDePasse from "./pages/admin/ChangerMotDePasse";
 import GestionReseaux from "./pages/admin/GestionReseaux";
 import ProduitDetail from "./pages/ProduitDetail";
+import NotFound from "./pages/NotFound";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -27,8 +28,9 @@ function SiteLayout() {
 
   useEffect(() => {
     fetch(`${API_URL}/api/announcements`)
-      .then((res) => res.json())
-      .then((data) => setAnnonce(data));
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setAnnonce(data))
+      .catch(() => setAnnonce(null));
   }, []);
 
   return (
@@ -59,6 +61,7 @@ function App() {
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/adresse" element={<Adresse />} />
           <Route path="/mentions-legales" element={<MentionsLegales />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route path="/admin/connexion" element={<Connexion />} />
@@ -69,8 +72,9 @@ function App() {
             <Route path="pages/:slug/blocs/:id" element={<EditionBloc />} />
             <Route path="produits" element={<GestionProduits />} />
             <Route path="banniere" element={<GestionBanniere />} />
-            <Route path="reseaux" element={<GestionReseaux />} />
+            <Route path="coordonnees" element={<GestionReseaux />} />
             <Route path="mot-de-passe" element={<ChangerMotDePasse />} />
+            <Route path="*" element={<Navigate to="produits" replace />} />
           </Route>
         </Route>
       </Routes>

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
 const { getSetting, setSetting } = require("../repositories/settings");
+const { validatePhone } = require("../utils/phone");
 
 const REGEX_URL = /^https?:\/\/.+/;
 
@@ -25,6 +26,13 @@ router.put("/:key", requireAuth, (req, res) => {
     if (key.startsWith("social_") && value && !REGEX_URL.test(value)) {
       return res.status(400).json({
         error: "Lien invalide, une URL http(s) est attendue",
+      });
+    }
+
+    if (key === "phone" && value && !validatePhone(value)) {
+      return res.status(400).json({
+        error:
+          "Numéro invalide (chiffres, espaces, +, ., -, () uniquement, entre 6 et 20 caractères)",
       });
     }
 

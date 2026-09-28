@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CHAMPS = [
-  { key: "social_instagram", label: "Lien Instagram" },
-  { key: "social_facebook", label: "Lien Facebook" },
-  { key: "social_tiktok", label: "Lien TikTok" },
+  { key: "phone", label: "Téléphone", type: "tel", placeholder: "01 86 04 43 34" },
+  { key: "social_instagram", label: "Lien Instagram", type: "url", placeholder: "https://..." },
+  { key: "social_facebook", label: "Lien Facebook", type: "url", placeholder: "https://..." },
+  { key: "social_tiktok", label: "Lien TikTok", type: "url", placeholder: "https://..." },
 ];
 
 export default function GestionReseaux() {
@@ -46,21 +47,21 @@ export default function GestionReseaux() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl mb-8">Réseaux sociaux</h1>
+      <h1 className="font-display text-3xl mb-8">Coordonnées</h1>
       <div className="max-w-2xl space-y-6">
-        {CHAMPS.map(({ key, label }) => (
+        {CHAMPS.map(({ key, label, type, placeholder }) => (
           <div key={key}>
             <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
               {label}
             </label>
             <div className="flex gap-3">
               <input
-                type="url"
+                type={type}
                 value={valeurs[key] || ""}
                 onChange={(e) =>
                   setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
                 }
-                placeholder="https://..."
+                placeholder={placeholder}
                 className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
               />
               <button

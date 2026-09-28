@@ -92,8 +92,12 @@ export default function GrillePatisseries() {
 
   useEffect(() => {
     fetch(`${API_URL}/api/products`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
       .then((data) => setProduits(data))
+      .catch(() => setProduits([]))
       .finally(() => setChargement(false));
   }, []);
 

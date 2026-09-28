@@ -56,10 +56,10 @@ export default function DashboardLayout() {
             Bannière
           </Link>
           <Link
-            to="/admin/reseaux"
+            to="/admin/coordonnees"
             className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
           >
-            Réseaux sociaux
+            Coordonnées
           </Link>
         </nav>
 

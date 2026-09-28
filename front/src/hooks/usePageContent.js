@@ -5,10 +5,14 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function usePageContent(slug) {
   const [sections, setSections] = useState([]);
   const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/api/pages/${slug}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
       .then((data) => {
         const parsees = (data.sections || []).map((s) => ({
           id: s.id,
@@ -16,9 +20,11 @@ export default function usePageContent(slug) {
           content: JSON.parse(s.content || "{}"),
         }));
         setSections(parsees);
+        setErreur(false);
       })
+      .catch(() => setErreur(true))
       .finally(() => setChargement(false));
   }, [slug]);
 
-  return { sections, chargement };
+  return { sections, chargement, erreur };
 }

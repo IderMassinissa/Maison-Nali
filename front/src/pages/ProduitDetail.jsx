@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
+import ServiceIndisponible from "../components/ServiceIndisponible";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,15 +9,25 @@ export default function ProduitDetail() {
   const { id } = useParams();
   const [produit, setProduit] = useState(null);
   const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/api/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => setProduit(data))
+      .then((res) => {
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => {
+        setProduit(data);
+        setErreur(false);
+      })
+      .catch(() => setErreur(true))
       .finally(() => setChargement(false));
   }, [id]);
 
   if (chargement) return null;
+  if (erreur) return <ServiceIndisponible />;
   if (!produit)
     return <p className="text-center py-24">Pâtisserie introuvable.</p>;
 
