@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
+import ServiceIndisponible from "./ServiceIndisponible";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -89,6 +90,7 @@ function CartePatisserie({
 export default function GrillePatisseries() {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/api/products`)
@@ -96,13 +98,22 @@ export default function GrillePatisseries() {
         if (!res.ok) throw new Error("Réponse API non ok");
         return res.json();
       })
-      .then((data) => setProduits(data))
-      .catch(() => setProduits([]))
+      .then((data) => {
+        setProduits(data);
+        setErreur(false);
+      })
+      .catch(() => setErreur(true))
       .finally(() => setChargement(false));
   }, []);
 
   if (chargement) return null;
-  if (produits.length === 0) return null;
+  if (erreur) return <ServiceIndisponible />;
+  if (produits.length === 0)
+    return (
+      <p className="text-center py-16 text-sm opacity-60">
+        Nos pâtisseries arrivent bientôt.
+      </p>
+    );
 
   return (
     <section className="my-24 md:my-32 px-6 md:px-12">

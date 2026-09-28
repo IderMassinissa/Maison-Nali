@@ -67,14 +67,18 @@ function App() {
         <Route path="/admin/connexion" element={<Connexion />} />
         <Route path="/admin" element={<RouteProtegee />}>
           <Route element={<DashboardLayout />}>
-            <Route index element={<Navigate to="produits" replace />} />
+            <Route index element={<Navigate to="/admin/produits" replace />} />
             <Route path="pages/:slug" element={<GestionPage />} />
             <Route path="pages/:slug/blocs/:id" element={<EditionBloc />} />
             <Route path="produits" element={<GestionProduits />} />
             <Route path="banniere" element={<GestionBanniere />} />
             <Route path="coordonnees" element={<GestionReseaux />} />
+            <Route
+              path="reseaux"
+              element={<Navigate to="/admin/coordonnees" replace />}
+            />
             <Route path="mot-de-passe" element={<ChangerMotDePasse />} />
-            <Route path="*" element={<Navigate to="produits" replace />} />
+            <Route path="*" element={<Navigate to="/admin/produits" replace />} />
           </Route>
         </Route>
       </Routes>
