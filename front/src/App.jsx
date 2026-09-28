@@ -1,4 +1,3 @@
-import useTheme from "./hooks/useTheme";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -14,7 +13,6 @@ import { Outlet } from "react-router-dom";
 import GestionPage from "./pages/admin/GestionPage";
 import EditionBloc from "./pages/admin/EditionBloc";
 import GestionProduits from "./pages/admin/GestionProduits";
-import GestionTheme from "./pages/admin/GestionTheme";
 import GestionBanniere from "./pages/admin/GestionBanniere";
 import { useEffect, useState } from "react";
 import BanniereAnnonce from "./components/BanniereAnnonce";
@@ -51,8 +49,6 @@ function SiteLayout() {
 }
 
 function App() {
-  useTheme();
-
   return (
     <BrowserRouter>
       <Routes>
@@ -72,7 +68,6 @@ function App() {
             <Route path="pages/:slug" element={<GestionPage />} />
             <Route path="pages/:slug/blocs/:id" element={<EditionBloc />} />
             <Route path="produits" element={<GestionProduits />} />
-            <Route path="theme" element={<GestionTheme />} />
             <Route path="banniere" element={<GestionBanniere />} />
             <Route path="reseaux" element={<GestionReseaux />} />
             <Route path="mot-de-passe" element={<ChangerMotDePasse />} />

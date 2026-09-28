@@ -1,41 +1,17 @@
 import { Link } from "react-router-dom";
-import { construireDegradeCss } from "../utils/degrade";
+import { urlImage } from "../utils/urlImage";
 
-const COULEUR_OVERLAY_DEFAUT = "#0d231a";
-
-export default function Hero({
-  titre,
-  sousTitre,
-  photo,
-  focusX,
-  focusY,
-  couleur,
-  couleurGradientActif,
-  couleurGradientFin,
-  couleurGradientStyle,
-}) {
-  const couleurBase = couleur || COULEUR_OVERLAY_DEFAUT;
-  const overlayStyle =
-    couleurGradientActif && couleurGradientFin
-      ? {
-          backgroundImage: construireDegradeCss(
-            couleurGradientStyle,
-            couleurBase,
-            couleurGradientFin,
-          ),
-        }
-      : { backgroundColor: couleurBase };
-
+export default function Hero({ titre, sousTitre, photo, focusX, focusY }) {
   return (
     <section className="relative h-[800px]">
       <div className="absolute inset-0 z-0">
         <img
           className="w-full h-full object-cover"
-          src={photo || "/images/hero-baklawa.jpg"}
+          src={photo ? urlImage(photo) : "/images/hero-baklawa.jpg"}
           alt="Pâtisseries algériennes dorées, glacées au miel"
           style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
         />
-        <div className="absolute inset-0 opacity-45" style={overlayStyle}></div>
+        <div className="absolute inset-0 opacity-45 bg-brand-dark"></div>
       </div>
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4">

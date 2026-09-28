@@ -2,22 +2,8 @@ const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
 const { getSetting, setSetting } = require("../repositories/settings");
-const {
-  REGEX_COULEUR_HEX,
-  GRADIENT_STYLES_AUTORISES,
-} = require("../utils/couleurBloc");
 
-const POLICES_AUTORISEES = [
-  "Cormorant Garamond",
-  "Playfair Display",
-  "Marcellus",
-  "Cinzel",
-  "EB Garamond",
-  "Inter",
-  "Work Sans",
-  "Jost",
-  "Nunito Sans",
-];
+const REGEX_URL = /^https?:\/\/.+/;
 
 router.get("/:key", (req, res) => {
   try {
@@ -36,20 +22,10 @@ router.put("/:key", requireAuth, (req, res) => {
     const { value } = req.body;
     const key = req.params.key;
 
-    if (key.endsWith("_gradient_enabled")) {
-      if (value !== "true" && value !== "false") {
-        return res.status(400).json({ error: "Valeur booléenne attendue" });
-      }
-    } else if (key.endsWith("_gradient_style")) {
-      if (!GRADIENT_STYLES_AUTORISES.includes(value)) {
-        return res.status(400).json({ error: "Style de dégradé non autorisé" });
-      }
-    } else if (key.startsWith("color_") && !REGEX_COULEUR_HEX.test(value)) {
+    if (key.startsWith("social_") && value && !REGEX_URL.test(value)) {
       return res.status(400).json({
-        error: "Couleur invalide, format hexadécimal attendu (#RRGGBB)",
+        error: "Lien invalide, une URL http(s) est attendue",
       });
-    } else if (key.startsWith("font_") && !POLICES_AUTORISEES.includes(value)) {
-      return res.status(400).json({ error: "Police non autorisée" });
     }
 
     setSetting(key, value);

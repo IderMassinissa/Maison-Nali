@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { construireDegradeCss } from "../utils/degrade";
+import { urlImage } from "../utils/urlImage";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const COULEUR_FOND_DEFAUT = "#f4eee3";
 
 // Motif fixe de tailles selon la position (index % 6), répété tous les 6 produits :
 // index 0=grande(8), 1=petite(4), 2=petite(4), 3=grande(8), 4=moyenne(7), 5=moyenne(5).
@@ -42,39 +41,17 @@ function CartePatisserie({
   aspectImage,
   focusX,
   focusY,
-  couleur,
-  couleurGradientActif,
-  couleurGradientFin,
-  couleurGradientStyle,
 }) {
-  const couleurBase = couleur || COULEUR_FOND_DEFAUT;
-  // Le dégradé n'est visible que sur les cartes grandes/moyennes ; les petites
-  // restent toujours en couleur unie, même si le dégradé est activé en admin.
-  const styleCarte =
-    grande && couleurGradientActif && couleurGradientFin
-      ? {
-          backgroundColor: couleurBase,
-          backgroundImage: construireDegradeCss(
-            couleurGradientStyle,
-            couleurBase,
-            couleurGradientFin,
-          ),
-        }
-      : { backgroundColor: couleurBase };
-
   return (
     <Link to={`/patisseries/${id}`} className="block">
-      <article
-        className="rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow"
-        style={styleCarte}
-      >
+      <article className="rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow bg-brand-surface">
         <div
           className={`${aspectImage} overflow-hidden bg-brand-border/20 flex items-center justify-center`}
         >
           {image ? (
             <img
               className="w-full h-full object-cover"
-              src={image}
+              src={urlImage(image)}
               alt={nom}
               style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
             />
@@ -109,12 +86,7 @@ function CartePatisserie({
   );
 }
 
-export default function GrillePatisseries({
-  couleur,
-  couleurGradientActif,
-  couleurGradientFin,
-  couleurGradientStyle,
-}) {
+export default function GrillePatisseries() {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
 
@@ -145,10 +117,6 @@ export default function GrillePatisseries({
                   aspectImage={IMAGE_ASPECT[cols]}
                   focusX={produit.focus_x}
                   focusY={produit.focus_y}
-                  couleur={couleur}
-                  couleurGradientActif={couleurGradientActif}
-                  couleurGradientFin={couleurGradientFin}
-                  couleurGradientStyle={couleurGradientStyle}
                 />
               </div>
             );

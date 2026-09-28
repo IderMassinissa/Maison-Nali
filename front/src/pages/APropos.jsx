@@ -1,15 +1,11 @@
 import usePageContent from "../hooks/usePageContent";
-import { RenduBloc } from "../blockRegistry";
+import BlocHistoire from "../components/BlocHistoire";
 
 export default function APropos() {
   const { sections, chargement } = usePageContent("a-propos");
   if (chargement) return null;
 
-  return (
-    <>
-      {sections.map((s) => (
-        <RenduBloc key={s.id} type={s.type} content={s.content} />
-      ))}
-    </>
-  );
+  const histoire = sections.find((s) => s.type === "bloc-histoire");
+
+  return <>{histoire && <BlocHistoire {...histoire.content} />}</>;
 }

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import useSauvegardeBloc from "./SauvegardeBloc";
-import EditeurCouleurBloc from "./EditeurCouleurBloc";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
@@ -13,23 +11,7 @@ const ORDRE_JOURS = [
   "Dimanche",
 ];
 
-const COULEUR_FOND_DEFAUT = "#faf6f0";
-
-export default function EditionBlocLocalisation({ section }) {
-  const contenuInitial = JSON.parse(section.content || "{}");
-  const [couleur, setCouleur] = useState(contenuInitial.couleur || "");
-  const [couleurGradientActif, setCouleurGradientActif] = useState(
-    contenuInitial.couleurGradientActif || false,
-  );
-  const [couleurGradientFin, setCouleurGradientFin] = useState(
-    contenuInitial.couleurGradientFin || "",
-  );
-  const [couleurGradientStyle, setCouleurGradientStyle] = useState(
-    contenuInitial.couleurGradientStyle || "",
-  );
-  const { sauvegarder, enregistrement: enregistrementCouleur, succes: succesCouleur } =
-    useSauvegardeBloc(section.id);
-
+export default function EditionBlocLocalisation() {
   const [adresse, setAdresse] = useState("");
   const [enregistrementAdresse, setEnregistrementAdresse] = useState(false);
   const [succesAdresse, setSuccesAdresse] = useState(false);
@@ -103,16 +85,6 @@ export default function EditionBlocLocalisation({ section }) {
     sauvegarderHoraire(horaire.id, nouvel.open_time, nouvel.close_time);
   }
 
-  function handleSubmitCouleur(e) {
-    e.preventDefault();
-    sauvegarder({
-      couleur,
-      couleurGradientActif,
-      couleurGradientFin,
-      couleurGradientStyle,
-    });
-  }
-
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Localisation</h1>
@@ -120,32 +92,6 @@ export default function EditionBlocLocalisation({ section }) {
         L'adresse et les horaires sont communs à tout le site — les modifier ici
         les met à jour partout où ils apparaissent.
       </p>
-
-      <form onSubmit={handleSubmitCouleur} className="max-w-2xl space-y-5 mb-12">
-        <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
-          Couleur de fond de la section
-        </label>
-        <EditeurCouleurBloc
-          label="Fond"
-          couleurDefaut={COULEUR_FOND_DEFAUT}
-          couleur={couleur}
-          gradientActif={couleurGradientActif}
-          gradientFin={couleurGradientFin}
-          gradientStyle={couleurGradientStyle}
-          onChangeCouleur={setCouleur}
-          onChangeGradientActif={setCouleurGradientActif}
-          onChangeGradientFin={setCouleurGradientFin}
-          onChangeGradientStyle={setCouleurGradientStyle}
-        />
-        <button
-          type="submit"
-          disabled={enregistrementCouleur}
-          className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
-        >
-          {enregistrementCouleur ? "Enregistrement..." : "Enregistrer la couleur"}
-        </button>
-        {succesCouleur && <p className="text-green-600 text-sm">Enregistré !</p>}
-      </form>
 
       <form onSubmit={handleSubmitAdresse} className="max-w-2xl space-y-5 mb-12">
         <div>

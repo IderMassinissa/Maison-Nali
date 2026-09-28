@@ -34,13 +34,10 @@ CREATE TABLE products (
   photo_url VARCHAR,
   video_url VARCHAR,
   category_id INTEGER,
+  focus_x INTEGER,
+  focus_y INTEGER,
+  position INTEGER,
   FOREIGN KEY (category_id) REFERENCES categories(id)
-);
-
-CREATE TABLE gallery (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  url VARCHAR NOT NULL,
-  caption VARCHAR
 );
 
 CREATE TABLE announcements (

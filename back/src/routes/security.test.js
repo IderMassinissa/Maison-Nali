@@ -16,9 +16,9 @@ test("injection SQL dans un paramètre ne casse pas la requête", async () => {
   assert.notStrictEqual(res.status, 500);
 });
 
-test("couleur de thème invalide est rejetée", async () => {
+test("modification d'un réglage sans authentification renvoie 401", async () => {
   const res = await request(BASE_URL)
-    .put("/api/settings/color_primary")
+    .put("/api/settings/social_instagram")
     .send({ value: "<script>alert(1)</script>" });
   assert.strictEqual(res.status, 401);
 });

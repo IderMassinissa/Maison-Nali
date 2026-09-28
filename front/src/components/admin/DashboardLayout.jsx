@@ -50,12 +50,6 @@ export default function DashboardLayout() {
             Produits
           </Link>
           <Link
-            to="/admin/theme"
-            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
-          >
-            Thème du site
-          </Link>
-          <Link
             to="/admin/banniere"
             className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
           >

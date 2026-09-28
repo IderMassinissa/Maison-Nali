@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { urlImage } from "../utils/urlImage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -30,7 +31,7 @@ export default function ProduitDetail() {
 
       <div className="rounded-[40px] overflow-hidden mb-10 aspect-[4/3]">
         <img
-          src={produit.photo_url}
+          src={urlImage(produit.photo_url)}
           alt={produit.name}
           className="w-full h-full object-cover"
           style={{

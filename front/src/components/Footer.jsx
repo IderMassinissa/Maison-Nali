@@ -17,13 +17,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer
-      className="text-brand-light py-16 px-6 md:px-12"
-      style={{
-        backgroundColor: "var(--color-brand-footer, #0b1a14)",
-        backgroundImage: "var(--gradient-brand-footer, none)",
-      }}
-    >
+    <footer className="text-brand-light py-16 px-6 md:px-12 bg-brand-footer">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center text-center gap-12 md:grid md:grid-cols-3 md:items-start md:text-left">
           <div>

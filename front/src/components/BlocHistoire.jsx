@@ -1,33 +1,6 @@
-import { construireDegradeCss } from "../utils/degrade";
-
-const COULEUR_FOND_DEFAUT = "#0d231a";
-
-export default function BlocHistoire({
-  titre,
-  texte,
-  couleur,
-  couleurGradientActif,
-  couleurGradientFin,
-  couleurGradientStyle,
-}) {
-  const couleurBase = couleur || COULEUR_FOND_DEFAUT;
-  const styleFond =
-    couleurGradientActif && couleurGradientFin
-      ? {
-          backgroundColor: couleurBase,
-          backgroundImage: construireDegradeCss(
-            couleurGradientStyle,
-            couleurBase,
-            couleurGradientFin,
-          ),
-        }
-      : { backgroundColor: couleurBase };
-
+export default function BlocHistoire({ titre, texte }) {
   return (
-    <section
-      className="py-24 md:py-32 px-6 md:px-12 text-brand-light"
-      style={styleFond}
-    >
+    <section className="py-24 md:py-32 px-6 md:px-12 text-brand-light bg-brand-dark">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="order-2 lg:order-1">
           <div className="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/5">

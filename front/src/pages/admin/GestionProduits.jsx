@@ -13,6 +13,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { urlImage } from "../../utils/urlImage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,7 +38,7 @@ function ProduitTriable({ produit, onEditer, onSupprimer }) {
       </button>
       {produit.photo_url && (
         <img
-          src={produit.photo_url}
+          src={urlImage(produit.photo_url)}
           alt={produit.name}
           className="w-12 h-12 rounded-lg object-cover"
           style={{
@@ -197,7 +198,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setPhotoUrl(`${API_URL}${data.url}`);
+      setPhotoUrl(data.url);
       setFocusX(50);
       setFocusY(50);
     } catch (err) {
@@ -290,7 +291,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
               onClick={handleClicPhoto}
             >
               <img
-                src={photoUrl}
+                src={urlImage(photoUrl)}
                 alt="Aperçu"
                 className="w-full h-full rounded-lg object-cover"
                 style={{ objectPosition: `${focusX}% ${focusY}%` }}
