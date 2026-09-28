@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
 import usePageContent from "../hooks/usePageContent";
 import ServiceIndisponible from "../components/ServiceIndisponible";
 import CarrouselPhotos from "../components/CarrouselPhotos";
@@ -7,10 +9,25 @@ import { telHref } from "../utils/telephone";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CLES_RESEAUX = [
-  { key: "social_instagram", label: "Instagram" },
-  { key: "social_facebook", label: "Facebook" },
-  { key: "social_tiktok", label: "TikTok" },
+  { key: "social_instagram", label: "Instagram", Icone: FaInstagram },
+  { key: "social_facebook", label: "Facebook", Icone: FaFacebookF },
+  { key: "social_tiktok", label: "TikTok", Icone: FaTiktok },
 ];
+
+function analyserFormats(brut) {
+  return (brut || "")
+    .split("\n")
+    .map((ligne) => ligne.trim())
+    .filter(Boolean)
+    .map((ligne) => {
+      const indexSeparateur = ligne.indexOf("|");
+      if (indexSeparateur === -1) return { nom: ligne, detail: "" };
+      return {
+        nom: ligne.slice(0, indexSeparateur).trim(),
+        detail: ligne.slice(indexSeparateur + 1).trim(),
+      };
+    });
+}
 
 export default function Evenements() {
   const { sections, chargement, erreur } = usePageContent("evenements");
@@ -52,13 +69,9 @@ export default function Evenements() {
 
   const bloc = sections.find((s) => s.type === "bloc-evenements");
   const contenu = bloc?.content || {};
-  const formats = (contenu.formats || "")
-    .split("\n")
-    .map((ligne) => ligne.trim())
-    .filter(Boolean);
+  const formats = analyserFormats(contenu.formats);
 
   const liensReseaux = CLES_RESEAUX.filter((r) => contact[r.key]);
-  const aDesCoordonnees = Boolean(contact.phone) || liensReseaux.length > 0;
 
   return (
     <div className="px-6 md:px-12 py-16 md:py-24 max-w-4xl mx-auto">
@@ -78,7 +91,7 @@ export default function Evenements() {
 
       {!chargementPhotos && !erreurPhotos && photos.length > 0 && (
         <section className="mb-16 md:mb-20">
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8">
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8 text-center">
             Nos réalisations
           </h2>
           <CarrouselPhotos photos={photos} />
@@ -87,48 +100,69 @@ export default function Evenements() {
 
       {formats.length > 0 && (
         <section className="mb-16 md:mb-20">
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8">
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8 text-center">
             Formats de boîtes
           </h2>
-          <ul className="list-disc list-inside space-y-2 text-sm opacity-80">
-            {formats.map((format) => (
-              <li key={format}>{format}</li>
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {formats.map((format, index) => (
+              <li
+                key={`${format.nom}-${index}`}
+                className="p-6 border border-brand-border rounded-2xl bg-brand-surface"
+              >
+                <p className="font-display text-lg md:text-xl">
+                  {format.nom}
+                </p>
+                {format.detail && (
+                  <p className="text-sm opacity-70 mt-1">{format.detail}</p>
+                )}
+              </li>
             ))}
           </ul>
         </section>
       )}
 
-      {aDesCoordonnees && (
-        <section>
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8">
-            Nous contacter
-          </h2>
-          <ul className="flex flex-col gap-3">
+      <section>
+        <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8 text-center">
+          Nous contacter
+        </h2>
+        <div className="text-center max-w-md mx-auto">
+          <p className="text-sm leading-relaxed opacity-80 mb-8">
+            Parlons de votre projet : appelez-nous ou passez à la boutique.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             {contact.phone && (
-              <li>
-                <a
-                  href={telHref(contact.phone)}
-                  className="text-sm hover:text-brand-accent transition-colors"
-                >
-                  Téléphone : {contact.phone}
-                </a>
-              </li>
+              <a
+                href={telHref(contact.phone)}
+                className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest hover:opacity-90 transition-opacity"
+              >
+                Appeler
+              </a>
             )}
-            {liensReseaux.map((r) => (
-              <li key={r.key}>
+            <Link
+              to="/adresse"
+              className="px-8 py-3 border border-brand-border rounded-full text-sm uppercase tracking-widest hover:border-brand-accent transition-colors"
+            >
+              Adresse et horaires
+            </Link>
+          </div>
+          {liensReseaux.length > 0 && (
+            <div className="flex gap-5 justify-center text-xl">
+              {liensReseaux.map((r) => (
                 <a
+                  key={r.key}
                   href={contact[r.key]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm hover:text-brand-accent transition-colors"
+                  aria-label={r.label}
+                  className="hover:text-brand-accent transition-colors"
                 >
-                  {r.label}
+                  <r.Icone />
                 </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
