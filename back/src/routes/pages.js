@@ -6,27 +6,7 @@ const {
   getSectionsByPageId,
   getSectionById,
   updateSectionContent,
-  updateSectionPosition,
-  createSection,
-  deleteSection,
 } = require("../repositories/sections");
-
-const TYPES_BLOC_AUTORISES = [
-  "hero",
-  "bloc-patisseries",
-  "bloc-histoire",
-  "bloc-localisation",
-  "bloc-evenements",
-  "bloc-entete",
-];
-
-const TYPES_INSTANCE_UNIQUE = [
-  "hero",
-  "bloc-patisseries",
-  "bloc-localisation",
-  "bloc-evenements",
-  "bloc-entete",
-];
 
 router.get("/", (req, res) => {
   try {
@@ -113,19 +93,6 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
   }
 });
 
-router.put("/sections/:id/position", requireAuth, (req, res) => {
-  try {
-    const { position } = req.body;
-    updateSectionPosition(req.params.id, position);
-    res.json({ message: "Position du bloc mise à jour" });
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ error: "Erreur lors de la mise à jour de la position" });
-  }
-});
-
 router.get("/sections/:id", (req, res) => {
   try {
     const section = getSectionById(req.params.id);
@@ -134,43 +101,6 @@ router.get("/sections/:id", (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur lors de la récupération du bloc" });
-  }
-});
-
-router.post("/:slug/sections", requireAuth, (req, res) => {
-  try {
-    const { type } = req.body;
-    if (!TYPES_BLOC_AUTORISES.includes(type)) {
-      return res.status(400).json({ error: "Type de bloc invalide" });
-    }
-
-    const page = getPageBySlug(req.params.slug);
-    if (!page) return res.status(404).json({ error: "Page introuvable" });
-
-    if (TYPES_INSTANCE_UNIQUE.includes(type)) {
-      const sectionsExistantes = getSectionsByPageId(page.id);
-      if (sectionsExistantes.some((s) => s.type === type)) {
-        return res
-          .status(400)
-          .json({ error: "Ce type de bloc existe déjà sur cette page" });
-      }
-    }
-
-    const result = createSection(page.id, type);
-    res.status(201).json({ id: result.lastInsertRowid });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erreur lors de la création du bloc" });
-  }
-});
-
-router.delete("/sections/:id", requireAuth, (req, res) => {
-  try {
-    deleteSection(req.params.id);
-    res.json({ message: "Bloc supprimé" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erreur lors de la suppression du bloc" });
   }
 });
 
