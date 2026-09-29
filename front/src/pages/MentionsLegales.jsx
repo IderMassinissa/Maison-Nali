@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
+import usePageSeo from "../hooks/usePageSeo";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const TELEPHONE_REPLI = "information momentanément indisponible";
 
 export default function MentionsLegales() {
+  usePageSeo(
+    "Mentions légales — Maison Nali",
+    "Informations légales de Maison Nali : éditeur du site, hébergement, propriété intellectuelle.",
+  );
+
   const [telephone, setTelephone] = useState(null);
   const [erreur, setErreur] = useState(false);
 

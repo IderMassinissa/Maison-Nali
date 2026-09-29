@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import usePageSeo from "../hooks/usePageSeo";
 
 export default function NotFound() {
+  usePageSeo(
+    "Page introuvable — Maison Nali",
+    "Cette page n'existe pas ou n'est plus disponible sur le site de Maison Nali.",
+  );
+
   return (
     <div className="px-6 md:px-12 py-24 md:py-32 max-w-2xl mx-auto text-center">
       <span className="text-brand-accent text-xs uppercase tracking-[0.3em] mb-6 block">

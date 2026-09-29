@@ -11,6 +11,7 @@ const BASE_URL = "http://localhost:3001";
 
 const EMAIL_TEST = "test-sections-phase4d@example.test";
 const MOT_DE_PASSE_TEST = "MotDePasseTest123!";
+const SLUG_PAGE_TEMP = "test-page-phase5a";
 
 let agent;
 
@@ -89,4 +90,121 @@ test("PUT /api/pages/sections/:id/position met à jour la position", async (t) =
 
   const section = getSectionById(id);
   assert.strictEqual(section.position, 9);
+});
+
+test("bloc-entete : POST accepté sur une page sans bloc-entete, puis refusé en doublon", async (t) => {
+  const pageId = db
+    .prepare(
+      "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, 999, 1)",
+    )
+    .run(SLUG_PAGE_TEMP, "Page de test phase 5a").lastInsertRowid;
+
+  t.after(() => {
+    db.prepare("DELETE FROM sections WHERE page_id = ?").run(pageId);
+    db.prepare("DELETE FROM pages WHERE id = ?").run(pageId);
+  });
+
+  const premierAjout = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}/sections`)
+    .send({ type: "bloc-entete" });
+  assert.strictEqual(premierAjout.status, 201);
+
+  const section = getSectionById(premierAjout.body.id);
+  assert.strictEqual(section.type, "bloc-entete");
+
+  const deuxiemeAjout = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}/sections`)
+    .send({ type: "bloc-entete" });
+  assert.strictEqual(deuxiemeAjout.status, 400);
+  assert.ok(deuxiemeAjout.body.error);
+});
+
+test("bloc-entete : PUT content refuse un titre manquant (400)", async (t) => {
+  const pageId = db
+    .prepare(
+      "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, 999, 1)",
+    )
+    .run(SLUG_PAGE_TEMP + "-titre", "Page de test titre").lastInsertRowid;
+  const creation = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}-titre/sections`)
+    .send({ type: "bloc-entete" });
+  const id = creation.body.id;
+
+  t.after(() => {
+    db.prepare("DELETE FROM sections WHERE page_id = ?").run(pageId);
+    db.prepare("DELETE FROM pages WHERE id = ?").run(pageId);
+  });
+
+  const res = await agent
+    .put(`/api/pages/sections/${id}/content`)
+    .send({ content: JSON.stringify({ libelle: "Test", titre: "" }) });
+  assert.strictEqual(res.status, 400);
+});
+
+test("bloc-entete : PUT content refuse un libellé trop long (400)", async (t) => {
+  const pageId = db
+    .prepare(
+      "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, 999, 1)",
+    )
+    .run(SLUG_PAGE_TEMP + "-libelle", "Page de test libellé").lastInsertRowid;
+  const creation = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}-libelle/sections`)
+    .send({ type: "bloc-entete" });
+  const id = creation.body.id;
+
+  t.after(() => {
+    db.prepare("DELETE FROM sections WHERE page_id = ?").run(pageId);
+    db.prepare("DELETE FROM pages WHERE id = ?").run(pageId);
+  });
+
+  const res = await agent.put(`/api/pages/sections/${id}/content`).send({
+    content: JSON.stringify({ libelle: "x".repeat(61), titre: "Titre" }),
+  });
+  assert.strictEqual(res.status, 400);
+});
+
+test("bloc-entete : PUT content refuse un titre trop long (400)", async (t) => {
+  const pageId = db
+    .prepare(
+      "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, 999, 1)",
+    )
+    .run(SLUG_PAGE_TEMP + "-titrelong", "Page de test titre long")
+    .lastInsertRowid;
+  const creation = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}-titrelong/sections`)
+    .send({ type: "bloc-entete" });
+  const id = creation.body.id;
+
+  t.after(() => {
+    db.prepare("DELETE FROM sections WHERE page_id = ?").run(pageId);
+    db.prepare("DELETE FROM pages WHERE id = ?").run(pageId);
+  });
+
+  const res = await agent.put(`/api/pages/sections/${id}/content`).send({
+    content: JSON.stringify({ titre: "x".repeat(101) }),
+  });
+  assert.strictEqual(res.status, 400);
+});
+
+test("bloc-entete : PUT content refuse une intro trop longue (400)", async (t) => {
+  const pageId = db
+    .prepare(
+      "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, 999, 1)",
+    )
+    .run(SLUG_PAGE_TEMP + "-introlongue", "Page de test intro longue")
+    .lastInsertRowid;
+  const creation = await agent
+    .post(`/api/pages/${SLUG_PAGE_TEMP}-introlongue/sections`)
+    .send({ type: "bloc-entete" });
+  const id = creation.body.id;
+
+  t.after(() => {
+    db.prepare("DELETE FROM sections WHERE page_id = ?").run(pageId);
+    db.prepare("DELETE FROM pages WHERE id = ?").run(pageId);
+  });
+
+  const res = await agent.put(`/api/pages/sections/${id}/content`).send({
+    content: JSON.stringify({ titre: "Titre", intro: "x".repeat(301) }),
+  });
+  assert.strictEqual(res.status, 400);
 });

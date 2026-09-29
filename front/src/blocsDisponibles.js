@@ -1,4 +1,5 @@
 export const BLOCS_DISPONIBLES = [
+  { type: "bloc-entete", label: "En-tête de page", instanceUnique: true },
   { type: "hero", label: "Hero (bannière principale)", instanceUnique: true },
   {
     type: "bloc-patisseries",

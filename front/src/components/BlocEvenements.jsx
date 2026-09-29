@@ -27,7 +27,7 @@ function analyserFormats(brut) {
     });
 }
 
-export default function BlocEvenements({ titre, intro, formats }) {
+export default function BlocEvenements({ formats }) {
   const [photos, setPhotos] = useState([]);
   const [chargementPhotos, setChargementPhotos] = useState(true);
   const [erreurPhotos, setErreurPhotos] = useState(false);
@@ -65,20 +65,6 @@ export default function BlocEvenements({ titre, intro, formats }) {
 
   return (
     <div className="px-6 md:px-12 py-20 md:py-28 max-w-4xl mx-auto">
-      <header className="mb-16 md:mb-20 text-center">
-        <span className="text-brand-accent text-sm md:text-base uppercase tracking-[0.2em] mb-6 block">
-          Sur mesure
-        </span>
-        <h1 className="font-display text-4xl md:text-6xl tracking-tight mb-6">
-          {titre || "Événements"}
-        </h1>
-        {intro && (
-          <p className="text-sm md:text-base leading-relaxed opacity-80 max-w-2xl mx-auto">
-            {intro}
-          </p>
-        )}
-      </header>
-
       {!chargementPhotos && !erreurPhotos && photos.length > 0 && (
         <section className="mb-16 md:mb-20">
           <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8 text-center">

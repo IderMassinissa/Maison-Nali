@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 
-export default function Hero({ titre, sousTitre, photo, focusX, focusY }) {
+export default function Hero({
+  titre,
+  sousTitre,
+  photo,
+  focusX,
+  focusY,
+  entetePresent,
+}) {
+  const TitreTag = entetePresent ? "h2" : "h1";
+
   return (
     <section className="relative h-[800px]">
       <div className="absolute inset-0 z-0">
@@ -18,9 +27,9 @@ export default function Hero({ titre, sousTitre, photo, focusX, focusY }) {
         <p className="text-sm md:text-base uppercase tracking-[0.2em] mb-8 opacity-80">
           Haut artisanat algérien
         </p>
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-12">
+        <TitreTag className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-12">
           {titre || "L'ART DU MIEL ET DE LA FLEUR D'ORANGER"}
-        </h1>
+        </TitreTag>
         {sousTitre && (
           <p className="text-sm opacity-80 mb-8 max-w-xl">{sousTitre}</p>
         )}

@@ -17,6 +17,7 @@ const TYPES_BLOC_AUTORISES = [
   "bloc-histoire",
   "bloc-localisation",
   "bloc-evenements",
+  "bloc-entete",
 ];
 
 const TYPES_INSTANCE_UNIQUE = [
@@ -24,6 +25,7 @@ const TYPES_INSTANCE_UNIQUE = [
   "bloc-patisseries",
   "bloc-localisation",
   "bloc-evenements",
+  "bloc-entete",
 ];
 
 router.get("/", (req, res) => {
@@ -78,6 +80,28 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
         return res.status(400).json({
           error: "La liste des formats ne doit pas dépasser 1000 caractères",
         });
+      }
+    }
+
+    if (section && section.type === "bloc-entete") {
+      const { libelle = "", titre = "", intro = "" } = parsed || {};
+      if (!titre.trim()) {
+        return res.status(400).json({ error: "Le titre est obligatoire" });
+      }
+      if (libelle.length > 60) {
+        return res
+          .status(400)
+          .json({ error: "Le libellé ne doit pas dépasser 60 caractères" });
+      }
+      if (titre.length > 100) {
+        return res
+          .status(400)
+          .json({ error: "Le titre ne doit pas dépasser 100 caractères" });
+      }
+      if (intro.length > 300) {
+        return res
+          .status(400)
+          .json({ error: "L'introduction ne doit pas dépasser 300 caractères" });
       }
     }
 
