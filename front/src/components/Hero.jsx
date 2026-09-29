@@ -15,7 +15,7 @@ export default function Hero({ titre, sousTitre, photo, focusX, focusY }) {
       </div>
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4">
-        <p className="text-xs uppercase tracking-[0.3em] mb-8 opacity-80">
+        <p className="text-sm md:text-base uppercase tracking-[0.2em] mb-8 opacity-80">
           Haut artisanat algérien
         </p>
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-12">

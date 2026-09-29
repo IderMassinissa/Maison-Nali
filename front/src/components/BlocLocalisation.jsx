@@ -37,7 +37,7 @@ export default function BlocLocalisation() {
     <section className="py-24 md:py-32 px-6 md:px-12 bg-brand-light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-5">
-          <span className="text-xs uppercase tracking-[0.2em] mb-6 block opacity-60">
+          <span className="text-sm md:text-base uppercase tracking-[0.2em] mb-6 block opacity-60">
             Nous rendre visite
           </span>
           <h2 className="font-display text-4xl md:text-5xl tracking-tight mb-8">
@@ -69,7 +69,7 @@ export default function BlocLocalisation() {
         </div>
 
         <div className="lg:col-span-7 relative">
-          <div className="aspect-video rounded-[2rem] overflow-hidden shadow-sm">
+          <div className="aspect-video rounded-lg overflow-hidden shadow-sm">
             <img
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
               src="/images/boutique.jpg"

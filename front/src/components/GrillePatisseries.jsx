@@ -45,7 +45,7 @@ function CartePatisserie({
 }) {
   return (
     <Link to={`/patisseries/${id}`} className="block">
-      <article className="rounded-[40px] overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow bg-brand-surface">
+      <article className="rounded-lg overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow bg-brand-surface">
         <div
           className={`${aspectImage} overflow-hidden bg-brand-border/20 flex items-center justify-center`}
         >
