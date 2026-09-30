@@ -34,9 +34,9 @@ CREATE TABLE products (
   photo_url VARCHAR,
   video_url VARCHAR,
   category_id INTEGER,
-  focus_x INTEGER,
-  focus_y INTEGER,
-  position INTEGER,
+  focus_x INTEGER DEFAULT 50,
+  focus_y INTEGER DEFAULT 50,
+  position INTEGER DEFAULT 0,
   FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 

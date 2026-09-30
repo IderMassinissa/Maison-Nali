@@ -1,3 +1,5 @@
+// Prévu pour une V2 (catégorisation des pâtisseries) — non utilisé par le
+// front à ce jour, gardé en l'état pour cette V2.
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
