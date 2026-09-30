@@ -135,7 +135,7 @@ export default function CarrouselPhotos({ photos }) {
               key={photo.id}
               ref={(el) => (slidesRef.current[index] = el)}
               data-photo-id={photo.id}
-              className={`snap-start shrink-0 w-[85%] md:w-[calc((100%-1rem)/2)] aspect-[4/3] rounded-2xl overflow-hidden bg-brand-border/20 ${
+              className={`snap-start shrink-0 w-[85%] md:w-[calc((100%-1rem)/2)] aspect-[4/3] rounded-lg overflow-hidden bg-brand-border/20 ${
                 auPremierPlan ? "opacity-100 scale-100" : "opacity-60 scale-95"
               } ${reduitMotion ? "" : "transition-all duration-300"}`}
             >

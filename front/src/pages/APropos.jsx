@@ -1,7 +1,8 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
-import { RenduSections } from "../blockRegistry";
+import BlocEntete from "../components/BlocEntete";
+import BlocHistoire from "../components/BlocHistoire";
 
 const TITRE_REPLI = "À propos";
 const DESCRIPTION_REPLI = "L'histoire et le savoir-faire de Maison Nali.";
@@ -18,5 +19,12 @@ export default function APropos() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
-  return <RenduSections sections={sections} />;
+  const histoire = sections.find((s) => s.type === "bloc-histoire")?.content;
+
+  return (
+    <>
+      {entete && <BlocEntete {...entete} />}
+      <BlocHistoire {...histoire} fondSombre={false} />
+    </>
+  );
 }

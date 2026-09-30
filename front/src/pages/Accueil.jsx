@@ -1,7 +1,11 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
-import { RenduSections } from "../blockRegistry";
+import BlocEntete from "../components/BlocEntete";
+import Hero from "../components/Hero";
+import BlocHistoire from "../components/BlocHistoire";
+import GrillePatisseries from "../components/GrillePatisseries";
+import BlocLocalisation from "../components/BlocLocalisation";
 
 const TITRE_REPLI = "Maison Nali";
 const DESCRIPTION_REPLI =
@@ -19,5 +23,16 @@ export default function Accueil() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
-  return <RenduSections sections={sections} />;
+  const hero = sections.find((s) => s.type === "hero")?.content;
+  const histoire = sections.find((s) => s.type === "bloc-histoire")?.content;
+
+  return (
+    <>
+      {entete && <BlocEntete {...entete} />}
+      <Hero {...hero} entetePresent={true} />
+      <BlocHistoire {...histoire} fondSombre={false} />
+      <GrillePatisseries />
+      <BlocLocalisation />
+    </>
+  );
 }

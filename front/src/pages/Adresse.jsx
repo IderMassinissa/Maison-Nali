@@ -1,7 +1,8 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
-import { RenduSections } from "../blockRegistry";
+import BlocEntete from "../components/BlocEntete";
+import BlocLocalisation from "../components/BlocLocalisation";
 
 const TITRE_REPLI = "Adresse";
 const DESCRIPTION_REPLI =
@@ -19,5 +20,10 @@ export default function Adresse() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
-  return <RenduSections sections={sections} />;
+  return (
+    <>
+      {entete && <BlocEntete {...entete} />}
+      <BlocLocalisation />
+    </>
+  );
 }

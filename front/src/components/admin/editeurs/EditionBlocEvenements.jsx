@@ -54,8 +54,9 @@ export default function EditionBlocEvenements({ section }) {
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
           <p className="text-xs opacity-60 mt-2">
-            Un format par ligne. Pour ajouter un détail, écris : Nom |
-            détail. Exemple : Boîte de 6 pièces | Pour offrir
+            Un format de boîte par ligne. Pour ajouter un détail (nombre de
+            pièces, occasion...), sépare-le du nom avec une barre verticale
+            « | ». Exemple : Boîte de 6 pièces | Idéal pour offrir
           </p>
         </div>
         <button

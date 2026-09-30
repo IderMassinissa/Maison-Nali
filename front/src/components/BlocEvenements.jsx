@@ -79,7 +79,7 @@ export default function BlocEvenements({ formats }) {
           <h2 className="font-display text-2xl md:text-3xl tracking-tight mb-8 text-center">
             Formats de boîtes
           </h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {formatsAnalyses.map((format, index) => (
               <li
                 key={`${format.nom}-${index}`}

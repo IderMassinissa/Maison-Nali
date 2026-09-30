@@ -40,7 +40,7 @@ export default function ProduitDetail() {
         ← Retour aux pâtisseries
       </Link>
 
-      <div className="rounded-[40px] overflow-hidden mb-10 aspect-[4/3]">
+      <div className="rounded-lg overflow-hidden mb-10 aspect-[4/3]">
         <img
           src={urlImage(produit.photo_url)}
           alt={produit.name}

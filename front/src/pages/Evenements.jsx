@@ -1,7 +1,8 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
-import { RenduSections } from "../blockRegistry";
+import BlocEntete from "../components/BlocEntete";
+import BlocEvenements from "../components/BlocEvenements";
 
 const TITRE_REPLI = "Événements";
 const DESCRIPTION_REPLI =
@@ -19,5 +20,14 @@ export default function Evenements() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
-  return <RenduSections sections={sections} />;
+  const evenements = sections.find(
+    (s) => s.type === "bloc-evenements",
+  )?.content;
+
+  return (
+    <>
+      {entete && <BlocEntete {...entete} />}
+      <BlocEvenements {...evenements} />
+    </>
+  );
 }
