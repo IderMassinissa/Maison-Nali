@@ -1,0 +1,93 @@
+import { Link, Outlet, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const PAGES = [
+  { label: "Accueil", slug: "accueil" },
+  { label: "Pâtisseries", slug: "patisseries" },
+  { label: "À propos", slug: "a-propos" },
+  { label: "Adresse", slug: "adresse" },
+  { label: "Événements", slug: "evenements" },
+];
+
+export default function DashboardLayout() {
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await fetch(`${API_URL}/api/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    navigate("/admin/connexion");
+  }
+
+  return (
+    <div className="admin-layout flex min-h-screen bg-brand-light">
+      <aside className="w-64 bg-brand-light border-r border-brand-border flex flex-col p-6">
+        <h2 className="font-display text-xl mb-8">Maison Nali</h2>
+
+        <p className="text-xs uppercase tracking-widest opacity-50 mb-3">
+          Pages
+        </p>
+        <nav className="flex flex-col gap-1 mb-8">
+          {PAGES.map((page) => (
+            <Link
+              key={page.slug}
+              to={`/admin/pages/${page.slug}`}
+              className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+            >
+              {page.label}
+            </Link>
+          ))}
+        </nav>
+
+        <p className="text-xs uppercase tracking-widest opacity-50 mb-3">
+          Contenu
+        </p>
+        <nav className="flex flex-col gap-1 mb-8">
+          <Link
+            to="/admin/produits"
+            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+          >
+            Produits
+          </Link>
+          <Link
+            to="/admin/photos-evenements"
+            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+          >
+            Photos événements
+          </Link>
+          <Link
+            to="/admin/banniere"
+            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+          >
+            Bannière
+          </Link>
+          <Link
+            to="/admin/coordonnees"
+            className="px-3 py-2 rounded-lg text-sm hover:bg-brand-surface transition-colors"
+          >
+            Coordonnées
+          </Link>
+        </nav>
+
+        <Link
+          to="/admin/mot-de-passe"
+          className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100 mb-4"
+        >
+          Changer mon mot de passe
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className="mt-auto text-xs uppercase tracking-widest opacity-60 hover:opacity-100 text-left"
+        >
+          Déconnexion
+        </button>
+      </aside>
+
+      <main className="flex-1 p-10">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
