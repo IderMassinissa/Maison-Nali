@@ -5,30 +5,30 @@ import ServiceIndisponible from "./ServiceIndisponible";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function CartePatisserie({ id, nom, description, image, focusX, focusY }) {
+function CartePatisserie({ id, nom, image, focusX, focusY }) {
   return (
-    <Link to={`/patisseries/${id}`} className="block">
-      <article className="rounded-lg overflow-hidden shadow-sm border border-brand-border/30 hover:shadow-md transition-shadow bg-brand-surface">
-        <div className="aspect-[4/3] overflow-hidden bg-brand-border/20 flex items-center justify-center">
-          {image ? (
-            <img
-              className="w-full h-full object-cover"
-              src={urlImage(image)}
-              alt={nom}
-              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-            />
-          ) : (
+    <Link to={`/patisseries/${id}`} className="block group">
+      <article className="relative aspect-[3/4] rounded overflow-hidden shadow-soft bg-brand-surface transition-all duration-300 ease-out hover:shadow-medium hover:-translate-y-1">
+        {image ? (
+          <img
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+            src={urlImage(image)}
+            alt={nom}
+            style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-brand-border/20">
             <span className="text-xs uppercase tracking-widest opacity-40">
               Photo à venir
             </span>
-          )}
-        </div>
-        <div className="p-5">
-          <h3 className="font-display text-2xl md:text-3xl mb-2">{nom}</h3>
-          <p className="text-sm md:text-base opacity-70 leading-relaxed">
-            {description}
-          </p>
-        </div>
+          </div>
+        )}
+
+        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+        <h2 className="absolute inset-x-0 bottom-0 p-4 font-display text-xl md:text-2xl text-white leading-tight">
+          {nom}
+        </h2>
       </article>
     </Link>
   );
@@ -63,15 +63,14 @@ export default function GrillePatisseries() {
     );
 
   return (
-    <section className="my-24 md:my-32 px-6 md:px-12">
+    <section className="my-section-y md:my-section-y-lg px-6 md:px-12">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {produits.map((produit) => (
             <CartePatisserie
               key={produit.id}
               id={produit.id}
               nom={produit.name}
-              description={produit.description}
               image={produit.photo_url}
               focusX={produit.focus_x}
               focusY={produit.focus_y}

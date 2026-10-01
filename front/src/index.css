@@ -2,12 +2,31 @@
 
 @theme {
   --color-brand-dark: #0d231a;
-  --color-brand-light: #faf6f0;
-  --color-brand-border: #e3dac9;
+  --color-brand-light: #f0e4cf;
+  --color-brand-border: #c9b896;
   --color-brand-accent: #d4af37;
-  --color-brand-surface: #f4eee3;
+  --color-brand-surface: #eadcc2;
   --color-brand-footer: #0b1a14;
 
   --font-display: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
+
+  --shadow-soft: 0 1px 3px rgba(13, 35, 26, 0.06), 0 1px 2px rgba(13, 35, 26, 0.04);
+  --shadow-medium: 0 4px 16px rgba(13, 35, 26, 0.10), 0 2px 4px rgba(13, 35, 26, 0.06);
+
+  --spacing-section-y: 6rem;
+  --spacing-section-y-lg: 8rem;
+}
+
+/* Hauteur Hero : 100vh en repli, 100dvh si le navigateur le supporte
+   (évite le redimensionnement brutal au masquage de la barre d'adresse mobile).
+   @supports évite qu'un minifieur CSS ne fusionne les deux déclarations
+   min-height et ne supprime le repli. */
+.min-h-hero {
+  min-height: 100vh;
+}
+@supports (min-height: 100dvh) {
+  .min-h-hero {
+    min-height: 100dvh;
+  }
 }

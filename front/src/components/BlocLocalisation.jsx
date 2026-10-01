@@ -34,23 +34,24 @@ export default function BlocLocalisation() {
   );
 
   return (
-    <section className="py-24 md:py-32 px-6 md:px-12 bg-brand-light">
+    <section className="py-section-y md:py-section-y-lg px-6 md:px-12 bg-brand-light">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        <div className="lg:col-span-5">
-          <span className="text-sm md:text-base uppercase tracking-[0.2em] mb-6 block opacity-60">
-            Nous rendre visite
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl tracking-tight mb-8">
+        <div className="lg:col-span-4">
+          <h2 className="font-display text-[1.75rem] md:text-[2.5rem] tracking-tight mb-6">
             La boutique parisienne
           </h2>
+          <div className="w-10 h-px bg-brand-accent mb-6" />
+          <h3 className="text-lg md:text-xl font-sans font-normal mb-8 opacity-80">
+            Nous rendre visite
+          </h3>
           <div className="mb-6">
-            <p className="text-sm leading-relaxed opacity-80 whitespace-pre-line mb-2">
+            <p className="text-base leading-relaxed opacity-80 whitespace-pre-line mb-2">
               {adresse}
             </p>
             {telephone && (
               <a
                 href={telHref(telephone)}
-                className="text-sm opacity-80 hover:opacity-100 hover:text-brand-accent transition-colors block"
+                className="text-base opacity-80 hover:opacity-100 hover:text-brand-accent transition-colors block"
               >
                 {telephone}
               </a>
@@ -62,16 +63,16 @@ export default function BlocLocalisation() {
             href={lienMaps}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 mt-10 px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
+            className="inline-flex items-center gap-3 mt-10 px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest transition-colors duration-200 ease-out hover:bg-brand-dark/85 hover:shadow-soft"
           >
             Voir l'itinéraire
           </a>
         </div>
 
-        <div className="lg:col-span-7 relative">
-          <div className="aspect-video rounded-lg overflow-hidden shadow-sm">
+        <div className="lg:col-span-8 relative">
+          <div className="aspect-video rounded overflow-hidden shadow-soft group">
             <img
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
+              className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
               src="/images/boutique.jpg"
               alt="Vitrine de la boutique Maison Nali à Paris"
             />

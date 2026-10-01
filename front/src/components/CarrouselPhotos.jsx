@@ -118,7 +118,7 @@ export default function CarrouselPhotos({ photos }) {
   const totalPages = Math.ceil(photos.length / photosParPage);
 
   return (
-    <div className="relative max-w-6xl mx-auto">
+    <div className="relative max-w-7xl mx-auto">
       <div
         ref={conteneurRef}
         onScroll={() => {

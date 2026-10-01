@@ -24,7 +24,7 @@ export default function MentionsLegales() {
   }, []);
 
   return (
-    <div className="px-6 md:px-12 py-24 max-w-3xl mx-auto">
+    <div className="px-6 md:px-12 py-16 md:py-20 max-w-3xl mx-auto">
       <h1 className="font-display text-4xl md:text-5xl tracking-tight mb-12">
         Mentions légales
       </h1>
