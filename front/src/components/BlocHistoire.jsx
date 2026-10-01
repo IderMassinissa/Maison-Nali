@@ -20,7 +20,11 @@ export default function BlocHistoire({ titre, texte, fondSombre = false }) {
             {titre || "Des gestes transmis de génération en génération"}
           </h2>
           <div className="w-10 h-px bg-brand-accent mb-6" />
-          <h3 className="text-lg md:text-xl font-sans font-normal mb-8">
+          <h3
+            className={`text-lg md:text-xl font-sans font-normal mb-8 ${
+              fondSombre ? "text-brand-light/70" : "text-brand-dark/70"
+            }`}
+          >
             Héritage
           </h3>
           <p className="text-base leading-relaxed opacity-80 mb-8 max-w-md">

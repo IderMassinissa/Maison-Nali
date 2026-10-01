@@ -38,7 +38,7 @@ function SiteLayout() {
   return (
     <>
       <Header />
-      <div className="pt-24">
+      <div className="pt-24 bg-brand-light">
         {annonce && (
           <BanniereAnnonce
             message={annonce.message}

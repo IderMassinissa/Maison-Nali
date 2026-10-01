@@ -29,7 +29,7 @@ export default function Hero({
           {titre || "L'ART DU MIEL ET DE LA FLEUR D'ORANGER"}
         </TitreTag>
         <div className="w-10 h-px bg-brand-accent mb-6" />
-        <SousTitreTag className="text-lg md:text-xl font-sans font-normal mb-8 opacity-90">
+        <SousTitreTag className="text-lg md:text-xl font-sans font-normal text-white/90 mb-8">
           Haut artisanat algérien
         </SousTitreTag>
         {sousTitre && (

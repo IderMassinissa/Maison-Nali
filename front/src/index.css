@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body {
+  background-color: var(--color-brand-light);
+}
+
 @theme {
   --color-brand-dark: #0d231a;
   --color-brand-light: #f0e4cf;

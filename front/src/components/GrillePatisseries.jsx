@@ -63,7 +63,7 @@ export default function GrillePatisseries() {
     );
 
   return (
-    <section className="my-section-y md:my-section-y-lg px-6 md:px-12">
+    <section className="my-section-y md:my-section-y-lg px-6 md:px-12 bg-brand-light">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {produits.map((produit) => (
