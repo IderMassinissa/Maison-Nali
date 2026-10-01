@@ -63,6 +63,20 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
       }
     }
 
+    if (section && section.type === "hero") {
+      const { texteBouton = "", lienBouton = "" } = parsed || {};
+      if (texteBouton.length > 50) {
+        return res
+          .status(400)
+          .json({ error: "Le texte du bouton ne doit pas dépasser 50 caractères" });
+      }
+      if (lienBouton.length > 200) {
+        return res
+          .status(400)
+          .json({ error: "Le lien du bouton ne doit pas dépasser 200 caractères" });
+      }
+    }
+
     if (section && section.type === "bloc-entete") {
       const { libelle = "", titre = "", intro = "" } = parsed || {};
       if (!titre.trim()) {

@@ -10,6 +10,8 @@ export default function EditionHero({ section }) {
   const [photo, setPhoto] = useState(contenuInitial.photo || "");
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
+  const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");
+  const [lienBouton, setLienBouton] = useState(contenuInitial.lienBouton || "");
   const [uploadEnCours, setUploadEnCours] = useState(false);
   const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
 
@@ -55,6 +57,8 @@ export default function EditionHero({ section }) {
       photo,
       focusX,
       focusY,
+      texteBouton,
+      lienBouton,
     });
   }
 
@@ -126,6 +130,32 @@ export default function EditionHero({ section }) {
           {uploadEnCours && (
             <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
           )}
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Texte du bouton
+          </label>
+          <input
+            type="text"
+            value={texteBouton}
+            onChange={(e) => setTexteBouton(e.target.value)}
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Lien du bouton
+          </label>
+          <input
+            type="text"
+            value={lienBouton}
+            onChange={(e) => setLienBouton(e.target.value)}
+            placeholder="/patisseries"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+          <p className="text-xs opacity-60 mt-2">
+            Le bouton ne s'affiche que si le texte ET le lien sont renseignés.
+          </p>
         </div>
         <button
           type="submit"

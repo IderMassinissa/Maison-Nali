@@ -7,6 +7,8 @@ export default function Hero({
   photo,
   focusX,
   focusY,
+  texteBouton,
+  lienBouton,
   estPremier = true,
 }) {
   const TitreTag = estPremier ? "h1" : "h2";
@@ -35,12 +37,23 @@ export default function Hero({
         {sousTitre && (
           <p className="text-base md:text-[1.0625rem] opacity-80 mb-8 max-w-xl">{sousTitre}</p>
         )}
-        <Link
-          to="/patisseries"
-          className="px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest bg-brand-accent/10 transition-colors duration-200 ease-out hover:bg-brand-accent/20"
-        >
-          Découvrir nos pâtisseries
-        </Link>
+        {texteBouton && lienBouton && (
+          lienBouton.startsWith("/") ? (
+            <Link
+              to={lienBouton}
+              className="px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest bg-brand-accent/10 transition-colors duration-200 ease-out hover:bg-brand-accent/20"
+            >
+              {texteBouton}
+            </Link>
+          ) : (
+            <a
+              href={lienBouton}
+              className="px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest bg-brand-accent/10 transition-colors duration-200 ease-out hover:bg-brand-accent/20"
+            >
+              {texteBouton}
+            </a>
+          )
+        )}
       </div>
     </section>
   );
