@@ -21,8 +21,8 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-brand-light">
-      <aside className="w-64 bg-white border-r border-brand-border flex flex-col p-6">
+    <div className="admin-layout flex min-h-screen bg-brand-light">
+      <aside className="w-64 bg-brand-light border-r border-brand-border flex flex-col p-6">
         <h2 className="font-display text-xl mb-8">Maison Nali</h2>
 
         <p className="text-xs uppercase tracking-widest opacity-50 mb-3">

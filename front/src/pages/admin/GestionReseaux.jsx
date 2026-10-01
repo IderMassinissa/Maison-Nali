@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CHAMPS = [
+  { key: "address_text", label: "Adresse", type: "textarea" },
   { key: "phone", label: "Téléphone", type: "tel", placeholder: "01 86 04 43 34" },
   { key: "social_instagram", label: "Lien Instagram", type: "url", placeholder: "https://..." },
   { key: "social_facebook", label: "Lien Facebook", type: "url", placeholder: "https://..." },
@@ -55,15 +56,26 @@ export default function GestionReseaux() {
               {label}
             </label>
             <div className="flex gap-3">
-              <input
-                type={type}
-                value={valeurs[key] || ""}
-                onChange={(e) =>
-                  setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
-                }
-                placeholder={placeholder}
-                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
-              />
+              {type === "textarea" ? (
+                <textarea
+                  value={valeurs[key] || ""}
+                  onChange={(e) =>
+                    setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
+                  }
+                  rows={3}
+                  className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                />
+              ) : (
+                <input
+                  type={type}
+                  value={valeurs[key] || ""}
+                  onChange={(e) =>
+                    setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
+                  }
+                  placeholder={placeholder}
+                  className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                />
+              )}
               <button
                 onClick={() => sauvegarder(key)}
                 disabled={enregistrement === key}

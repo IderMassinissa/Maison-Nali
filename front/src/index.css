@@ -21,3 +21,15 @@ body {
   --spacing-section-y: 6rem;
   --spacing-section-y-lg: 4rem;
 }
+
+/* Échelle unique de taille de police pour les formulaires admin.
+   Hors @layer, donc prime naturellement sur les utilitaires Tailwind
+   (text-xs/text-sm/text-base) sans devoir toucher chaque écran. */
+.admin-layout label {
+  font-size: 0.9375rem;
+}
+.admin-layout input,
+.admin-layout textarea,
+.admin-layout select {
+  font-size: 1.0625rem;
+}

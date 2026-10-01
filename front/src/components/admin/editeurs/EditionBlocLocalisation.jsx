@@ -12,19 +12,11 @@ const ORDRE_JOURS = [
 ];
 
 export default function EditionBlocLocalisation() {
-  const [adresse, setAdresse] = useState("");
-  const [enregistrementAdresse, setEnregistrementAdresse] = useState(false);
-  const [succesAdresse, setSuccesAdresse] = useState(false);
-
   const [horaires, setHoraires] = useState([]);
   const [chargementHoraires, setChargementHoraires] = useState(true);
   const [enregistrementHoraire, setEnregistrementHoraire] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/settings/address_text`)
-      .then((res) => res.json())
-      .then((data) => setAdresse(data.value || ""));
-
     fetch(`${API_URL}/api/opening-hours`)
       .then((res) => res.json())
       .then((data) => {
@@ -35,23 +27,6 @@ export default function EditionBlocLocalisation() {
       })
       .finally(() => setChargementHoraires(false));
   }, []);
-
-  async function handleSubmitAdresse(e) {
-    e.preventDefault();
-    setEnregistrementAdresse(true);
-    setSuccesAdresse(false);
-    try {
-      const res = await fetch(`${API_URL}/api/settings/address_text`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ value: adresse }),
-      });
-      if (res.ok) setSuccesAdresse(true);
-    } finally {
-      setEnregistrementAdresse(false);
-    }
-  }
 
   async function sauvegarderHoraire(id, openTime, closeTime) {
     setEnregistrementHoraire(id);
@@ -89,33 +64,10 @@ export default function EditionBlocLocalisation() {
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Localisation</h1>
       <p className="text-xs opacity-60 mb-6">
-        L'adresse et les horaires sont communs à tout le site — les modifier ici
-        les met à jour partout où ils apparaissent.
+        Les horaires sont communs à tout le site — les modifier ici les met à
+        jour partout où ils apparaissent. L'adresse se modifie désormais depuis
+        l'écran Coordonnées.
       </p>
-
-      <form onSubmit={handleSubmitAdresse} className="max-w-2xl space-y-5 mb-12">
-        <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
-            Adresse
-          </label>
-          <textarea
-            value={adresse}
-            onChange={(e) => setAdresse(e.target.value)}
-            rows={3}
-            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={enregistrementAdresse}
-          className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
-        >
-          {enregistrementAdresse ? "Enregistrement..." : "Enregistrer"}
-        </button>
-        {succesAdresse && (
-          <p className="text-green-600 text-sm">Enregistré !</p>
-        )}
-      </form>
 
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-widest opacity-60 mb-4">
