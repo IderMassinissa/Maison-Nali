@@ -7,13 +7,13 @@ export default function Hero({
   photo,
   focusX,
   focusY,
-  entetePresent,
+  estPremier = true,
 }) {
-  const TitreTag = entetePresent ? "h2" : "h1";
-  const SousTitreTag = entetePresent ? "h3" : "h2";
+  const TitreTag = estPremier ? "h1" : "h2";
+  const SousTitreTag = estPremier ? "h2" : "h3";
 
   return (
-    <section className="relative min-h-hero">
+    <section className="relative aspect-video min-h-[420px] md:min-h-0">
       <div className="absolute inset-0 z-0">
         <img
           className="w-full h-full object-cover"

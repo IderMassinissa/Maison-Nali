@@ -28,8 +28,8 @@ export default function Accueil() {
 
   return (
     <>
-      {entete && <BlocEntete {...entete} />}
-      <Hero {...hero} entetePresent={true} />
+      <Hero {...hero} estPremier={true} />
+      {entete && <BlocEntete {...entete} estPremier={false} />}
       <BlocHistoire {...histoire} fondSombre={false} />
       <GrillePatisseries />
       <BlocLocalisation />

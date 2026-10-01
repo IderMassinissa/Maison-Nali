@@ -1,4 +1,10 @@
-export default function BlocHistoire({ titre, texte, fondSombre = false }) {
+export default function BlocHistoire({
+  titre,
+  texte,
+  fondSombre = false,
+  photo = "/images/atelier.jpg",
+  photoAlt = "Maîtres pâtissiers façonnant la pâte dans un atelier algérois",
+}) {
   return (
     <section
       className={`py-section-y md:py-section-y-lg px-6 md:px-12 ${
@@ -10,8 +16,8 @@ export default function BlocHistoire({ titre, texte, fondSombre = false }) {
           <div className="rounded overflow-hidden shadow-medium">
             <img
               className="w-full h-auto object-cover"
-              src="/images/atelier.jpg"
-              alt="Maîtres pâtissiers façonnant la pâte dans un atelier algérois"
+              src={photo}
+              alt={photoAlt}
             />
           </div>
         </div>

@@ -2,6 +2,7 @@ import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
 import BlocEntete from "../components/BlocEntete";
+import Hero from "../components/Hero";
 import GrillePatisseries from "../components/GrillePatisseries";
 
 const TITRE_REPLI = "Nos Pâtisseries";
@@ -20,9 +21,12 @@ export default function Patisseries() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
+  const hero = sections.find((s) => s.type === "hero")?.content;
+
   return (
     <>
-      {entete && <BlocEntete {...entete} />}
+      <Hero {...hero} estPremier={true} />
+      {entete && <BlocEntete {...entete} estPremier={false} />}
       <GrillePatisseries />
     </>
   );

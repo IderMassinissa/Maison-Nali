@@ -1,12 +1,46 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { urlImage } from "../utils/urlImage";
 
+const DELAI_AUTOPLAY_MS = 3000;
+
+function IconePause() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+      <rect x="2" y="1" width="3.5" height="12" rx="0.5" />
+      <rect x="8.5" y="1" width="3.5" height="12" rx="0.5" />
+    </svg>
+  );
+}
+
+function IconeLecture() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+      <path d="M2 1.3 12.5 7 2 12.7Z" />
+    </svg>
+  );
+}
+
+function IconeFleche({ direction }) {
+  const points =
+    direction === -1 ? "9 2 3 8 9 14" : "3 2 9 8 3 14";
+  return (
+    <svg width="12" height="16" viewBox="0 0 12 16" fill="none" aria-hidden="true">
+      <polyline
+        points={points}
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function CarrouselPhotos({ photos }) {
   const conteneurRef = useRef(null);
   const slidesRef = useRef([]);
-  const [peutReculer, setPeutReculer] = useState(false);
-  const [peutAvancer, setPeutAvancer] = useState(false);
   const [reduitMotion, setReduitMotion] = useState(false);
+  const [enPause, setEnPause] = useState(false);
   const [idsAuPremierPlan, setIdsAuPremierPlan] = useState(() => new Set());
   const [photosParPage, setPhotosParPage] = useState(() =>
     window.matchMedia("(min-width: 768px)").matches ? 2 : 1,
@@ -29,13 +63,6 @@ export default function CarrouselPhotos({ photos }) {
     return () => mq.removeEventListener("change", appliquer);
   }, []);
 
-  function verifierLimites() {
-    const el = conteneurRef.current;
-    if (!el) return;
-    setPeutReculer(el.scrollLeft > 4);
-    setPeutAvancer(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }
-
   const calculerPageActive = useCallback(() => {
     const el = conteneurRef.current;
     if (!el) return;
@@ -50,18 +77,13 @@ export default function CarrouselPhotos({ photos }) {
   }, [photos, photosParPage]);
 
   useEffect(() => {
-    verifierLimites();
     calculerPageActive();
   }, [photos, photosParPage, calculerPageActive]);
 
   useEffect(() => {
-    function surRedimensionnement() {
-      verifierLimites();
-      calculerPageActive();
-    }
-    window.addEventListener("resize", surRedimensionnement);
-    return () => window.removeEventListener("resize", surRedimensionnement);
-  }, [photos, photosParPage, calculerPageActive]);
+    window.addEventListener("resize", calculerPageActive);
+    return () => window.removeEventListener("resize", calculerPageActive);
+  }, [calculerPageActive]);
 
   useEffect(() => {
     if (reduitMotion) return;
@@ -87,44 +109,39 @@ export default function CarrouselPhotos({ photos }) {
     return () => observateur.disconnect();
   }, [photos, reduitMotion]);
 
-  function defiler(direction) {
-    const el = conteneurRef.current;
-    if (!el) return;
-    const premiereSlide = el.firstElementChild;
-    const largeurSlide = premiereSlide
-      ? premiereSlide.getBoundingClientRect().width
-      : el.clientWidth;
-    el.scrollBy({
-      left: direction * (largeurSlide + 16),
-      behavior: reduitMotion ? "auto" : "smooth",
-    });
-  }
-
-  function allerAPage(index) {
-    const el = conteneurRef.current;
-    if (!el) return;
-    const premiereSlide = el.firstElementChild;
-    const largeurSlide = premiereSlide
-      ? premiereSlide.getBoundingClientRect().width
-      : el.clientWidth;
-    el.scrollTo({
-      left: index * photosParPage * (largeurSlide + 16),
-      behavior: reduitMotion ? "auto" : "smooth",
-    });
-  }
-
-  if (photos.length === 0) return null;
+  const allerAPage = useCallback(
+    (index) => {
+      const el = conteneurRef.current;
+      if (!el) return;
+      const premiereSlide = el.firstElementChild;
+      const largeurSlide = premiereSlide
+        ? premiereSlide.getBoundingClientRect().width
+        : el.clientWidth;
+      el.scrollTo({
+        left: index * photosParPage * (largeurSlide + 16),
+        behavior: reduitMotion ? "auto" : "smooth",
+      });
+    },
+    [photosParPage, reduitMotion],
+  );
 
   const totalPages = Math.ceil(photos.length / photosParPage);
+
+  useEffect(() => {
+    if (reduitMotion || enPause || totalPages <= 1) return;
+    const minuteur = setTimeout(() => {
+      allerAPage((pageActive + 1) % totalPages);
+    }, DELAI_AUTOPLAY_MS);
+    return () => clearTimeout(minuteur);
+  }, [pageActive, totalPages, reduitMotion, enPause, allerAPage]);
+
+  if (photos.length === 0) return null;
 
   return (
     <div className="relative max-w-7xl mx-auto">
       <div
         ref={conteneurRef}
-        onScroll={() => {
-          verifierLimites();
-          calculerPageActive();
-        }}
+        onScroll={calculerPageActive}
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {photos.map((photo, index) => {
@@ -135,9 +152,9 @@ export default function CarrouselPhotos({ photos }) {
               key={photo.id}
               ref={(el) => (slidesRef.current[index] = el)}
               data-photo-id={photo.id}
-              className={`snap-start shrink-0 w-[85%] md:w-[calc((100%-1rem)/2)] aspect-[4/3] rounded-lg overflow-hidden bg-brand-border/20 ${
+              className={`relative snap-start shrink-0 w-[85%] md:w-[calc((100%-1rem)/2)] aspect-[4/3] rounded-lg overflow-hidden bg-brand-border/20 ${
                 auPremierPlan ? "opacity-100 scale-100" : "opacity-60 scale-95"
-              } ${reduitMotion ? "" : "transition-all duration-300"}`}
+              } ${reduitMotion ? "" : "transition-all duration-500 ease-out"}`}
             >
               <img
                 src={urlImage(photo.image_url)}
@@ -145,52 +162,60 @@ export default function CarrouselPhotos({ photos }) {
                 loading={index === 0 ? "eager" : "lazy"}
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
             </div>
           );
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={() => defiler(-1)}
-        disabled={!peutReculer}
-        aria-label="Photo précédente"
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-brand-border bg-brand-light flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
-      >
-        ←
-      </button>
-      <button
-        type="button"
-        onClick={() => defiler(1)}
-        disabled={!peutAvancer}
-        aria-label="Photo suivante"
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-brand-border bg-brand-light flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
-      >
-        →
-      </button>
-
       {totalPages > 1 && (
-        <div
-          role="group"
-          aria-label="Pagination du carrousel"
-          className="flex justify-center items-center gap-2 mt-3"
-        >
-          {Array.from({ length: totalPages }, (_, index) => {
-            const actif = index === pageActive;
-            const premierePhotoIndex = index * photosParPage + 1;
-            return (
-              <button
+        <div className="flex flex-col items-center gap-3 mt-4">
+          <p className="text-sm tracking-widest" aria-hidden="true">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <span
                 key={index}
-                type="button"
-                onClick={() => allerAPage(index)}
-                aria-label={`Aller à la photo ${premierePhotoIndex} sur ${photos.length}`}
-                aria-current={actif ? "true" : undefined}
-                className={`rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent ${
-                  actif ? "w-3 h-3 bg-brand-accent" : "w-2 h-2 bg-brand-border"
-                }`}
-              />
-            );
-          })}
+                className={
+                  index === pageActive
+                    ? "text-brand-accent font-semibold"
+                    : "opacity-40"
+                }
+              >
+                {index + 1}
+                {index < totalPages - 1 && <span className="opacity-40"> · </span>}
+              </span>
+            ))}
+          </p>
+
+          <div className="flex items-center gap-6">
+            <button
+              type="button"
+              onClick={() => allerAPage((pageActive - 1 + totalPages) % totalPages)}
+              aria-label="Photo précédente"
+              className="text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+            >
+              <IconeFleche direction={-1} />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setEnPause((precedent) => !precedent)}
+              aria-label={
+                enPause ? "Reprendre le diaporama" : "Mettre en pause le diaporama"
+              }
+              className="w-10 h-10 rounded-full border border-brand-border flex items-center justify-center text-brand-dark hover:border-brand-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+            >
+              {enPause ? <IconeLecture /> : <IconePause />}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => allerAPage((pageActive + 1) % totalPages)}
+              aria-label="Photo suivante"
+              className="text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+            >
+              <IconeFleche direction={1} />
+            </button>
+          </div>
         </div>
       )}
     </div>

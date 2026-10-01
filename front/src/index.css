@@ -19,18 +19,5 @@ body {
   --shadow-medium: 0 4px 16px rgba(13, 35, 26, 0.10), 0 2px 4px rgba(13, 35, 26, 0.06);
 
   --spacing-section-y: 6rem;
-  --spacing-section-y-lg: 8rem;
-}
-
-/* Hauteur Hero : 100vh en repli, 100dvh si le navigateur le supporte
-   (évite le redimensionnement brutal au masquage de la barre d'adresse mobile).
-   @supports évite qu'un minifieur CSS ne fusionne les deux déclarations
-   min-height et ne supprime le repli. */
-.min-h-hero {
-  min-height: 100vh;
-}
-@supports (min-height: 100dvh) {
-  .min-h-hero {
-    min-height: 100dvh;
-  }
+  --spacing-section-y-lg: 4rem;
 }

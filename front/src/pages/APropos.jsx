@@ -2,6 +2,7 @@ import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
 import BlocEntete from "../components/BlocEntete";
+import Hero from "../components/Hero";
 import BlocHistoire from "../components/BlocHistoire";
 
 const TITRE_REPLI = "À propos";
@@ -19,12 +20,16 @@ export default function APropos() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
-  const histoire = sections.find((s) => s.type === "bloc-histoire")?.content;
+  const blocsHistoire = sections.filter((s) => s.type === "bloc-histoire");
+  const hero = sections.find((s) => s.type === "hero")?.content;
 
   return (
     <>
-      {entete && <BlocEntete {...entete} />}
-      <BlocHistoire {...histoire} fondSombre={false} />
+      <Hero {...hero} estPremier={true} />
+      {entete && <BlocEntete {...entete} estPremier={false} />}
+      {blocsHistoire.map((bloc, index) => (
+        <BlocHistoire key={bloc.id} {...bloc.content} fondSombre={index % 2 === 1} />
+      ))}
     </>
   );
 }

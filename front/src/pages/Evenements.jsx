@@ -2,6 +2,7 @@ import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
 import BlocEntete from "../components/BlocEntete";
+import Hero from "../components/Hero";
 import BlocEvenements from "../components/BlocEvenements";
 
 const TITRE_REPLI = "Événements";
@@ -23,10 +24,12 @@ export default function Evenements() {
   const evenements = sections.find(
     (s) => s.type === "bloc-evenements",
   )?.content;
+  const hero = sections.find((s) => s.type === "hero")?.content;
 
   return (
     <>
-      {entete && <BlocEntete {...entete} />}
+      <Hero {...hero} estPremier={true} />
+      {entete && <BlocEntete {...entete} estPremier={false} />}
       <BlocEvenements {...evenements} />
     </>
   );
