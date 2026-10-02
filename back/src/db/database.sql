@@ -55,6 +55,8 @@ CREATE TABLE opening_hours (
   close_time TIME
 );
 
+CREATE UNIQUE INDEX idx_opening_hours_day ON opening_hours(day);
+
 CREATE TABLE settings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   key VARCHAR NOT NULL UNIQUE,
