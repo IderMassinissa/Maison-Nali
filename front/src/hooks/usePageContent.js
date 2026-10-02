@@ -22,7 +22,10 @@ export default function usePageContent(slug) {
         setSections(parsees);
         setErreur(false);
       })
-      .catch(() => setErreur(true))
+      .catch((err) => {
+        console.error("Erreur usePageContent:", err);
+        setErreur(true);
+      })
       .finally(() => setChargement(false));
   }, [slug]);
 
