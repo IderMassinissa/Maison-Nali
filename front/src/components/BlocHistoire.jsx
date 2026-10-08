@@ -1,4 +1,5 @@
 import { urlImage } from "../utils/urlImage";
+import PlaceholderPhoto from "./PlaceholderPhoto";
 
 export default function BlocHistoire({
   titre,
@@ -19,13 +20,17 @@ export default function BlocHistoire({
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
         <div className="order-2 lg:order-1 lg:col-span-2">
-          <div className="rounded overflow-hidden shadow-medium">
-            <img
-              className="w-full h-auto object-cover"
-              src={photo ? urlImage(photo) : "/images/atelier.jpg"}
-              alt={photoAlt}
-              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-            />
+          <div className="aspect-[4/3] rounded overflow-hidden shadow-medium">
+            {photo ? (
+              <img
+                className="w-full h-full object-cover"
+                src={urlImage(photo)}
+                alt={photoAlt}
+                style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+              />
+            ) : (
+              <PlaceholderPhoto />
+            )}
           </div>
         </div>
         <div className="order-1 lg:order-2">
@@ -42,7 +47,7 @@ export default function BlocHistoire({
           </h3>
           <p className="text-base leading-relaxed opacity-80 mb-8 max-w-md">
             {texte ||
-              "Depuis trois générations, la famille Nali perpétue le savoir-faire des maîtres pâtissiers d'Alger. Aucune machine ne remplace la main : chaque pli, chaque dosage reste une affaire de mémoire et de patience."}
+              "De Nassima à Sidali, la famille Nali perpétue un savoir-faire fait de patience et de gestes précis. Aucune machine ne remplace la main : chaque pli, chaque dosage reste une affaire de mémoire et de cœur."}
           </p>
 
           {fondSombre ? (

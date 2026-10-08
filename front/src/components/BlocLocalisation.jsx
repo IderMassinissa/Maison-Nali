@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
 import { telHref } from "../utils/telephone";
 import { urlImage } from "../utils/urlImage";
+import PlaceholderPhoto from "./PlaceholderPhoto";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ADRESSE_REPLI = "42 Rue des Glycines\n75016 Paris, France";
@@ -79,12 +80,16 @@ export default function BlocLocalisation({
 
         <div className="lg:col-span-8 relative">
           <div className="aspect-video rounded overflow-hidden shadow-soft group">
-            <img
-              className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
-              src={photo ? urlImage(photo) : "/images/boutique.jpg"}
-              alt="Vitrine de la boutique Maison Nali à Paris"
-              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-            />
+            {photo ? (
+              <img
+                className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+                src={urlImage(photo)}
+                alt="Vitrine de la boutique Maison Nali à Paris"
+                style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+              />
+            ) : (
+              <PlaceholderPhoto />
+            )}
           </div>
         </div>
       </div>
