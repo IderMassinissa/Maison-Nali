@@ -5,5 +5,10 @@ export function urlImage(chemin) {
   if (chemin.startsWith("http://") || chemin.startsWith("https://")) {
     return chemin;
   }
-  return `${API_URL}${chemin}`;
+  // Seuls les fichiers uploades via l'admin vivent sur le back (/uploads) ;
+  // les autres chemins relatifs (ex. /images/...) sont servis statiquement par le front lui-meme.
+  if (chemin.startsWith("/uploads/")) {
+    return `${API_URL}${chemin}`;
+  }
+  return chemin;
 }
