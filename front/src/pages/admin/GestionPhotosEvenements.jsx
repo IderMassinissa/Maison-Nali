@@ -58,7 +58,7 @@ function PhotoTriable({ photo, onModifierAlt, onSupprimer }) {
         onBlur={sauvegarderAlt}
         placeholder="Texte alternatif"
         maxLength={150}
-        className="flex-1 px-3 py-2 border border-brand-border rounded-lg text-sm"
+        className="flex-1 min-w-0 px-3 py-2 border border-brand-border rounded-lg text-sm"
       />
       {enregistrement && <span className="text-xs opacity-50">...</span>}
       <button

@@ -63,7 +63,7 @@ export default function BlocLocalisation() {
             href={lienMaps}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 mt-10 px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest transition-colors duration-200 ease-out hover:bg-brand-dark/85 hover:shadow-soft"
+            className="inline-flex items-center gap-3 mt-10 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
           >
             Voir l'itinéraire
           </a>

@@ -8,7 +8,7 @@ export default function BlocHistoire({
   return (
     <section
       className={`py-section-y md:py-section-y-lg px-6 md:px-12 ${
-        fondSombre ? "bg-brand-dark text-brand-light" : "bg-brand-light"
+        fondSombre ? "bg-brand-gradient text-text-on-dark" : "bg-brand-light"
       }`}
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
@@ -28,7 +28,7 @@ export default function BlocHistoire({
           <div className="w-10 h-px bg-brand-accent mb-6" />
           <h3
             className={`text-lg md:text-xl font-sans font-normal mb-8 ${
-              fondSombre ? "text-brand-light/70" : "text-brand-dark/70"
+              fondSombre ? "text-text-on-dark/70" : "text-brand-dark/70"
             }`}
           >
             Héritage
@@ -48,7 +48,7 @@ export default function BlocHistoire({
           ) : (
             <a
               href="/a-propos"
-              className="inline-flex items-center gap-3 px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest transition-colors duration-200 ease-out hover:bg-brand-dark/85 hover:shadow-soft"
+              className="inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
             >
               Découvrir notre histoire
             </a>

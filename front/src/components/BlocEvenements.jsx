@@ -83,7 +83,7 @@ export default function BlocEvenements({ formats }) {
             {formatsAnalyses.map((format, index) => (
               <li
                 key={`${format.nom}-${index}`}
-                className="p-6 border border-brand-border rounded-lg bg-brand-surface"
+                className="p-6 border border-brand-border rounded-lg bg-white shadow-soft"
               >
                 <p className="font-display text-lg md:text-xl">
                   {format.nom}
@@ -109,14 +109,14 @@ export default function BlocEvenements({ formats }) {
             {contact.phone && (
               <a
                 href={telHref(contact.phone)}
-                className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest hover:opacity-90 transition-opacity"
+                className="px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
                 Appeler
               </a>
             )}
             <Link
               to="/adresse"
-              className="px-8 py-3 border border-brand-border rounded-full text-sm uppercase tracking-widest hover:border-brand-accent transition-colors"
+              className="px-8 py-3 bg-white border border-brand-border text-brand-dark rounded-full text-sm uppercase tracking-widest hover:border-brand-accent transition-colors"
             >
               Adresse et horaires
             </Link>

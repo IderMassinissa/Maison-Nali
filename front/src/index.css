@@ -6,11 +6,14 @@ body {
 
 @theme {
   --color-brand-dark: #0d231a;
-  --color-brand-light: #f0e4cf;
+  --color-brand-light: #e8a999;
   --color-brand-border: #c9b896;
   --color-brand-accent: #d4af37;
-  --color-brand-surface: #eadcc2;
+  --color-brand-surface: #e8a999;
   --color-brand-footer: #0b1a14;
+  --color-brand-dark-start: #083b2e;
+  --color-brand-dark-end: #0e503c;
+  --color-text-on-dark: #f5f0e8;
 
   --font-display: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
@@ -22,9 +25,29 @@ body {
   --spacing-section-y-lg: 4rem;
 }
 
+/* Dégradé émeraude (remplace l'ancien aplat brand-dark) :
+   footer, boutons primaires, 2e bloc-histoire de la page À propos. */
+.bg-brand-gradient {
+  background-color: var(--color-brand-dark-start);
+  background-image: linear-gradient(135deg, var(--color-brand-dark-start), var(--color-brand-dark-end));
+}
+a.bg-brand-gradient:hover,
+button.bg-brand-gradient:hover {
+  filter: brightness(0.92);
+}
+/* Footer uniquement : glow doré subtil en haut, façon lumière sur velours. */
+footer.bg-brand-gradient {
+  background-image:
+    radial-gradient(ellipse 140% 60% at 50% -10%, rgba(212, 175, 55, 0.06), transparent 60%),
+    linear-gradient(135deg, var(--color-brand-dark-start), var(--color-brand-dark-end));
+}
+
 /* Échelle unique de taille de police pour les formulaires admin.
    Hors @layer, donc prime naturellement sur les utilitaires Tailwind
    (text-xs/text-sm/text-base) sans devoir toucher chaque écran. */
+.admin-layout {
+  font-weight: 500;
+}
 .admin-layout label {
   font-size: 0.9375rem;
 }

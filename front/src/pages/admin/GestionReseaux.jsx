@@ -63,7 +63,7 @@ export default function GestionReseaux() {
                     setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
                   }
                   rows={3}
-                  className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                  className="flex-1 min-w-0 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
                 />
               ) : (
                 <input
@@ -73,13 +73,13 @@ export default function GestionReseaux() {
                     setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
                   }
                   placeholder={placeholder}
-                  className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                  className="flex-1 min-w-0 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
                 />
               )}
               <button
                 onClick={() => sauvegarder(key)}
                 disabled={enregistrement === key}
-                className="px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest disabled:opacity-50"
+                className="px-6 py-3 bg-brand-dark text-brand-accent rounded-full text-xs uppercase tracking-widest disabled:opacity-50"
               >
                 {enregistrement === key ? "..." : "Enregistrer"}
               </button>

@@ -23,16 +23,13 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="text-brand-light py-16 px-6 md:px-12 bg-brand-footer">
+    <footer className="text-text-on-dark py-16 px-6 md:px-12 bg-brand-gradient">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center text-center gap-12 md:grid md:grid-cols-3 md:items-start md:text-left">
           <div>
-            <Link
-              to="/"
-              className="font-display text-2xl tracking-tight block mb-4 text-brand-accent uppercase"
-            >
+            <p className="font-display text-2xl tracking-tight mb-4 text-brand-accent uppercase">
               Maison Nali
-            </Link>
+            </p>
             <p className="text-xs uppercase tracking-widest opacity-60">
               Gardiens de la douceur algérienne
             </p>
@@ -77,13 +74,14 @@ export default function Footer() {
             <p className="text-xs uppercase tracking-widest opacity-60">
               Suivez-nous
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-2 text-2xl">
               {reseaux.social_instagram && (
                 <a
                   href={reseaux.social_instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand-accent transition-colors"
+                  aria-label="Instagram"
+                  className="p-2 hover:text-brand-accent transition-colors"
                 >
                   <FaInstagram />
                 </a>
@@ -93,7 +91,8 @@ export default function Footer() {
                   href={reseaux.social_facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand-accent transition-colors"
+                  aria-label="Facebook"
+                  className="p-2 hover:text-brand-accent transition-colors"
                 >
                   <FaFacebookF />
                 </a>
@@ -103,7 +102,8 @@ export default function Footer() {
                   href={reseaux.social_tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand-accent transition-colors"
+                  aria-label="TikTok"
+                  className="p-2 hover:text-brand-accent transition-colors"
                 >
                   <FaTiktok />
                 </a>

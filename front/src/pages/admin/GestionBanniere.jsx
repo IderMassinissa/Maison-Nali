@@ -105,7 +105,7 @@ export default function GestionBanniere() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                className="flex-1 min-w-0 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
               />
               {startDate && (
                 <button
@@ -128,7 +128,7 @@ export default function GestionBanniere() {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="flex-1 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+                className="flex-1 min-w-0 px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
               />
               {endDate && (
                 <button
@@ -169,7 +169,7 @@ export default function GestionBanniere() {
         <button
           type="submit"
           disabled={enregistrement}
-          className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
+          className="px-8 py-3 bg-brand-dark text-brand-accent rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
         >
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>

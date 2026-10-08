@@ -26,7 +26,7 @@ function CartePatisserie({ id, nom, image, focusX, focusY }) {
 
         <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-        <h2 className="absolute inset-x-0 bottom-0 p-4 font-display text-xl md:text-2xl text-white leading-tight">
+        <h2 className="absolute inset-x-0 bottom-0 p-4 font-display text-xl md:text-2xl text-white leading-tight line-clamp-2">
           {nom}
         </h2>
       </article>

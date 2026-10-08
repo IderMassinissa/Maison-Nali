@@ -20,7 +20,7 @@ export default function NotFound() {
       </p>
       <Link
         to="/"
-        className="inline-flex items-center gap-3 px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
+        className="inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
       >
         Retour à l'accueil
       </Link>

@@ -50,7 +50,7 @@ export default function Header() {
 
       {/* Menu plein écran mobile */}
       {menuOuvert && (
-        <div className="fixed inset-0 z-[60] bg-brand-dark text-brand-light flex flex-col items-center justify-center gap-10 md:hidden">
+        <div className="fixed inset-0 z-[60] bg-brand-dark text-brand-light flex flex-col items-center justify-center gap-10 overflow-y-auto md:hidden">
           <button
             className="absolute top-6 right-6 text-2xl"
             onClick={() => setMenuOuvert(false)}

@@ -44,7 +44,7 @@ function ContenuPage({ slug }) {
               <span className="text-xs uppercase tracking-widest opacity-50">
                 {section.type}
               </span>
-              <span className="flex-1 text-sm">Position {section.position}</span>
+              <span className="flex-1 min-w-0 text-sm">Position {section.position}</span>
               <Link
                 to={`/admin/pages/${slug}/blocs/${section.id}`}
                 className="text-xs uppercase tracking-widest text-brand-accent hover:underline"

@@ -46,7 +46,7 @@ function ProduitTriable({ produit, onEditer, onSupprimer }) {
           }}
         />
       )}
-      <span className="flex-1 text-sm font-medium">{produit.name}</span>
+      <span className="flex-1 min-w-0 text-sm font-medium">{produit.name}</span>
       <button
         onClick={() => onEditer(produit.id)}
         className="text-xs uppercase tracking-widest text-brand-accent hover:underline"
@@ -309,7 +309,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           )}
           <label
             htmlFor="photo-input"
-            className="inline-block px-6 py-3 border border-brand-border rounded-full text-xs uppercase tracking-widest cursor-pointer hover:bg-brand-surface transition-colors"
+            className="inline-block px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest cursor-pointer hover:bg-brand-dark/85 transition-colors"
           >
             {photoUrl ? "Changer la photo" : "Choisir une photo"}
           </label>
@@ -340,14 +340,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           <button
             type="submit"
             disabled={enregistrement || uploadEnCours}
-            className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
+            className="px-8 py-3 bg-brand-dark text-brand-accent rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
           >
             {enregistrement ? "Enregistrement..." : "Enregistrer"}
           </button>
           <button
             type="button"
             onClick={onTermine}
-            className="px-8 py-3 border border-brand-border rounded-full text-sm uppercase tracking-widest"
+            className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest hover:bg-brand-dark/85 transition-colors"
           >
             Annuler
           </button>

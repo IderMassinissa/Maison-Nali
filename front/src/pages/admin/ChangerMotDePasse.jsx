@@ -97,7 +97,7 @@ export default function ChangerMotDePasse() {
         <button
           type="submit"
           disabled={enregistrement}
-          className="px-8 py-3 bg-brand-dark text-brand-light rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
+          className="px-8 py-3 bg-brand-dark text-brand-accent rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
         >
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
