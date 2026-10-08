@@ -15,7 +15,7 @@ export default function Hero({
   const SousTitreTag = estPremier ? "h2" : "h3";
 
   return (
-    <section className="relative aspect-video min-h-[420px] md:min-h-0">
+    <section className="relative w-full aspect-video min-h-[420px] md:min-h-0">
       <div className="absolute inset-0 z-0">
         <img
           className="w-full h-full object-cover"
