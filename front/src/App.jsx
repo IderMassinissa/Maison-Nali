@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import Accueil from "./pages/Accueil";
 import Patisseries from "./pages/Patisseries";
 import APropos from "./pages/APropos";
@@ -38,7 +39,7 @@ function SiteLayout() {
   return (
     <>
       <Header />
-      <div className="pt-24 bg-brand-light">
+      <div className="pt-24 md:pt-[153px] bg-brand-light">
         {annonce && (
           <BanniereAnnonce
             message={annonce.message}
@@ -55,6 +56,7 @@ function SiteLayout() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Accueil />} />

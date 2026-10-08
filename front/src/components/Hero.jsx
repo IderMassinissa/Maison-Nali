@@ -3,6 +3,7 @@ import { urlImage } from "../utils/urlImage";
 
 export default function Hero({
   titre,
+  accroche,
   sousTitre,
   photo,
   focusX,
@@ -32,7 +33,7 @@ export default function Hero({
         </TitreTag>
         <div className="w-10 h-px bg-brand-accent mb-6" />
         <SousTitreTag className="text-lg md:text-xl font-sans font-normal text-white/90 mb-8">
-          Haut artisanat algérien
+          {accroche || "Haut artisanat algérien"}
         </SousTitreTag>
         {sousTitre && (
           <p className="text-base md:text-[1.0625rem] opacity-80 mb-8 max-w-xl">{sousTitre}</p>

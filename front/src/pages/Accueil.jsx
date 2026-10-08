@@ -25,6 +25,9 @@ export default function Accueil() {
 
   const hero = sections.find((s) => s.type === "hero")?.content;
   const histoire = sections.find((s) => s.type === "bloc-histoire")?.content;
+  const localisation = sections.find(
+    (s) => s.type === "bloc-localisation",
+  )?.content;
 
   return (
     <>
@@ -32,7 +35,7 @@ export default function Accueil() {
       {entete && <BlocEntete {...entete} estPremier={false} />}
       <BlocHistoire {...histoire} fondSombre={false} />
       <GrillePatisseries />
-      <BlocLocalisation />
+      <BlocLocalisation {...localisation} />
     </>
   );
 }

@@ -20,10 +20,14 @@ export default function Adresse() {
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
 
+  const localisation = sections.find(
+    (s) => s.type === "bloc-localisation",
+  )?.content;
+
   return (
     <>
       {entete && <BlocEntete {...entete} />}
-      <BlocLocalisation />
+      <BlocLocalisation {...localisation} />
     </>
   );
 }

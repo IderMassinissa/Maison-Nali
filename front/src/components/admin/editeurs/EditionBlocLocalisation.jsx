@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import useSauvegardeBloc from "./SauvegardeBloc";
+import { urlImage } from "../../../utils/urlImage";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
@@ -11,7 +13,17 @@ const ORDRE_JOURS = [
   "Dimanche",
 ];
 
-export default function EditionBlocLocalisation() {
+export default function EditionBlocLocalisation({ section }) {
+  const contenuInitial = JSON.parse(section.content || "{}");
+  const [titre, setTitre] = useState(contenuInitial.titre || "");
+  const [sousTitre, setSousTitre] = useState(contenuInitial.sousTitre || "");
+  const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");
+  const [photo, setPhoto] = useState(contenuInitial.photo || "");
+  const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
+  const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
+  const [uploadEnCours, setUploadEnCours] = useState(false);
+  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+
   const [horaires, setHoraires] = useState([]);
   const [chargementHoraires, setChargementHoraires] = useState(true);
   const [enregistrementHoraire, setEnregistrementHoraire] = useState(null);
@@ -27,6 +39,45 @@ export default function EditionBlocLocalisation() {
       })
       .finally(() => setChargementHoraires(false));
   }, []);
+
+  async function handlePhotoChange(e) {
+    const fichier = e.target.files[0];
+    if (!fichier) return;
+
+    setUploadEnCours(true);
+    const formData = new FormData();
+    formData.append("photo", fichier);
+
+    try {
+      const res = await fetch(`${API_URL}/api/upload`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setPhoto(data.url);
+      setFocusX(50);
+      setFocusY(50);
+    } catch (err) {
+      alert("Erreur upload : " + err.message);
+    } finally {
+      setUploadEnCours(false);
+    }
+  }
+
+  function handleClicPhoto(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setFocusX(Math.round(x));
+    setFocusY(Math.round(y));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    sauvegarder({ titre, sousTitre, texteBouton, photo, focusX, focusY });
+  }
 
   async function sauvegarderHoraire(id, openTime, closeTime) {
     setEnregistrementHoraire(id);
@@ -63,6 +114,97 @@ export default function EditionBlocLocalisation() {
   return (
     <div>
       <h1 className="font-display text-3xl mb-8">Bloc Localisation</h1>
+
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 mb-12">
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Titre
+          </label>
+          <input
+            type="text"
+            value={titre}
+            onChange={(e) => setTitre(e.target.value)}
+            placeholder="La boutique parisienne"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Sous-titre
+          </label>
+          <input
+            type="text"
+            value={sousTitre}
+            onChange={(e) => setSousTitre(e.target.value)}
+            placeholder="Nous rendre visite"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Texte du bouton
+          </label>
+          <input
+            type="text"
+            value={texteBouton}
+            onChange={(e) => setTexteBouton(e.target.value)}
+            placeholder="Voir l'itinéraire"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Photo de la boutique
+          </label>
+          {photo && (
+            <div
+              className="relative mb-3 cursor-crosshair"
+              onClick={handleClicPhoto}
+            >
+              <img
+                src={urlImage(photo)}
+                alt="Aperçu"
+                className="w-full max-w-sm h-48 object-cover rounded-lg"
+                style={{ objectPosition: `${focusX}% ${focusY}%` }}
+              />
+              <div
+                className="absolute w-4 h-4 border-2 border-brand-accent rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ left: `${focusX}%`, top: `${focusY}%` }}
+              />
+            </div>
+          )}
+          {photo && (
+            <p className="text-xs opacity-60 mb-3">
+              Clique sur la photo pour choisir la zone à mettre en avant.
+            </p>
+          )}
+          <label
+            htmlFor="localisation-photo-input"
+            className="inline-block px-6 py-3 bg-brand-dark text-brand-light rounded-full text-xs uppercase tracking-widest cursor-pointer hover:bg-brand-dark/85 transition-colors"
+          >
+            {photo ? "Changer la photo" : "Choisir une photo"}
+          </label>
+          <input
+            id="localisation-photo-input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handlePhotoChange}
+            className="hidden"
+          />
+          {uploadEnCours && (
+            <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
+          )}
+        </div>
+        <button
+          type="submit"
+          disabled={enregistrement || uploadEnCours}
+          className="px-8 py-3 bg-brand-dark text-brand-accent rounded-full text-sm uppercase tracking-widest disabled:opacity-50"
+        >
+          {enregistrement ? "Enregistrement..." : "Enregistrer"}
+        </button>
+        {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+      </form>
+
       <p className="text-xs opacity-60 mb-6">
         Les horaires sont communs à tout le site — les modifier ici les met à
         jour partout où ils apparaissent. L'adresse se modifie désormais depuis
@@ -88,7 +230,7 @@ export default function EditionBlocLocalisation() {
                     {horaire.day}
                   </span>
                   {ferme ? (
-                    <span className="flex-1 text-sm opacity-60">Fermé</span>
+                    <span className="flex-1 min-w-0 text-sm opacity-60">Fermé</span>
                   ) : (
                     <div className="flex-1 flex items-center gap-2">
                       <input

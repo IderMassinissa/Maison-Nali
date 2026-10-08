@@ -1,11 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
 import { telHref } from "../utils/telephone";
+import { urlImage } from "../utils/urlImage";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ADRESSE_REPLI = "42 Rue des Glycines\n75016 Paris, France";
 
-export default function BlocLocalisation() {
+export default function BlocLocalisation({
+  titre,
+  sousTitre,
+  texteBouton,
+  photo,
+  focusX,
+  focusY,
+}) {
   const [adresse, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
 
@@ -38,11 +46,11 @@ export default function BlocLocalisation() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-4">
           <h2 className="font-display text-[1.75rem] md:text-[2.5rem] tracking-tight mb-6">
-            La boutique parisienne
+            {titre || "La boutique parisienne"}
           </h2>
           <div className="w-10 h-px bg-brand-accent mb-6" />
           <h3 className="text-lg md:text-xl font-sans font-normal text-brand-dark/70 mb-8">
-            Nous rendre visite
+            {sousTitre || "Nous rendre visite"}
           </h3>
           <div className="mb-6">
             <p className="text-base leading-relaxed opacity-80 whitespace-pre-line mb-2">
@@ -65,7 +73,7 @@ export default function BlocLocalisation() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 mt-10 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
           >
-            Voir l'itinéraire
+            {texteBouton || "Voir l'itinéraire"}
           </a>
         </div>
 
@@ -73,8 +81,9 @@ export default function BlocLocalisation() {
           <div className="aspect-video rounded overflow-hidden shadow-soft group">
             <img
               className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
-              src="/images/boutique.jpg"
+              src={photo ? urlImage(photo) : "/images/boutique.jpg"}
               alt="Vitrine de la boutique Maison Nali à Paris"
+              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
             />
           </div>
         </div>

@@ -1,9 +1,15 @@
+import { urlImage } from "../utils/urlImage";
+
 export default function BlocHistoire({
   titre,
+  sousTitre,
   texte,
+  texteBouton,
   fondSombre = false,
-  photo = "/images/atelier.jpg",
+  photo,
   photoAlt = "Maîtres pâtissiers façonnant la pâte dans un atelier algérois",
+  focusX,
+  focusY,
 }) {
   return (
     <section
@@ -16,8 +22,9 @@ export default function BlocHistoire({
           <div className="rounded overflow-hidden shadow-medium">
             <img
               className="w-full h-auto object-cover"
-              src={photo}
+              src={photo ? urlImage(photo) : "/images/atelier.jpg"}
               alt={photoAlt}
+              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
             />
           </div>
         </div>
@@ -31,7 +38,7 @@ export default function BlocHistoire({
               fondSombre ? "text-text-on-dark/70" : "text-brand-dark/70"
             }`}
           >
-            Héritage
+            {sousTitre || "Héritage"}
           </h3>
           <p className="text-base leading-relaxed opacity-80 mb-8 max-w-md">
             {texte ||
@@ -43,14 +50,14 @@ export default function BlocHistoire({
               href="/a-propos"
               className="inline-flex items-center gap-3 px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
             >
-              Découvrir notre histoire
+              {texteBouton || "Découvrir notre histoire"}
             </a>
           ) : (
             <a
               href="/a-propos"
               className="inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
             >
-              Découvrir notre histoire
+              {texteBouton || "Découvrir notre histoire"}
             </a>
           )}
         </div>

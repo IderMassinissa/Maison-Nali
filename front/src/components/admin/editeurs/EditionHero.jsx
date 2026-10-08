@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function EditionHero({ section }) {
   const contenuInitial = JSON.parse(section.content || "{}");
   const [titre, setTitre] = useState(contenuInitial.titre || "");
+  const [accroche, setAccroche] = useState(contenuInitial.accroche || "");
   const [sousTitre, setSousTitre] = useState(contenuInitial.sousTitre || "");
   const [photo, setPhoto] = useState(contenuInitial.photo || "");
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
@@ -53,6 +54,7 @@ export default function EditionHero({ section }) {
     e.preventDefault();
     sauvegarder({
       titre,
+      accroche,
       sousTitre,
       photo,
       focusX,
@@ -74,6 +76,18 @@ export default function EditionHero({ section }) {
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Accroche
+          </label>
+          <input
+            type="text"
+            value={accroche}
+            onChange={(e) => setAccroche(e.target.value)}
+            placeholder="Haut artisanat algérien"
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
