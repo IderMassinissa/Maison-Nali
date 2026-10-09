@@ -1,16 +1,17 @@
 {
   "name": "back",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API back-end de Maison Nali (Express + SQLite).",
+  "main": "src/server.js",
   "scripts": {
+    "start": "node src/server.js",
     "backup": "node src/db/backup.js",
     "pretest": "node src/db/init-test.js",
     "test": "node --require ./src/db/testEnv.js --test --test-concurrency=1 src/repositories/*.test.js src/routes/*.test.js src/utils/*.test.js",
     "init-db": "node src/db/init.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Massinissa Ider",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

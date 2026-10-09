@@ -1,7 +1,8 @@
 {
   "name": "front",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Front-end de Maison Nali (React + Vite).",
   "type": "module",
   "scripts": {
     "dev": "vite",
