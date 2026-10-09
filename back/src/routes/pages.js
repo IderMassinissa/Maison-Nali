@@ -8,6 +8,7 @@ const {
   updateSectionContent,
 } = require("../repositories/sections");
 const { validateBlocHistoire } = require("../utils/validateBlocHistoire");
+const { validateLienBouton } = require("../utils/validateLienBouton");
 
 router.get("/", (req, res) => {
   try {
@@ -71,10 +72,9 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
           .status(400)
           .json({ error: "Le texte du bouton ne doit pas dépasser 50 caractères" });
       }
-      if (lienBouton.length > 200) {
-        return res
-          .status(400)
-          .json({ error: "Le lien du bouton ne doit pas dépasser 200 caractères" });
+      const validationLien = validateLienBouton(lienBouton);
+      if (!validationLien.valid) {
+        return res.status(400).json({ error: validationLien.error });
       }
     }
 

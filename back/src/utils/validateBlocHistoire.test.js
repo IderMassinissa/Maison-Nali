@@ -20,13 +20,19 @@ test("chemin interne valide est accepté", () => {
   assert.strictEqual(r.lienBouton, "/patisseries");
 });
 
-test("chemin externe (URL http) est rejeté", () => {
+test("URL http (non chiffrée) est rejetée", () => {
   const r = validateBlocHistoire("Voir", "http://example.com");
   assert.strictEqual(r.valid, false);
 });
 
-test("chemin externe (URL https) est rejeté", () => {
+test("URL https explicite est acceptée (depuis le refactor avec validateLienBouton)", () => {
   const r = validateBlocHistoire("Voir", "https://example.com/patisseries");
+  assert.strictEqual(r.valid, true);
+  assert.strictEqual(r.lienBouton, "https://example.com/patisseries");
+});
+
+test("javascript: est rejeté", () => {
+  const r = validateBlocHistoire("Voir", "javascript:alert(1)");
   assert.strictEqual(r.valid, false);
 });
 

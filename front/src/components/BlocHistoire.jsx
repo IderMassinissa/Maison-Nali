@@ -54,21 +54,30 @@ export default function BlocHistoire({
           </p>
 
           {lienBouton &&
-            (fondSombre ? (
-              <Link
-                to={lienBouton}
-                className="inline-flex items-center gap-3 px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
-              >
-                {texteBouton || "Découvrir notre histoire"}
-              </Link>
-            ) : (
-              <Link
-                to={lienBouton}
-                className="inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
-              >
-                {texteBouton || "Découvrir notre histoire"}
-              </Link>
-            ))}
+            (() => {
+              const classeBouton = fondSombre
+                ? "inline-flex items-center gap-3 px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
+                : "inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft";
+
+              // lienBouton est soit un chemin interne ("/..."), soit une URL
+              // "https://" externe (valide cote back par validateLienBouton) :
+              // seul le premier cas correspond a une route de l'appli que
+              // react-router sait gerer.
+              return lienBouton.startsWith("/") ? (
+                <Link to={lienBouton} className={classeBouton}>
+                  {texteBouton || "Découvrir notre histoire"}
+                </Link>
+              ) : (
+                <a
+                  href={lienBouton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classeBouton}
+                >
+                  {texteBouton || "Découvrir notre histoire"}
+                </a>
+              );
+            })()}
         </div>
       </div>
     </section>
