@@ -144,3 +144,5 @@ vite.config.ts.timestamp-*
 
 # database
 back/data/*.sqlite
+back/data/*.sqlite-wal
+back/data/*.sqlite-shm
