@@ -9,6 +9,8 @@ const {
   updateProductPosition,
   deleteProduct,
 } = require("../repositories/products");
+const { validatePhotoInterne } = require("../utils/validatePhotoInterne");
+const { validateLienBouton } = require("../utils/validateLienBouton");
 
 router.get("/", (req, res) => {
   try {
@@ -47,6 +49,15 @@ router.post("/", requireAuth, (req, res) => {
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
 
+    const validationPhoto = validatePhotoInterne(photoUrl);
+    if (!validationPhoto.valid) {
+      return res.status(400).json({ error: validationPhoto.error });
+    }
+    const validationVideo = validateLienBouton(videoUrl);
+    if (!validationVideo.valid) {
+      return res.status(400).json({ error: validationVideo.error });
+    }
+
     const result = createProduct(
       name,
       description,
@@ -75,6 +86,15 @@ router.put("/:id", requireAuth, (req, res) => {
       focusY,
     } = req.body;
     if (!name) return res.status(400).json({ error: "Le nom est requis" });
+
+    const validationPhoto = validatePhotoInterne(photoUrl);
+    if (!validationPhoto.valid) {
+      return res.status(400).json({ error: validationPhoto.error });
+    }
+    const validationVideo = validateLienBouton(videoUrl);
+    if (!validationVideo.valid) {
+      return res.status(400).json({ error: validationVideo.error });
+    }
 
     updateProduct(
       req.params.id,

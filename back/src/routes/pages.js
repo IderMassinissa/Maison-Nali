@@ -9,6 +9,7 @@ const {
 } = require("../repositories/sections");
 const { validateBlocHistoire } = require("../utils/validateBlocHistoire");
 const { validateLienBouton } = require("../utils/validateLienBouton");
+const { validatePhotoInterne } = require("../utils/validatePhotoInterne");
 
 router.get("/", (req, res) => {
   try {
@@ -66,7 +67,7 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
     }
 
     if (section && section.type === "hero") {
-      const { texteBouton = "", lienBouton = "" } = parsed || {};
+      const { texteBouton = "", lienBouton = "", photo = "" } = parsed || {};
       if (texteBouton.length > 50) {
         return res
           .status(400)
@@ -76,13 +77,29 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
       if (!validationLien.valid) {
         return res.status(400).json({ error: validationLien.error });
       }
+      const validationPhoto = validatePhotoInterne(photo);
+      if (!validationPhoto.valid) {
+        return res.status(400).json({ error: validationPhoto.error });
+      }
     }
 
     if (section && section.type === "bloc-histoire") {
-      const { texteBouton = "", lienBouton = "" } = parsed || {};
+      const { texteBouton = "", lienBouton = "", photo = "" } = parsed || {};
       const validation = validateBlocHistoire(texteBouton, lienBouton);
       if (!validation.valid) {
         return res.status(400).json({ error: validation.error });
+      }
+      const validationPhoto = validatePhotoInterne(photo);
+      if (!validationPhoto.valid) {
+        return res.status(400).json({ error: validationPhoto.error });
+      }
+    }
+
+    if (section && section.type === "bloc-localisation") {
+      const { photo = "" } = parsed || {};
+      const validationPhoto = validatePhotoInterne(photo);
+      if (!validationPhoto.valid) {
+        return res.status(400).json({ error: validationPhoto.error });
       }
     }
 
