@@ -54,7 +54,7 @@ export default function ChangerMotDePasse() {
         <div>
           <label
             htmlFor="mdp-actuel"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Mot de passe actuel
           </label>
@@ -70,7 +70,7 @@ export default function ChangerMotDePasse() {
         <div>
           <label
             htmlFor="mdp-nouveau"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Nouveau mot de passe
           </label>
@@ -87,7 +87,7 @@ export default function ChangerMotDePasse() {
         <div>
           <label
             htmlFor="mdp-confirmation"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Confirmer le nouveau mot de passe
           </label>

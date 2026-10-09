@@ -74,7 +74,7 @@ export default function EditionBlocHistoire({ section }) {
         <div>
           <label
             htmlFor="histoire-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Titre
           </label>
@@ -89,7 +89,7 @@ export default function EditionBlocHistoire({ section }) {
         <div>
           <label
             htmlFor="histoire-sous-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Sous-titre
           </label>
@@ -105,7 +105,7 @@ export default function EditionBlocHistoire({ section }) {
         <div>
           <label
             htmlFor="histoire-texte"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte
           </label>
@@ -120,7 +120,7 @@ export default function EditionBlocHistoire({ section }) {
         <div>
           <label
             htmlFor="histoire-texte-bouton"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte du bouton
           </label>
@@ -136,7 +136,7 @@ export default function EditionBlocHistoire({ section }) {
         <div>
           <label
             htmlFor="histoire-lien-bouton"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Lien du bouton
           </label>
@@ -148,13 +148,13 @@ export default function EditionBlocHistoire({ section }) {
             placeholder="/a-propos"
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
-          <p className="text-xs opacity-60 mt-2">
+          <p className="text-xs opacity-70 mt-2">
             Chemin interne uniquement (ex. /patisseries, /adresse). Le bouton
             ne s'affiche que si un lien est renseigné.
           </p>
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-70 mb-2">
             Photo
           </label>
           {photo && (
@@ -175,7 +175,7 @@ export default function EditionBlocHistoire({ section }) {
             </div>
           )}
           {photo && (
-            <p className="text-xs opacity-60 mb-3">
+            <p className="text-xs opacity-70 mb-3">
               Clique sur la photo pour choisir la zone à mettre en avant.
             </p>
           )}
@@ -193,13 +193,13 @@ export default function EditionBlocHistoire({ section }) {
             className="hidden"
           />
           {uploadEnCours && (
-            <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
+            <p className="text-xs opacity-70 mt-2">Envoi en cours...</p>
           )}
         </div>
         <div>
           <label
             htmlFor="histoire-photo-alt"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte alternatif de la photo
           </label>

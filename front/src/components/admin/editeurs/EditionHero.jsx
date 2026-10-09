@@ -72,7 +72,7 @@ export default function EditionHero({ section }) {
         <div>
           <label
             htmlFor="hero-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Titre principal
           </label>
@@ -87,7 +87,7 @@ export default function EditionHero({ section }) {
         <div>
           <label
             htmlFor="hero-accroche"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Accroche
           </label>
@@ -103,7 +103,7 @@ export default function EditionHero({ section }) {
         <div>
           <label
             htmlFor="hero-sous-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Sous-titre
           </label>
@@ -116,7 +116,7 @@ export default function EditionHero({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-70 mb-2">
             Photo de fond
           </label>
           {photo && (
@@ -137,7 +137,7 @@ export default function EditionHero({ section }) {
             </div>
           )}
           {photo && (
-            <p className="text-xs opacity-60 mb-3">
+            <p className="text-xs opacity-70 mb-3">
               Clique sur la photo pour choisir la zone à mettre en avant.
             </p>
           )}
@@ -155,13 +155,13 @@ export default function EditionHero({ section }) {
             className="hidden"
           />
           {uploadEnCours && (
-            <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
+            <p className="text-xs opacity-70 mt-2">Envoi en cours...</p>
           )}
         </div>
         <div>
           <label
             htmlFor="hero-texte-bouton"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte du bouton
           </label>
@@ -176,7 +176,7 @@ export default function EditionHero({ section }) {
         <div>
           <label
             htmlFor="hero-lien-bouton"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Lien du bouton
           </label>
@@ -188,7 +188,7 @@ export default function EditionHero({ section }) {
             placeholder="/patisseries"
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
-          <p className="text-xs opacity-60 mt-2">
+          <p className="text-xs opacity-70 mt-2">
             Le bouton ne s'affiche que si le texte ET le lien sont renseignés.
           </p>
         </div>

@@ -150,7 +150,7 @@ export default function GestionProduits() {
       {chargement ? (
         <p>Chargement...</p>
       ) : produits.length === 0 ? (
-        <p className="opacity-60 text-sm">Aucune pâtisserie pour l'instant.</p>
+        <p className="opacity-70 text-sm">Aucune pâtisserie pour l'instant.</p>
       ) : (
         <DndContext
           sensors={sensors}
@@ -273,7 +273,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
         <div>
           <label
             htmlFor="produit-nom"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Nom
           </label>
@@ -289,7 +289,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
         <div>
           <label
             htmlFor="produit-description"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Description
           </label>
@@ -302,7 +302,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-70 mb-2">
             Photo
           </label>
           {photoUrl && (
@@ -323,7 +323,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             </div>
           )}
           {photoUrl && (
-            <p className="text-xs opacity-60 mb-2">
+            <p className="text-xs opacity-70 mb-2">
               Clique sur la photo pour choisir la zone à mettre en avant.
             </p>
           )}
@@ -341,13 +341,13 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             className="hidden"
           />
           {uploadEnCours && (
-            <p className="text-xs opacity-60 mt-1">Envoi en cours...</p>
+            <p className="text-xs opacity-70 mt-1">Envoi en cours...</p>
           )}
         </div>
         <div>
           <label
             htmlFor="produit-video"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Lien vidéo (optionnel)
           </label>

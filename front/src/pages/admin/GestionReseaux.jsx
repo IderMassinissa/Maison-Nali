@@ -54,7 +54,7 @@ export default function GestionReseaux() {
           <div key={key}>
             <label
               htmlFor={`reseau-${key}`}
-              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+              className="block text-sm uppercase tracking-widest opacity-70 mb-2"
             >
               {label}
             </label>

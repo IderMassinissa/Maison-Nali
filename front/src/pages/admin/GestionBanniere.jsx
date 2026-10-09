@@ -85,7 +85,7 @@ export default function GestionBanniere() {
         <div>
           <label
             htmlFor="banniere-message"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Message
           </label>
@@ -103,7 +103,7 @@ export default function GestionBanniere() {
           <div>
             <label
               htmlFor="banniere-debut"
-              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+              className="block text-sm uppercase tracking-widest opacity-70 mb-2"
             >
               Début
             </label>
@@ -119,7 +119,7 @@ export default function GestionBanniere() {
                 <button
                   type="button"
                   onClick={() => setStartDate("")}
-                  className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100"
+                  className="text-xs uppercase tracking-widest opacity-70 hover:opacity-100"
                 >
                   Effacer
                 </button>
@@ -130,7 +130,7 @@ export default function GestionBanniere() {
           <div>
             <label
               htmlFor="banniere-fin"
-              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+              className="block text-sm uppercase tracking-widest opacity-70 mb-2"
             >
               Fin
             </label>
@@ -146,7 +146,7 @@ export default function GestionBanniere() {
                 <button
                   type="button"
                   onClick={() => setEndDate("")}
-                  className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100"
+                  className="text-xs uppercase tracking-widest opacity-70 hover:opacity-100"
                 >
                   Effacer
                 </button>
@@ -155,13 +155,13 @@ export default function GestionBanniere() {
           </div>
         </div>
 
-        <p className="text-xs opacity-60">
+        <p className="text-xs opacity-70">
           Les dates sont en heure de Paris, début et fin inclus. Laisse vide
           pour une bannière sans limite de durée.
         </p>
 
         <div>
-          <p className="text-sm uppercase tracking-widest opacity-60 mb-2">
+          <p className="text-sm uppercase tracking-widest opacity-70 mb-2">
             Statut
           </p>
           <p className="text-sm">{statut}</p>
@@ -169,7 +169,7 @@ export default function GestionBanniere() {
 
         {message && (
           <div>
-            <p className="text-sm uppercase tracking-widest opacity-60 mb-2">
+            <p className="text-sm uppercase tracking-widest opacity-70 mb-2">
               Aperçu
             </p>
             <div className="bg-brand-accent text-brand-dark text-center py-3 px-4 text-sm font-medium rounded-lg">

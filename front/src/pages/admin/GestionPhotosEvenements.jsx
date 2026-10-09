@@ -194,7 +194,7 @@ export default function GestionPhotosEvenements() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-3xl mb-2">Photos événements</h1>
-          <p className="text-sm opacity-60">
+          <p className="text-sm opacity-70">
             {photos.length} / {LIMITE_PHOTOS} photos
           </p>
         </div>
@@ -225,7 +225,7 @@ export default function GestionPhotosEvenements() {
       {chargement ? (
         <p>Chargement...</p>
       ) : photos.length === 0 ? (
-        <p className="opacity-60 text-sm">Aucune photo pour l'instant.</p>
+        <p className="opacity-70 text-sm">Aucune photo pour l'instant.</p>
       ) : (
         <DndContext
           sensors={sensors}

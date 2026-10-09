@@ -19,7 +19,7 @@ export default function EditionBlocEvenements({ section }) {
         <div>
           <label
             htmlFor="evenements-formats"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Formats de boîtes
           </label>
@@ -32,7 +32,7 @@ export default function EditionBlocEvenements({ section }) {
             placeholder={"Boîte de 6 pièces\nBoîte de 12 pièces"}
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
-          <p className="text-xs opacity-60 mt-2">
+          <p className="text-xs opacity-70 mt-2">
             Un format de boîte par ligne. Pour ajouter un détail (nombre de
             pièces, occasion...), sépare-le du nom avec une barre verticale
             « | ». Exemple : Boîte de 6 pièces | Idéal pour offrir

@@ -121,7 +121,7 @@ export default function EditionBlocLocalisation({ section }) {
         <div>
           <label
             htmlFor="localisation-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Titre
           </label>
@@ -137,7 +137,7 @@ export default function EditionBlocLocalisation({ section }) {
         <div>
           <label
             htmlFor="localisation-sous-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Sous-titre
           </label>
@@ -153,7 +153,7 @@ export default function EditionBlocLocalisation({ section }) {
         <div>
           <label
             htmlFor="localisation-texte-bouton"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte du bouton
           </label>
@@ -167,7 +167,7 @@ export default function EditionBlocLocalisation({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label className="block text-sm uppercase tracking-widest opacity-70 mb-2">
             Photo de la boutique
           </label>
           {photo && (
@@ -188,7 +188,7 @@ export default function EditionBlocLocalisation({ section }) {
             </div>
           )}
           {photo && (
-            <p className="text-xs opacity-60 mb-3">
+            <p className="text-xs opacity-70 mb-3">
               Clique sur la photo pour choisir la zone à mettre en avant.
             </p>
           )}
@@ -206,13 +206,13 @@ export default function EditionBlocLocalisation({ section }) {
             className="hidden"
           />
           {uploadEnCours && (
-            <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
+            <p className="text-xs opacity-70 mt-2">Envoi en cours...</p>
           )}
         </div>
         <div>
           <label
             htmlFor="localisation-photo-alt"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Texte alternatif de la photo
           </label>
@@ -235,18 +235,18 @@ export default function EditionBlocLocalisation({ section }) {
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
       </form>
 
-      <p className="text-xs opacity-60 mb-6">
+      <p className="text-xs opacity-70 mb-6">
         Les horaires sont communs à tout le site — les modifier ici les met à
         jour partout où ils apparaissent. L'adresse se modifie désormais depuis
         l'écran Coordonnées.
       </p>
 
       <div className="max-w-2xl">
-        <p className="text-xs uppercase tracking-widest opacity-60 mb-4">
+        <p className="text-xs uppercase tracking-widest opacity-70 mb-4">
           Horaires d'ouverture
         </p>
         {chargementHoraires ? (
-          <p className="text-sm opacity-60">Chargement...</p>
+          <p className="text-sm opacity-70">Chargement...</p>
         ) : (
           <div className="flex flex-col gap-3">
             {horaires.map((horaire) => {
@@ -260,7 +260,7 @@ export default function EditionBlocLocalisation({ section }) {
                     {horaire.day}
                   </span>
                   {ferme ? (
-                    <span className="flex-1 min-w-0 text-sm opacity-60">Fermé</span>
+                    <span className="flex-1 min-w-0 text-sm opacity-70">Fermé</span>
                   ) : (
                     <div className="flex-1 flex items-center gap-2">
                       <input

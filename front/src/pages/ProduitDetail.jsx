@@ -45,7 +45,7 @@ export default function ProduitDetail() {
     <div className="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
       <Link
         to="/patisseries"
-        className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100 mb-8 inline-block"
+        className="text-xs uppercase tracking-widest opacity-70 hover:opacity-100 mb-8 inline-block"
       >
         ← Retour aux pâtisseries
       </Link>

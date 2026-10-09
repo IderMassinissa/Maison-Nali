@@ -17,7 +17,7 @@ export default function BlocEntete({ libelle, titre, intro, estPremier = true })
         {libelle && (
           <>
             <div className="w-10 h-px bg-brand-accent mx-auto mb-6" />
-            <LibelleTag className="text-lg md:text-xl font-sans font-normal text-brand-dark/70 mb-6">
+            <LibelleTag className="text-lg md:text-xl font-sans font-normal text-brand-dark/80 mb-6">
               {libelle}
             </LibelleTag>
           </>

@@ -43,7 +43,7 @@ export default function BlocHistoire({
           <div className="w-10 h-px bg-brand-accent mb-6" />
           <h3
             className={`text-lg md:text-xl font-sans font-normal mb-8 ${
-              fondSombre ? "text-text-on-dark/70" : "text-brand-dark/70"
+              fondSombre ? "text-text-on-dark/70" : "text-brand-dark/80"
             }`}
           >
             {sousTitre || "Héritage"}

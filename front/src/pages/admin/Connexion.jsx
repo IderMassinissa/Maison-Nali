@@ -47,7 +47,7 @@ export default function Connexion() {
           <div>
             <label
               htmlFor="connexion-email"
-              className="block text-xs uppercase tracking-widest opacity-60 mb-2"
+              className="block text-xs uppercase tracking-widest opacity-70 mb-2"
             >
               Email
             </label>
@@ -64,7 +64,7 @@ export default function Connexion() {
           <div>
             <label
               htmlFor="connexion-password"
-              className="block text-xs uppercase tracking-widest opacity-60 mb-2"
+              className="block text-xs uppercase tracking-widest opacity-70 mb-2"
             >
               Mot de passe
             </label>

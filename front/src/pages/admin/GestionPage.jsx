@@ -31,7 +31,7 @@ function ContenuPage({ slug }) {
       <h1 className="font-display text-3xl mb-8">Page : {page.title}</h1>
 
       {page.sections.length === 0 ? (
-        <p className="opacity-60 text-sm">
+        <p className="opacity-70 text-sm">
           Aucun bloc sur cette page pour l'instant.
         </p>
       ) : (

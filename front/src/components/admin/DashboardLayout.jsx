@@ -75,14 +75,14 @@ export default function DashboardLayout() {
 
         <Link
           to="/admin/mot-de-passe"
-          className="text-sm uppercase tracking-widest opacity-60 hover:opacity-100 mb-4"
+          className="text-sm uppercase tracking-widest opacity-70 hover:opacity-100 mb-4"
         >
           Changer mon mot de passe
         </Link>
 
         <button
           onClick={handleLogout}
-          className="mt-auto text-sm uppercase tracking-widest opacity-60 hover:opacity-100 text-left"
+          className="mt-auto text-sm uppercase tracking-widest opacity-70 hover:opacity-100 text-left"
         >
           Déconnexion
         </button>

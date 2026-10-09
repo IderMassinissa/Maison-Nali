@@ -89,7 +89,7 @@ export default function Header() {
             <Link
               key={lien.href}
               to={lien.href}
-              className="text-sm uppercase tracking-widest font-semibold text-brand-dark opacity-70 hover:opacity-100 transition-opacity"
+              className="text-sm uppercase tracking-widest font-semibold text-brand-dark opacity-80 hover:opacity-100 transition-opacity"
             >
               {lien.label}
             </Link>

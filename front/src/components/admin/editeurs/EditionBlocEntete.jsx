@@ -21,7 +21,7 @@ export default function EditionBlocEntete({ section }) {
         <div>
           <label
             htmlFor="entete-libelle"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Libellé (optionnel)
           </label>
@@ -37,7 +37,7 @@ export default function EditionBlocEntete({ section }) {
         <div>
           <label
             htmlFor="entete-titre"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Titre
           </label>
@@ -54,7 +54,7 @@ export default function EditionBlocEntete({ section }) {
         <div>
           <label
             htmlFor="entete-intro"
-            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            className="block text-sm uppercase tracking-widest opacity-70 mb-2"
           >
             Introduction (optionnelle)
           </label>

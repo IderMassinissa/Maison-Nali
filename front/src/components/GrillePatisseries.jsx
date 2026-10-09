@@ -64,7 +64,7 @@ export default function GrillePatisseries() {
   if (erreur) return <ServiceIndisponible />;
   if (produits.length === 0)
     return (
-      <p className="text-center py-16 text-sm opacity-60">
+      <p className="text-center py-16 text-sm opacity-70">
         Nos pâtisseries arrivent bientôt.
       </p>
     );
