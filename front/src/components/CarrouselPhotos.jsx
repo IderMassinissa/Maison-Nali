@@ -142,6 +142,9 @@ export default function CarrouselPhotos({ photos }) {
       <div
         ref={conteneurRef}
         onScroll={calculerPageActive}
+        tabIndex={0}
+        role="region"
+        aria-label="Photos de nos réalisations"
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {photos.map((photo, index) => {
