@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* Polices auto-hébergées (RGPD : charger les polices directement depuis
+   fonts.googleapis.com/fonts.gstatic.com transmet l'IP du visiteur à
+   Google à chaque page, sans consentement -- voir Documentation/
+   Securite_Passe1_2026-10-09.md, K1). Fichiers "variables" : un seul
+   fichier par famille couvre toute la plage de graisses (font-weight),
+   le navigateur interpole la graisse exacte demandée. */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url("/fonts/inter-variable.woff2") format("woff2");
+}
+
 body {
   background-color: var(--color-brand-light);
 }
