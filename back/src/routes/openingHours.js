@@ -5,6 +5,7 @@ const {
   getAllOpeningHours,
   updateOpeningHour,
 } = require("../repositories/openingHours");
+const { validateOpeningHours } = require("../utils/validateOpeningHours");
 
 router.get("/", (req, res) => {
   try {
@@ -20,7 +21,12 @@ router.get("/", (req, res) => {
 router.put("/:id", requireAuth, (req, res) => {
   try {
     const { openTime, closeTime } = req.body;
-    updateOpeningHour(req.params.id, openTime, closeTime);
+    const validation = validateOpeningHours(openTime, closeTime);
+    if (!validation.valid) {
+      return res.status(400).json({ error: validation.error });
+    }
+
+    updateOpeningHour(req.params.id, validation.openTime, validation.closeTime);
     res.json({ message: "Horaire mis à jour" });
   } catch (err) {
     console.error(err);
