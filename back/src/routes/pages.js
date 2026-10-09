@@ -7,6 +7,7 @@ const {
   getSectionById,
   updateSectionContent,
 } = require("../repositories/sections");
+const { validateBlocHistoire } = require("../utils/validateBlocHistoire");
 
 router.get("/", (req, res) => {
   try {
@@ -74,6 +75,14 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
         return res
           .status(400)
           .json({ error: "Le lien du bouton ne doit pas dépasser 200 caractères" });
+      }
+    }
+
+    if (section && section.type === "bloc-histoire") {
+      const { texteBouton = "", lienBouton = "" } = parsed || {};
+      const validation = validateBlocHistoire(texteBouton, lienBouton);
+      if (!validation.valid) {
+        return res.status(400).json({ error: validation.error });
       }
     }
 

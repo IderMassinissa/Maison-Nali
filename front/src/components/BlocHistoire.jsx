@@ -7,8 +7,8 @@ export default function BlocHistoire({
   sousTitre,
   texte,
   texteBouton,
+  lienBouton = "/a-propos",
   fondSombre = false,
-  afficherBouton = true,
   photo,
   photoAlt = "Photo illustrant l'histoire de Maison Nali",
   focusX,
@@ -53,17 +53,17 @@ export default function BlocHistoire({
               "De Nassima à Sidali, la famille Nali perpétue un savoir-faire fait de patience et de gestes précis. Aucune machine ne remplace la main : chaque pli, chaque dosage reste une affaire de mémoire et de cœur."}
           </p>
 
-          {afficherBouton &&
+          {lienBouton &&
             (fondSombre ? (
               <Link
-                to="/a-propos"
+                to={lienBouton}
                 className="inline-flex items-center gap-3 px-8 py-3 border border-brand-accent/60 rounded-full text-sm uppercase tracking-widest transition-all duration-500 hover:bg-brand-accent hover:text-brand-dark"
               >
                 {texteBouton || "Découvrir notre histoire"}
               </Link>
             ) : (
               <Link
-                to="/a-propos"
+                to={lienBouton}
                 className="inline-flex items-center gap-3 px-8 py-3 bg-brand-gradient text-text-on-dark rounded-full text-sm uppercase tracking-widest transition-all duration-200 ease-out hover:shadow-soft"
               >
                 {texteBouton || "Découvrir notre histoire"}

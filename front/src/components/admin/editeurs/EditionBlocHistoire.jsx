@@ -10,6 +10,7 @@ export default function EditionBlocHistoire({ section }) {
   const [sousTitre, setSousTitre] = useState(contenuInitial.sousTitre || "");
   const [texte, setTexte] = useState(contenuInitial.texte || "");
   const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");
+  const [lienBouton, setLienBouton] = useState(contenuInitial.lienBouton || "");
   const [photo, setPhoto] = useState(contenuInitial.photo || "");
   const [photoAlt, setPhotoAlt] = useState(contenuInitial.photoAlt || "");
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
@@ -53,7 +54,17 @@ export default function EditionBlocHistoire({ section }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    sauvegarder({ titre, sousTitre, texte, texteBouton, photo, photoAlt, focusX, focusY });
+    sauvegarder({
+      titre,
+      sousTitre,
+      texte,
+      texteBouton,
+      lienBouton,
+      photo,
+      photoAlt,
+      focusX,
+      focusY,
+    });
   }
 
   return (
@@ -105,6 +116,22 @@ export default function EditionBlocHistoire({ section }) {
             placeholder="Découvrir notre histoire"
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Lien du bouton
+          </label>
+          <input
+            type="text"
+            value={lienBouton}
+            onChange={(e) => setLienBouton(e.target.value)}
+            placeholder="/a-propos"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
+          <p className="text-xs opacity-60 mt-2">
+            Chemin interne uniquement (ex. /patisseries, /adresse). Le bouton
+            ne s'affiche que si un lien est renseigné.
+          </p>
         </div>
         <div>
           <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
