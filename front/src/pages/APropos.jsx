@@ -1,6 +1,7 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
+import ChargementPage from "../components/ChargementPage";
 import BlocEntete from "../components/BlocEntete";
 import Hero from "../components/Hero";
 import BlocHistoire from "../components/BlocHistoire";
@@ -17,7 +18,7 @@ export default function APropos() {
     (entete?.intro || DESCRIPTION_REPLI).slice(0, 160),
   );
 
-  if (chargement) return null;
+  if (chargement) return <ChargementPage />;
   if (erreur) return <ServiceIndisponible />;
 
   const blocsHistoire = sections.filter((s) => s.type === "bloc-histoire");

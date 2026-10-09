@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ServiceIndisponible from "../components/ServiceIndisponible";
+import ChargementPage from "../components/ChargementPage";
 import usePageSeo from "../hooks/usePageSeo";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -35,7 +36,7 @@ export default function ProduitDetail() {
     ),
   );
 
-  if (chargement) return null;
+  if (chargement) return <ChargementPage />;
   if (erreur) return <ServiceIndisponible />;
   if (!produit)
     return <p className="text-center py-24">Pâtisserie introuvable.</p>;

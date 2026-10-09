@@ -54,7 +54,13 @@ export default function GrillePatisseries() {
       .finally(() => setChargement(false));
   }, []);
 
-  if (chargement) return null;
+  // Reserve une hauteur approximative pendant le chargement des produits :
+  // meme cause de decalage de mise en page (CLS) que pour le contenu de
+  // page (cf. ChargementPage.jsx et A11y_Perf_Passe1_2026-10-09.md, A2),
+  // rencontree ici aussi car cette grille charge ses donnees separement du
+  // reste de la page.
+  if (chargement)
+    return <div className="my-12 md:my-16 min-h-[420px]" aria-hidden="true" />;
   if (erreur) return <ServiceIndisponible />;
   if (produits.length === 0)
     return (

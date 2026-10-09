@@ -1,6 +1,7 @@
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
+import ChargementPage from "../components/ChargementPage";
 import BlocEntete from "../components/BlocEntete";
 import BlocLocalisation from "../components/BlocLocalisation";
 
@@ -17,7 +18,7 @@ export default function Adresse() {
     (entete?.intro || DESCRIPTION_REPLI).slice(0, 160),
   );
 
-  if (chargement) return null;
+  if (chargement) return <ChargementPage />;
   if (erreur) return <ServiceIndisponible />;
 
   const localisation = sections.find(
