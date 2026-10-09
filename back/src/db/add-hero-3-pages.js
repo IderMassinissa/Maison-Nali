@@ -2,7 +2,7 @@ const db = require("./connection");
 
 const HERO_PAR_SLUG = {
   patisseries: { titre: "Un héritage façonné à la main", photo: "" },
-  "a-propos": { titre: "Trois générations de passion", photo: "" },
+  "a-propos": { titre: "Nassima & Sidali, une même passion", photo: "" },
   evenements: { titre: "Des douceurs pour vos grands moments", photo: "" },
 };
 

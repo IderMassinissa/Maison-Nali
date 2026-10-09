@@ -9,7 +9,7 @@ import BlocLocalisation from "../components/BlocLocalisation";
 
 const TITRE_REPLI = "Maison Nali";
 const DESCRIPTION_REPLI =
-  "Pâtisserie algérienne artisanale à Paris — miel, fleur d'oranger et gestes transmis depuis trois générations.";
+  "Pâtisserie algérienne artisanale à Paris — miel, fleur d'oranger et gestes transmis de Nassima à Sidali.";
 
 export default function Accueil() {
   const { sections, chargement, erreur } = usePageContent("accueil");

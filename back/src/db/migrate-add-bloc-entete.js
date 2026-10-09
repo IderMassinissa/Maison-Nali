@@ -4,7 +4,7 @@ const CONTENU_PAR_PAGE = {
   accueil: {
     libelle: "Maison Nali",
     titre: "Pâtisserie algérienne artisanale à Paris",
-    intro: "Un savoir-faire familial transmis depuis trois générations.",
+    intro: "Un savoir-faire familial transmis de Nassima à Sidali.",
   },
   patisseries: {
     libelle: "Collection Signature",

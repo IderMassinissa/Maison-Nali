@@ -5,7 +5,7 @@ import { urlImage } from "../utils/urlImage";
 import PlaceholderPhoto from "./PlaceholderPhoto";
 const API_URL = import.meta.env.VITE_API_URL;
 
-const ADRESSE_REPLI = "42 Rue des Glycines\n75016 Paris, France";
+const ADRESSE_REPLI = "Adresse momentanément indisponible";
 
 export default function BlocLocalisation({
   titre,
