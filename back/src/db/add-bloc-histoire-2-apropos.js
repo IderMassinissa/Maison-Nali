@@ -4,7 +4,7 @@ const CONTENU = {
   titre: "Un savoir-faire qui se transmet",
   texte:
     "Chaque recette porte la mémoire d'une génération : les dosages ajustés à la main, les tours de pâte répétés jusqu'à la justesse du geste. C'est cette exigence silencieuse qui fait la différence.",
-  photo: "/images/atelier-2.jpg",
+  photo: "",
   photoAlt: "Détail d'un geste de pâtisserie traditionnelle algérienne",
 };
 

@@ -28,7 +28,12 @@ export default function APropos() {
       <Hero {...hero} estPremier={true} />
       {entete && <BlocEntete {...entete} estPremier={false} />}
       {blocsHistoire.map((bloc, index) => (
-        <BlocHistoire key={bloc.id} {...bloc.content} fondSombre={index % 2 === 0} />
+        <BlocHistoire
+          key={bloc.id}
+          {...bloc.content}
+          fondSombre={index % 2 === 0}
+          afficherBouton={false}
+        />
       ))}
     </>
   );
