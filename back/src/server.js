@@ -12,6 +12,7 @@ const eventPhotoRoutes = require("./routes/eventPhotos");
 const path = require("path");
 const uploadRoutes = require("./routes/upload");
 const cors = require("cors");
+const helmet = require("helmet");
 const SqliteSessionStore = require("./db/sqliteSessionStore");
 const { NOM_COOKIE_SESSION } = require("./constants");
 
@@ -47,6 +48,20 @@ const app = express();
 if (process.env.TRUST_PROXY === "true") {
   app.set("trust proxy", 1);
 }
+
+// helmet() pose un ensemble d'en-têtes de sécurité par défaut (retire aussi
+// X-Powered-By, cf. F2). Son réglage crossOriginResourcePolicy par défaut
+// ("same-origin") bloquerait le chargement de /uploads/... par le front :
+// front (http://localhost:5173) et back (http://localhost:3001) sont deux
+// origines différentes par construction (même en production, sauf si un
+// jour servis depuis le même domaine). On relâche explicitement cette seule
+// protection à "cross-origin" -- elle n'a pas de sens ici, les images
+// uploadées sont déjà publiques (servies sans authentification).
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
 
 app.use(
   cors({
