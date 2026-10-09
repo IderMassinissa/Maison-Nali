@@ -101,7 +101,12 @@ app.use("/api/announcements", announcementRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/opening-hours", openingHoursRoutes);
 app.use("/api/event-photos", eventPhotoRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "../public/uploads"), {
+    maxAge: "7d",
+  }),
+);
 app.use("/api/upload", uploadRoutes);
 
 app.use((req, res) => {
