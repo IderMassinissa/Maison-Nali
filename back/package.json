@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "backup": "node src/db/backup.js",
     "pretest": "node src/db/init-test.js",
     "test": "node --require ./src/db/testEnv.js --test src/repositories/*.test.js src/routes/*.test.js src/utils/*.test.js",
     "init-db": "node src/db/init.js"
