@@ -53,15 +53,15 @@ Crée le fichier SQLite et les tables depuis `src/db/database.sql`. **Ne pas rel
 Toujours depuis `back/` :
 
 ```
-node src/db/seed-admin.js <email> <mot-de-passe>
-node src/db/seed-pages.js
+node src/db/init-admin.js <email> <mot-de-passe>
+node src/db/init-pages.js
 node src/db/seed-opening-hours.js
 node src/db/seed-phone.js
 node src/db/seed-evenements.js
 ```
 
-- `seed-admin.js` : crée le compte admin. **Pas idempotent** — relancer avec le même email échoue proprement (contrainte `UNIQUE` sur `users.email`), aucun doublon possible.
-- `seed-pages.js` : crée les pages + sections initiales. Protégé par `pages.slug UNIQUE` — une relance échoue dès la première page, aucun doublon.
+- `init-admin.js` (anciennement `seed-admin.js`, renommé car à usage unique) : crée le compte admin. **Pas idempotent** — relancer avec le même email échoue proprement (contrainte `UNIQUE` sur `users.email`), aucun doublon possible.
+- `init-pages.js` (anciennement `seed-pages.js`, renommé car à usage unique) : crée les pages + sections initiales. Protégé par `pages.slug UNIQUE` — une relance échoue dès la première page, aucun doublon.
 - `seed-opening-hours.js` : crée les 7 jours. Idempotent (vérifie avant insert) + protégé par un index `UNIQUE` sur `opening_hours.day` — relancer ne fait rien si déjà peuplé.
 - `seed-phone.js` : idempotent (vérifie avant insert).
 - `seed-evenements.js` : idempotent (vérifie avant insert).

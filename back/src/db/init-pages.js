@@ -8,7 +8,7 @@ const pages = [
   { slug: "evenements", title: "Événements", position: 5 },
 ];
 
-// user_id = 1, l'admin créé via seed-admin.js
+// user_id = 1, l'admin créé via init-admin.js
 const insertPage = db.prepare(
   "INSERT INTO pages (slug, title, position, user_id) VALUES (?, ?, ?, 1)",
 );

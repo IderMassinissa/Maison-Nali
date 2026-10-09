@@ -15,7 +15,7 @@ const CONTENU_INITIAL = {
   ].join("\n"),
 };
 
-// user_id = 1, l'admin créé via seed-admin.js — même convention que seed-pages.js
+// user_id = 1, l'admin créé via init-admin.js — même convention que init-pages.js
 if (getPageBySlug(SLUG)) {
   console.log("Page 'evenements' déjà présente, rien à faire.");
 } else {
