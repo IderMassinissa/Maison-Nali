@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import usePageSeo from "../../hooks/usePageSeo";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Connexion() {
+  usePageSeo("Maison Nali — Administration", "Espace d'administration Maison Nali.");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [erreur, setErreur] = useState("");

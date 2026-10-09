@@ -1,4 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import usePageSeo from "../../hooks/usePageSeo";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const PAGES = [
@@ -10,6 +11,8 @@ const PAGES = [
 ];
 
 export default function DashboardLayout() {
+  usePageSeo("Maison Nali — Administration", "Espace d'administration Maison Nali.");
+
   const navigate = useNavigate();
 
   async function handleLogout() {

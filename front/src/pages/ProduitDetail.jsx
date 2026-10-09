@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ServiceIndisponible from "../components/ServiceIndisponible";
+import usePageSeo from "../hooks/usePageSeo";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -25,6 +26,14 @@ export default function ProduitDetail() {
       .catch(() => setErreur(true))
       .finally(() => setChargement(false));
   }, [id]);
+
+  usePageSeo(
+    produit ? `${produit.name} — Maison Nali` : "Maison Nali",
+    (produit?.description || "Pâtisserie artisanale Maison Nali.").slice(
+      0,
+      160,
+    ),
+  );
 
   if (chargement) return null;
   if (erreur) return <ServiceIndisponible />;
