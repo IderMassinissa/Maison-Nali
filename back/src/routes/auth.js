@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
+const rateLimitLogin = require("../middleware/rateLimitLogin");
+const { NOM_COOKIE_SESSION } = require("../constants");
 const {
   getUserByEmail,
   createUser,
@@ -8,7 +10,7 @@ const {
 } = require("../repositories/users");
 const { verifyPassword, hashPassword } = require("../repositories/auth");
 
-router.post("/login", async (req, res) => {
+router.post("/login", rateLimitLogin, async (req, res) => {
   const { email, password } = req.body;
 
   const user = getUserByEmail(email);
@@ -21,12 +23,26 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "Identifiants incorrects" });
   }
 
-  req.session.userId = user.id;
-  res.json({ message: "Connecté" });
+  // Regenere l'identifiant de session avant d'y placer l'utilisateur
+  // connecte : empeche la fixation de session (un identifiant de session
+  // connu/pose par un attaquant avant la connexion ne devient jamais une
+  // session authentifiee, puisqu'un nouvel identifiant est genere ici).
+  req.session.regenerate((err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erreur lors de la connexion" });
+    }
+    req.session.userId = user.id;
+    res.json({ message: "Connecté" });
+  });
 });
 
 router.post("/logout", (req, res) => {
   req.session.destroy(() => {
+    // Le cookie peut rester dans le navigateur apres destroy() (la session
+    // qu'il designe n'existe simplement plus cote serveur) -- on le
+    // supprime explicitement par propete.
+    res.clearCookie(NOM_COOKIE_SESSION);
     res.json({ message: "Déconnecté" });
   });
 });

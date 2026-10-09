@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "backup": "node src/db/backup.js",
     "pretest": "node src/db/init-test.js",
-    "test": "node --require ./src/db/testEnv.js --test --test-concurrency=1 src/repositories/*.test.js src/routes/*.test.js src/utils/*.test.js",
+    "test": "node --require ./src/db/testEnv.js --test --test-concurrency=1 src/repositories/*.test.js src/routes/*.test.js src/utils/*.test.js src/db/*.test.js src/middleware/*.test.js",
     "init-db": "node src/db/init.js"
   },
   "keywords": [],
