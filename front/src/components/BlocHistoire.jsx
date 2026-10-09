@@ -9,7 +9,7 @@ export default function BlocHistoire({
   texteBouton,
   fondSombre = false,
   photo,
-  photoAlt = "Maîtres pâtissiers façonnant la pâte dans un atelier algérois",
+  photoAlt = "Photo illustrant l'histoire de Maison Nali",
   focusX,
   focusY,
 }) {

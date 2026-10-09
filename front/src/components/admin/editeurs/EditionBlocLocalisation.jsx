@@ -19,6 +19,7 @@ export default function EditionBlocLocalisation({ section }) {
   const [sousTitre, setSousTitre] = useState(contenuInitial.sousTitre || "");
   const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");
   const [photo, setPhoto] = useState(contenuInitial.photo || "");
+  const [photoAlt, setPhotoAlt] = useState(contenuInitial.photoAlt || "");
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
   const [uploadEnCours, setUploadEnCours] = useState(false);
@@ -76,7 +77,7 @@ export default function EditionBlocLocalisation({ section }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    sauvegarder({ titre, sousTitre, texteBouton, photo, focusX, focusY });
+    sauvegarder({ titre, sousTitre, texteBouton, photo, photoAlt, focusX, focusY });
   }
 
   async function sauvegarderHoraire(id, openTime, closeTime) {
@@ -194,6 +195,18 @@ export default function EditionBlocLocalisation({ section }) {
           {uploadEnCours && (
             <p className="text-xs opacity-60 mt-2">Envoi en cours...</p>
           )}
+        </div>
+        <div>
+          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            Texte alternatif de la photo
+          </label>
+          <input
+            type="text"
+            value={photoAlt}
+            onChange={(e) => setPhotoAlt(e.target.value)}
+            placeholder="Description de la photo pour l'accessibilité"
+            className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
+          />
         </div>
         <button
           type="submit"

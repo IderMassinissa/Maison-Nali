@@ -12,6 +12,7 @@ export default function BlocLocalisation({
   sousTitre,
   texteBouton,
   photo,
+  photoAlt = "Photo de la boutique Maison Nali",
   focusX,
   focusY,
 }) {
@@ -84,7 +85,7 @@ export default function BlocLocalisation({
               <img
                 className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
                 src={urlImage(photo)}
-                alt="Vitrine de la boutique Maison Nali à Paris"
+                alt={photoAlt}
                 style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
               />
             ) : (
