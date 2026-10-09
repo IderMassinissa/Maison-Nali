@@ -1,19 +1,19 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
+const {
+  detecterTypeImage,
+  EXTENSION_PAR_TYPE,
+} = require("../utils/detecterTypeImage");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../public/uploads"));
-  },
-  filename: (req, file, cb) => {
-    const extension = path.extname(file.originalname);
-    const nomUnique = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extension}`;
-    cb(null, nomUnique);
-  },
-});
+// Stockage en mémoire (Buffer), pas directement sur disque : le temps de
+// vérifier le contenu réel du fichier (cf. plus bas), avant de l'écrire
+// nous-mêmes avec un nom et une extension que NOUS choisissons -- jamais
+// l'extension fournie par le client (voir E2 dans le rapport sécurité).
+const storage = multer.memoryStorage();
 
 const TYPES_AUTORISES = ["image/jpeg", "image/png", "image/webp"];
 const TAILLE_MAX = 5 * 1024 * 1024;
@@ -22,6 +22,10 @@ const upload = multer({
   storage,
   limits: { fileSize: TAILLE_MAX },
   fileFilter: (req, file, cb) => {
+    // Premier filtre, rapide mais insuffisant seul : le Content-Type
+    // déclaré par le client est entièrement falsifiable. Il évite juste de
+    // charger en mémoire un fichier dont le type annoncé est déjà hors
+    // liste -- le vrai contrôle est après upload, sur le contenu reçu.
     if (!TYPES_AUTORISES.includes(file.mimetype)) {
       return cb(
         new Error("Type de fichier non autorisé (JPEG, PNG, WebP uniquement)"),
@@ -44,7 +48,38 @@ router.post("/", requireAuth, (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "Aucun fichier reçu" });
     }
-    res.json({ url: `/uploads/${req.file.filename}` });
+
+    // Deuxième filtre, le seul qui compte vraiment : on lit les premiers
+    // octets du fichier réellement reçu ("magic bytes"), indépendamment du
+    // Content-Type déclaré ou du nom de fichier d'origine -- les deux sont
+    // falsifiables, pas le contenu binaire du fichier lui-même.
+    const typeReel = detecterTypeImage(req.file.buffer);
+    if (!typeReel) {
+      return res.status(400).json({
+        error:
+          "Le contenu du fichier ne correspond à aucune image JPEG, PNG ou WebP valide",
+      });
+    }
+
+    // L'extension du fichier écrit sur disque vient du type réellement
+    // détecté, jamais du nom de fichier fourni par le client.
+    const extension = EXTENSION_PAR_TYPE[typeReel];
+    const nomUnique = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extension}`;
+    const cheminDestination = path.join(
+      __dirname,
+      "../../public/uploads",
+      nomUnique,
+    );
+
+    fs.writeFile(cheminDestination, req.file.buffer, (errEcriture) => {
+      if (errEcriture) {
+        console.error(errEcriture);
+        return res
+          .status(500)
+          .json({ error: "Erreur lors de l'enregistrement du fichier" });
+      }
+      res.json({ url: `/uploads/${nomUnique}` });
+    });
   });
 });
 
