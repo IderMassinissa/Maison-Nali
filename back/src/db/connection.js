@@ -8,4 +8,12 @@ const dbPath = isTest
 
 const db = new Database(dbPath);
 
+if (isTest) {
+  // node --test lance les fichiers de test en parallèle : plusieurs process
+  // ouvrent back/data/test.sqlite en même temps. Le mode journal par défaut
+  // (rollback journal) provoque alors des SQLITE_BUSY intermittents.
+  db.pragma("journal_mode = WAL");
+  db.pragma("busy_timeout = 5000");
+}
+
 module.exports = db;
