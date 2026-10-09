@@ -81,7 +81,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="p-2 hover:text-brand-accent transition-colors"
+                  className="p-3 hover:text-brand-accent transition-colors"
                 >
                   <FaInstagram />
                 </a>
@@ -92,7 +92,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="p-2 hover:text-brand-accent transition-colors"
+                  className="p-3 hover:text-brand-accent transition-colors"
                 >
                   <FaFacebookF />
                 </a>
@@ -103,7 +103,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="TikTok"
-                  className="p-2 hover:text-brand-accent transition-colors"
+                  className="p-3 hover:text-brand-accent transition-colors"
                 >
                   <FaTiktok />
                 </a>

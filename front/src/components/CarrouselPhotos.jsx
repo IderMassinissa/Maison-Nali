@@ -191,7 +191,7 @@ export default function CarrouselPhotos({ photos }) {
               type="button"
               onClick={() => allerAPage((pageActive - 1 + totalPages) % totalPages)}
               aria-label="Photo précédente"
-              className="text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+              className="w-11 h-11 flex items-center justify-center text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
             >
               <IconeFleche direction={-1} />
             </button>
@@ -211,7 +211,7 @@ export default function CarrouselPhotos({ photos }) {
               type="button"
               onClick={() => allerAPage((pageActive + 1) % totalPages)}
               aria-label="Photo suivante"
-              className="text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+              className="w-11 h-11 flex items-center justify-center text-brand-dark/60 hover:text-brand-dark transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
             >
               <IconeFleche direction={1} />
             </button>
