@@ -83,7 +83,7 @@ export default function BlocEvenements({ formats }) {
             {formatsAnalyses.map((format, index) => (
               <li
                 key={`${format.nom}-${index}`}
-                className="p-6 border border-brand-border rounded-lg bg-white shadow-soft"
+                className="p-6 border border-brand-dark rounded-lg bg-white shadow-soft"
               >
                 <p className="font-display text-lg md:text-xl">
                   {format.nom}
