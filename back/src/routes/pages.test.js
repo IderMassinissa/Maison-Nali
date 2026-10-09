@@ -5,8 +5,7 @@ const request = require("supertest");
 const bcrypt = require("bcrypt");
 const db = require("../db/connection");
 const { createUser } = require("../repositories/users");
-
-const BASE_URL = "http://localhost:3001";
+const app = require("../server");
 
 const EMAIL_TEST = "test-sections-phase4d@example.test";
 const MOT_DE_PASSE_TEST = "MotDePasseTest123!";
@@ -18,7 +17,7 @@ before(async () => {
   const hash = await bcrypt.hash(MOT_DE_PASSE_TEST, 10);
   createUser(EMAIL_TEST, hash);
 
-  agent = request.agent(BASE_URL);
+  agent = request.agent(app);
   await agent
     .post("/api/auth/login")
     .send({ email: EMAIL_TEST, password: MOT_DE_PASSE_TEST });
@@ -48,7 +47,7 @@ function supprimerPageTemporaire(pageId) {
 }
 
 test("PUT /api/pages/sections/:id/content sans authentification renvoie 401", async () => {
-  const res = await request(BASE_URL)
+  const res = await request(app)
     .put("/api/pages/sections/1/content")
     .send({ content: "{}" });
   assert.strictEqual(res.status, 401);
