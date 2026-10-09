@@ -146,3 +146,7 @@ vite.config.ts.timestamp-*
 back/data/*.sqlite
 back/data/*.sqlite-wal
 back/data/*.sqlite-shm
+
+# uploads
+back/public/uploads/*
+!back/public/uploads/.gitkeep
