@@ -27,6 +27,7 @@ export default function BlocHistoire({
                 className="w-full h-full object-cover"
                 src={urlImage(photo)}
                 alt={photoAlt}
+                loading="lazy"
                 style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
               />
             ) : (

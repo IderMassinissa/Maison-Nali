@@ -86,6 +86,7 @@ export default function BlocLocalisation({
                 className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
                 src={urlImage(photo)}
                 alt={photoAlt}
+                loading="lazy"
                 style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
               />
             ) : (

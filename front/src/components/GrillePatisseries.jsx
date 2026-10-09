@@ -14,6 +14,7 @@ function CartePatisserie({ id, nom, image, focusX, focusY }) {
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
             src={urlImage(image)}
             alt={nom}
+            loading="lazy"
             style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
           />
         ) : (
