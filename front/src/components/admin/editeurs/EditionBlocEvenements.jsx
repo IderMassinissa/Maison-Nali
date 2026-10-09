@@ -1,8 +1,9 @@
 import { useState } from "react";
 import useSauvegardeBloc from "./SauvegardeBloc";
+import { parseContenuSection } from "../../../utils/parseContenuSection";
 
 export default function EditionBlocEvenements({ section }) {
-  const contenuInitial = JSON.parse(section.content || "{}");
+  const contenuInitial = parseContenuSection(section.content);
   const [formats, setFormats] = useState(contenuInitial.formats || "");
   const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
 

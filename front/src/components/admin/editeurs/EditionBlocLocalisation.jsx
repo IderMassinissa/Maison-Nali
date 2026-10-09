@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useSauvegardeBloc from "./SauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";
+import { parseContenuSection } from "../../../utils/parseContenuSection";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
@@ -14,7 +15,7 @@ const ORDRE_JOURS = [
 ];
 
 export default function EditionBlocLocalisation({ section }) {
-  const contenuInitial = JSON.parse(section.content || "{}");
+  const contenuInitial = parseContenuSection(section.content);
   const [titre, setTitre] = useState(contenuInitial.titre || "");
   const [sousTitre, setSousTitre] = useState(contenuInitial.sousTitre || "");
   const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");

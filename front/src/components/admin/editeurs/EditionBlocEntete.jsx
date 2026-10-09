@@ -1,8 +1,9 @@
 import { useState } from "react";
 import useSauvegardeBloc from "./SauvegardeBloc";
+import { parseContenuSection } from "../../../utils/parseContenuSection";
 
 export default function EditionBlocEntete({ section }) {
-  const contenuInitial = JSON.parse(section.content || "{}");
+  const contenuInitial = parseContenuSection(section.content);
   const [libelle, setLibelle] = useState(contenuInitial.libelle || "");
   const [titre, setTitre] = useState(contenuInitial.titre || "");
   const [intro, setIntro] = useState(contenuInitial.intro || "");

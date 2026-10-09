@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { urlImage } from "../../utils/urlImage";
+import { gererSessionExpiree } from "../../utils/sessionExpiree";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -66,14 +67,22 @@ function ProduitTriable({ produit, onEditer, onSupprimer }) {
 export default function GestionProduits() {
   const [produits, setProduits] = useState([]);
   const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState("");
   const [modeEdition, setModeEdition] = useState(null);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   function chargerProduits() {
     fetch(`${API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => setProduits(data))
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => {
+        setProduits(data);
+        setErreur("");
+      })
+      .catch(() => setErreur("Impossible de charger les produits"))
       .finally(() => setChargement(false));
   }
 
@@ -83,10 +92,11 @@ export default function GestionProduits() {
 
   async function handleDelete(id) {
     if (!confirm("Supprimer ce produit ?")) return;
-    await fetch(`${API_URL}/api/products/${id}`, {
+    const res = await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
+    if (gererSessionExpiree(res.status)) return;
     chargerProduits();
   }
 
@@ -134,6 +144,8 @@ export default function GestionProduits() {
           + Ajouter une pâtisserie
         </button>
       </div>
+
+      {erreur && <p className="text-red-600 text-sm mb-6">{erreur}</p>}
 
       {chargement ? (
         <p>Chargement...</p>

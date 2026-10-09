@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { urlImage } from "../../utils/urlImage";
+import { gererSessionExpiree } from "../../utils/sessionExpiree";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIMITE_PHOTOS = 5;
@@ -81,8 +82,15 @@ export default function GestionPhotosEvenements() {
 
   function chargerPhotos() {
     fetch(`${API_URL}/api/event-photos`)
-      .then((res) => res.json())
-      .then((data) => setPhotos(data))
+      .then((res) => {
+        if (!res.ok) throw new Error("Réponse API non ok");
+        return res.json();
+      })
+      .then((data) => {
+        setPhotos(data);
+        setErreur("");
+      })
+      .catch(() => setErreur("Impossible de charger les photos"))
       .finally(() => setChargement(false));
   }
 
@@ -136,6 +144,7 @@ export default function GestionPhotosEvenements() {
         credentials: "include",
         body: JSON.stringify({ alt }),
       });
+      if (gererSessionExpiree(res.status)) return;
       if (!res.ok) {
         const data = await res.json();
         setErreur(data.error || "Échec de la mise à jour");
@@ -149,10 +158,11 @@ export default function GestionPhotosEvenements() {
 
   async function handleSupprimer(id) {
     if (!confirm("Supprimer cette photo ?")) return;
-    await fetch(`${API_URL}/api/event-photos/${id}`, {
+    const res = await fetch(`${API_URL}/api/event-photos/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
+    if (gererSessionExpiree(res.status)) return;
     chargerPhotos();
   }
 
