@@ -271,10 +271,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       </h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="produit-nom"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Nom
           </label>
           <input
+            id="produit-nom"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -283,10 +287,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="produit-description"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Description
           </label>
           <textarea
+            id="produit-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
@@ -337,10 +345,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           )}
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="produit-video"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Lien vidéo (optionnel)
           </label>
           <input
+            id="produit-video"
             type="url"
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}

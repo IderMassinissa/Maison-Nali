@@ -17,10 +17,14 @@ export default function EditionBlocEvenements({ section }) {
       <h1 className="font-display text-3xl mb-8">Bloc Événements</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="evenements-formats"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Formats de boîtes
           </label>
           <textarea
+            id="evenements-formats"
             value={formats}
             onChange={(e) => setFormats(e.target.value)}
             rows={5}

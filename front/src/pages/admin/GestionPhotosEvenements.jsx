@@ -54,6 +54,7 @@ function PhotoTriable({ photo, onModifierAlt, onSupprimer }) {
       />
       <input
         type="text"
+        aria-label="Texte alternatif de la photo"
         value={alt}
         onChange={(e) => setAlt(e.target.value)}
         onBlur={sauvegarderAlt}

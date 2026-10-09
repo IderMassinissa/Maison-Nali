@@ -83,10 +83,14 @@ export default function GestionBanniere() {
         </div>
 
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="banniere-message"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Message
           </label>
           <input
+            id="banniere-message"
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -97,11 +101,15 @@ export default function GestionBanniere() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            <label
+              htmlFor="banniere-debut"
+              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            >
               Début
             </label>
             <div className="flex items-center gap-3">
               <input
+                id="banniere-debut"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -120,11 +128,15 @@ export default function GestionBanniere() {
           </div>
 
           <div>
-            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            <label
+              htmlFor="banniere-fin"
+              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            >
               Fin
             </label>
             <div className="flex items-center gap-3">
               <input
+                id="banniere-fin"
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}

@@ -45,10 +45,14 @@ export default function Connexion() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+            <label
+              htmlFor="connexion-email"
+              className="block text-xs uppercase tracking-widest opacity-60 mb-2"
+            >
               Email
             </label>
             <input
+              id="connexion-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -58,10 +62,14 @@ export default function Connexion() {
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-widest opacity-60 mb-2">
+            <label
+              htmlFor="connexion-password"
+              className="block text-xs uppercase tracking-widest opacity-60 mb-2"
+            >
               Mot de passe
             </label>
             <input
+              id="connexion-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

@@ -72,10 +72,14 @@ export default function EditionBlocHistoire({ section }) {
       <h1 className="font-display text-3xl mb-8">Bloc Histoire</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Titre
           </label>
           <input
+            id="histoire-titre"
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
@@ -83,10 +87,14 @@ export default function EditionBlocHistoire({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-sous-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Sous-titre
           </label>
           <input
+            id="histoire-sous-titre"
             type="text"
             value={sousTitre}
             onChange={(e) => setSousTitre(e.target.value)}
@@ -95,10 +103,14 @@ export default function EditionBlocHistoire({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-texte"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte
           </label>
           <textarea
+            id="histoire-texte"
             value={texte}
             onChange={(e) => setTexte(e.target.value)}
             rows={5}
@@ -106,10 +118,14 @@ export default function EditionBlocHistoire({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-texte-bouton"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte du bouton
           </label>
           <input
+            id="histoire-texte-bouton"
             type="text"
             value={texteBouton}
             onChange={(e) => setTexteBouton(e.target.value)}
@@ -118,10 +134,14 @@ export default function EditionBlocHistoire({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-lien-bouton"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Lien du bouton
           </label>
           <input
+            id="histoire-lien-bouton"
             type="text"
             value={lienBouton}
             onChange={(e) => setLienBouton(e.target.value)}
@@ -177,10 +197,14 @@ export default function EditionBlocHistoire({ section }) {
           )}
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="histoire-photo-alt"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte alternatif de la photo
           </label>
           <input
+            id="histoire-photo-alt"
             type="text"
             value={photoAlt}
             onChange={(e) => setPhotoAlt(e.target.value)}

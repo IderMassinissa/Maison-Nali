@@ -119,10 +119,14 @@ export default function EditionBlocLocalisation({ section }) {
 
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 mb-12">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="localisation-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Titre
           </label>
           <input
+            id="localisation-titre"
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
@@ -131,10 +135,14 @@ export default function EditionBlocLocalisation({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="localisation-sous-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Sous-titre
           </label>
           <input
+            id="localisation-sous-titre"
             type="text"
             value={sousTitre}
             onChange={(e) => setSousTitre(e.target.value)}
@@ -143,10 +151,14 @@ export default function EditionBlocLocalisation({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="localisation-texte-bouton"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte du bouton
           </label>
           <input
+            id="localisation-texte-bouton"
             type="text"
             value={texteBouton}
             onChange={(e) => setTexteBouton(e.target.value)}
@@ -198,10 +210,14 @@ export default function EditionBlocLocalisation({ section }) {
           )}
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="localisation-photo-alt"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte alternatif de la photo
           </label>
           <input
+            id="localisation-photo-alt"
             type="text"
             value={photoAlt}
             onChange={(e) => setPhotoAlt(e.target.value)}
@@ -249,6 +265,7 @@ export default function EditionBlocLocalisation({ section }) {
                     <div className="flex-1 flex items-center gap-2">
                       <input
                         type="time"
+                        aria-label={`Heure d'ouverture, ${horaire.day}`}
                         value={horaire.open_time || ""}
                         onChange={(e) =>
                           handleChangeHoraire(
@@ -267,6 +284,7 @@ export default function EditionBlocLocalisation({ section }) {
                       <span className="opacity-50">à</span>
                       <input
                         type="time"
+                        aria-label={`Heure de fermeture, ${horaire.day}`}
                         value={horaire.close_time || ""}
                         onChange={(e) =>
                           handleChangeHoraire(

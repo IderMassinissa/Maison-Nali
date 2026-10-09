@@ -52,10 +52,14 @@ export default function ChangerMotDePasse() {
 
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="mdp-actuel"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Mot de passe actuel
           </label>
           <input
+            id="mdp-actuel"
             type="password"
             value={ancienMotDePasse}
             onChange={(e) => setAncienMotDePasse(e.target.value)}
@@ -64,10 +68,14 @@ export default function ChangerMotDePasse() {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="mdp-nouveau"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Nouveau mot de passe
           </label>
           <input
+            id="mdp-nouveau"
             type="password"
             value={nouveauMotDePasse}
             onChange={(e) => setNouveauMotDePasse(e.target.value)}
@@ -77,10 +85,14 @@ export default function ChangerMotDePasse() {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="mdp-confirmation"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Confirmer le nouveau mot de passe
           </label>
           <input
+            id="mdp-confirmation"
             type="password"
             value={confirmation}
             onChange={(e) => setConfirmation(e.target.value)}

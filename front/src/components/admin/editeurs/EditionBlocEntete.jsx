@@ -19,10 +19,14 @@ export default function EditionBlocEntete({ section }) {
       <h1 className="font-display text-3xl mb-8">Bloc En-tête</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="entete-libelle"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Libellé (optionnel)
           </label>
           <input
+            id="entete-libelle"
             type="text"
             value={libelle}
             onChange={(e) => setLibelle(e.target.value)}
@@ -31,10 +35,14 @@ export default function EditionBlocEntete({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="entete-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Titre
           </label>
           <input
+            id="entete-titre"
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
@@ -44,10 +52,14 @@ export default function EditionBlocEntete({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="entete-intro"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Introduction (optionnelle)
           </label>
           <textarea
+            id="entete-intro"
             value={intro}
             onChange={(e) => setIntro(e.target.value)}
             rows={3}

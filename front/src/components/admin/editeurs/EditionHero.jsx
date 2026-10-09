@@ -70,10 +70,14 @@ export default function EditionHero({ section }) {
       <h1 className="font-display text-3xl mb-8">Bloc Hero</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="hero-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Titre principal
           </label>
           <input
+            id="hero-titre"
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
@@ -81,10 +85,14 @@ export default function EditionHero({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="hero-accroche"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Accroche
           </label>
           <input
+            id="hero-accroche"
             type="text"
             value={accroche}
             onChange={(e) => setAccroche(e.target.value)}
@@ -93,10 +101,14 @@ export default function EditionHero({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="hero-sous-titre"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Sous-titre
           </label>
           <input
+            id="hero-sous-titre"
             type="text"
             value={sousTitre}
             onChange={(e) => setSousTitre(e.target.value)}
@@ -147,10 +159,14 @@ export default function EditionHero({ section }) {
           )}
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="hero-texte-bouton"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Texte du bouton
           </label>
           <input
+            id="hero-texte-bouton"
             type="text"
             value={texteBouton}
             onChange={(e) => setTexteBouton(e.target.value)}
@@ -158,10 +174,14 @@ export default function EditionHero({ section }) {
           />
         </div>
         <div>
-          <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+          <label
+            htmlFor="hero-lien-bouton"
+            className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+          >
             Lien du bouton
           </label>
           <input
+            id="hero-lien-bouton"
             type="text"
             value={lienBouton}
             onChange={(e) => setLienBouton(e.target.value)}

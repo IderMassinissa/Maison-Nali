@@ -52,12 +52,16 @@ export default function GestionReseaux() {
       <div className="max-w-2xl space-y-6">
         {CHAMPS.map(({ key, label, type, placeholder }) => (
           <div key={key}>
-            <label className="block text-sm uppercase tracking-widest opacity-60 mb-2">
+            <label
+              htmlFor={`reseau-${key}`}
+              className="block text-sm uppercase tracking-widest opacity-60 mb-2"
+            >
               {label}
             </label>
             <div className="flex gap-3">
               {type === "textarea" ? (
                 <textarea
+                  id={`reseau-${key}`}
                   value={valeurs[key] || ""}
                   onChange={(e) =>
                     setValeurs((prev) => ({ ...prev, [key]: e.target.value }))
@@ -67,6 +71,7 @@ export default function GestionReseaux() {
                 />
               ) : (
                 <input
+                  id={`reseau-${key}`}
                   type={type}
                   value={valeurs[key] || ""}
                   onChange={(e) =>
