@@ -34,6 +34,7 @@ export default function ProduitDetail() {
       0,
       160,
     ),
+    { image: produit?.photo_url ? urlImage(produit.photo_url) : undefined },
   );
 
   if (chargement) return <ChargementPage />;
