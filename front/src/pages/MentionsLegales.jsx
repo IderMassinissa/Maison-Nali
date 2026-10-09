@@ -61,6 +61,17 @@ export default function MentionsLegales() {
             est la propriété de Maison Nali, sauf mention contraire.
           </p>
         </section>
+
+        <section>
+          <h2 className="font-display text-xl mb-3 opacity-100">
+            Données personnelles
+          </h2>
+          <p>
+            Ce site ne collecte aucune donnée personnelle via un formulaire
+            public et ne dépose aucun cookie de mesure d'audience ou
+            publicitaire.
+          </p>
+        </section>
       </div>
     </div>
   );
