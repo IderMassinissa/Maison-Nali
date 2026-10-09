@@ -23,6 +23,10 @@ router.post("/login", rateLimitLogin, async (req, res) => {
     return res.status(401).json({ error: "Identifiants incorrects" });
   }
 
+  // Connexion reussie : cette IP n'a plus de raison de rester comptee comme
+  // suspecte, meme si elle avait deja echoue plusieurs fois avant.
+  rateLimitLogin.reinitialiserTentativesIp(req.ip);
+
   // Regenere l'identifiant de session avant d'y placer l'utilisateur
   // connecte : empeche la fixation de session (un identifiant de session
   // connu/pose par un attaquant avant la connexion ne devient jamais une

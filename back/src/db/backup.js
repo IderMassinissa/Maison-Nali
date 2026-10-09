@@ -45,6 +45,13 @@ try {
     const dataDest = path.join(dossierSauvegarde, "data");
     fs.mkdirSync(dataDest, { recursive: true });
     for (const fichier of fs.readdirSync(dataSrc)) {
+      // sessions.sqlite (+ ses fichiers auxiliaires WAL/SHM) n'a rien a
+      // faire dans une sauvegarde : ce ne sont que des sessions admin
+      // actives, pas des donnees du site -- les resauvegarder exposerait
+      // inutilement des identifiants de session valides dans le dossier de
+      // sauvegarde.
+      if (fichier.startsWith("sessions.sqlite")) continue;
+
       if (fichier.endsWith(".sqlite")) {
         fs.copyFileSync(
           path.join(dataSrc, fichier),

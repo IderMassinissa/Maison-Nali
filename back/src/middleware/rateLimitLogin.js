@@ -5,6 +5,7 @@
 
 const LIMITE_TENTATIVES = 5;
 const FENETRE_MS = 15 * 60 * 1000; // 15 minutes
+const INTERVALLE_PURGE_MS = 15 * 60 * 1000;
 
 // cle = adresse IP, valeur = { compte, depuis } ("depuis" = debut de la
 // fenetre de 15 minutes en cours pour cette IP).
@@ -34,6 +35,50 @@ function rateLimitLogin(req, res, next) {
   next();
 }
 
+// A appeler depuis auth.js quand une connexion reussit : une IP qui vient
+// de prouver qu'elle connait le bon mot de passe n'a plus de raison de
+// rester comptee comme suspecte -- repart a zero plutot que de continuer a
+// accumuler vers la limite a partir de tentatives anterieures (echouees ou
+// non).
+function reinitialiserTentativesIp(ip) {
+  tentativesParIp.delete(ip);
+}
+
+// Purge perdiodique des entrees dont la fenetre de 15 minutes est expiree :
+// une IP qui n'a plus retente depuis longtemps ne doit pas rester en
+// memoire indefiniment (la Map grossirait sans fin sur un serveur qui tourne
+// des mois). .unref() : ce minuteur ne doit jamais empecher le process de
+// s'arreter proprement (Ctrl+C, fin des tests...).
+function purgerEntreesExpirees() {
+  const maintenant = Date.now();
+  for (const [ip, entree] of tentativesParIp) {
+    if (maintenant - entree.depuis > FENETRE_MS) {
+      tentativesParIp.delete(ip);
+    }
+  }
+}
+
+let intervallePurge = null;
+
+function demarrerPurgePeriodique(intervalleMs = INTERVALLE_PURGE_MS) {
+  arreterPurgePeriodique();
+  intervallePurge = setInterval(purgerEntreesExpirees, intervalleMs);
+  intervallePurge.unref();
+  return intervallePurge;
+}
+
+function arreterPurgePeriodique() {
+  if (intervallePurge) {
+    clearInterval(intervallePurge);
+    intervallePurge = null;
+  }
+}
+
+// Demarree automatiquement a l'import, comme un vrai middleware pret a
+// l'emploi -- arreterPurgePeriodique()/demarrerPurgePeriodique() restent
+// disponibles pour les tests qui veulent controler le minutage exactement.
+demarrerPurgePeriodique();
+
 // Exporte pour les tests, qui ont besoin de repartir d'un etat vierge entre
 // deux scenarios (sans ca, le compteur d'une IP de test resterait pollue
 // par le test precedent).
@@ -43,3 +88,8 @@ function reinitialiser() {
 
 module.exports = rateLimitLogin;
 module.exports.reinitialiser = reinitialiser;
+module.exports.reinitialiserTentativesIp = reinitialiserTentativesIp;
+module.exports.purgerEntreesExpirees = purgerEntreesExpirees;
+module.exports.demarrerPurgePeriodique = demarrerPurgePeriodique;
+module.exports.arreterPurgePeriodique = arreterPurgePeriodique;
+module.exports._tentativesParIp = tentativesParIp;
