@@ -133,7 +133,7 @@ router.put("/sections/:id/content", requireAuth, (req, res) => {
   }
 });
 
-router.get("/sections/:id", (req, res) => {
+router.get("/sections/:id", requireAuth, (req, res) => {
   try {
     const section = getSectionById(req.params.id);
     if (!section) return res.status(404).json({ error: "Bloc introuvable" });

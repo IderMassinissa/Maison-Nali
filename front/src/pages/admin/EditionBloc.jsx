@@ -28,7 +28,7 @@ function ChargeurBloc({ id }) {
   const [erreur, setErreur] = useState("");
 
   useEffect(() => {
-    fetch(`${API_URL}/api/pages/sections/${id}`)
+    fetch(`${API_URL}/api/pages/sections/${id}`, { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error("Bloc introuvable");
         return res.json();
