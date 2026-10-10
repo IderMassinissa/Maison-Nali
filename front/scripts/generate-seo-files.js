@@ -17,7 +17,15 @@ const racine = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 // mode "production" : lit .env et .env.production s'il existe, comme le
 // ferait `vite build`.
 const env = loadEnv("production", racine, "VITE_");
-const siteUrl = (env.VITE_SITE_URL || "http://localhost:5173").replace(/\/+$/, "");
+
+if (!env.VITE_SITE_URL) {
+  console.error(
+    "VITE_SITE_URL manquant -- obligatoire pour générer robots.txt/sitemap.xml en production.",
+  );
+  process.exit(1);
+}
+
+const siteUrl = env.VITE_SITE_URL.replace(/\/+$/, "");
 
 const ROUTES_PUBLIQUES = [
   "/",
