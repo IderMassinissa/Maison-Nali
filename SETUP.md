@@ -17,6 +17,8 @@ node --version
 
 Si `npm install` échoue avec une erreur `gyp` ou `node-gyp`, c'est ce prérequis qui manque — pas un bug du projet.
 
+`sharp` (optimisation des images à l'upload) n'est pas concerné par ce piège : il embarque un binaire précompilé pour Windows (`@img/sharp-win32-x64`), aucune compilation locale.
+
 ## 1. Installation des dépendances
 
 ```
@@ -74,4 +76,15 @@ node src/server.js
 
 cd ../front
 npm run dev
+```
+
+## 6. Optimiser les photos déjà en place (optionnel, une fois)
+
+Les photos uploadées depuis le lot images (rotation EXIF, métadonnées retirées, largeur max 1600px) sont optimisées automatiquement à l'upload. Pour appliquer le même traitement aux fichiers déjà présents dans `back/public/uploads` :
+
+```
+cd back
+npm run backup          # obligatoire : --apply le vérifie (sauvegarde < 1h)
+node src/db/optimize-uploads.js            # dry-run, affiche poids/dimensions avant-après, n'écrit rien
+node src/db/optimize-uploads.js --apply    # écrit réellement, en place (même nom, même extension)
 ```
