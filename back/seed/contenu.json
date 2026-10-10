@@ -1,0 +1,384 @@
+{
+  "exportedAt": "2026-10-10T17:21:10.914Z",
+  "pages": [
+    {
+      "id": 1,
+      "slug": "accueil",
+      "title": "Accueil",
+      "position": 1,
+      "sections": [
+        {
+          "id": 2,
+          "type": "hero",
+          "position": 0,
+          "content": {
+            "titre": "L'Art de la finesse et de l'élégance algérienne",
+            "accroche": "",
+            "sousTitre": "Pâtisseries dorées, façonnées à la main pour sublimer vos plus belles occasions.",
+            "photo": "/uploads/1788261047077-447926434.webp",
+            "focusX": 46,
+            "focusY": 51,
+            "texteBouton": "Découvrir nos pâtisseries",
+            "lienBouton": "/patisseries"
+          }
+        },
+        {
+          "id": 3,
+          "type": "bloc-patisseries",
+          "position": 4,
+          "content": {}
+        },
+        {
+          "id": 4,
+          "type": "bloc-histoire",
+          "position": 3,
+          "content": {}
+        },
+        {
+          "id": 5,
+          "type": "bloc-localisation",
+          "position": 5,
+          "content": {
+            "photo": "/uploads/1791492981454-accueil-boutique-temp.jpg",
+            "focusX": 38,
+            "focusY": 60
+          }
+        },
+        {
+          "id": 22,
+          "type": "bloc-entete",
+          "position": 1,
+          "content": {
+            "libelle": "Maison Nali",
+            "titre": "Pâtisserie algérienne artisanale à Paris",
+            "intro": "Un savoir-faire familial transmis de Nassima à son fils Sidali."
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "patisseries",
+      "title": "Pâtisseries",
+      "position": 2,
+      "sections": [
+        {
+          "id": 7,
+          "type": "bloc-patisseries",
+          "position": 3,
+          "content": {}
+        },
+        {
+          "id": 23,
+          "type": "bloc-entete",
+          "position": 1,
+          "content": {
+            "libelle": "",
+            "titre": "Nos Pâtisseries",
+            "intro": ""
+          }
+        },
+        {
+          "id": 47,
+          "type": "hero",
+          "position": 0,
+          "content": {
+            "titre": "Un héritage façonné à la main",
+            "sousTitre": "",
+            "photo": "/uploads/1791465609660-patisseries-hero.jpg",
+            "focusX": 29,
+            "focusY": 45,
+            "texteBouton": "",
+            "lienBouton": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "a-propos",
+      "title": "À propos",
+      "position": 3,
+      "sections": [
+        {
+          "id": 12,
+          "type": "bloc-histoire",
+          "position": 3,
+          "content": {
+            "titre": "Notre Histoire",
+            "texte": "Nassima et Sidali : une mère, un fils, une même passion pour la pâtisserie algérienne. De cette transmission patiente, geste après geste, est né Maison Nali — dont le nom réunit leurs deux prénoms.",
+            "texteBouton": "Découvrir nos pâtisseries",
+            "lienBouton": "/patisseries"
+          }
+        },
+        {
+          "id": 24,
+          "type": "bloc-entete",
+          "position": 2,
+          "content": {
+            "libelle": "À propos",
+            "titre": "Nassima & Sidali",
+            "intro": "Derrière Maison Nali, une mère et son fils : Nassima et Sidali, unis par l'amour de la pâtisserie algérienne et le désir de la transmettre."
+          }
+        },
+        {
+          "id": 46,
+          "type": "bloc-histoire",
+          "position": 4,
+          "content": {
+            "titre": "Un savoir-faire qui se transmet",
+            "texte": "Installée aujourd'hui à Paris, Maison Nali continue de faire vivre cet héritage algérien. Sidali y apporte sa propre sensibilité, revisitant certaines recettes traditionnelles à sa façon — toujours avec la même exigence et la même passion.",
+            "photo": "",
+            "photoAlt": "",
+            "texteBouton": "Nous rendre visite",
+            "lienBouton": "/adresse"
+          }
+        },
+        {
+          "id": 48,
+          "type": "hero",
+          "position": 0,
+          "content": {
+            "titre": "Nassima & Sidali, une même passion",
+            "accroche": "",
+            "sousTitre": "",
+            "photo": "/uploads/1791533523068-473419595.JPG",
+            "focusX": 39,
+            "focusY": 46,
+            "texteBouton": "",
+            "lienBouton": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "slug": "adresse",
+      "title": "Adresse",
+      "position": 4,
+      "sections": [
+        {
+          "id": 9,
+          "type": "bloc-localisation",
+          "position": 3,
+          "content": {
+            "titre": "",
+            "sousTitre": "",
+            "texteBouton": "",
+            "photo": "/uploads/1791495177420-124862951.JPG",
+            "focusX": 30,
+            "focusY": 18
+          }
+        },
+        {
+          "id": 25,
+          "type": "bloc-entete",
+          "position": 0,
+          "content": {
+            "libelle": "Adresse",
+            "titre": "Nous rendre visite",
+            "intro": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "slug": "evenements",
+      "title": "Événements",
+      "position": 5,
+      "sections": [
+        {
+          "id": 18,
+          "type": "bloc-evenements",
+          "position": 3,
+          "content": {
+            "formats": "Boîte de 6 pièces | Pour offrir ou goûter\nBoîte de 12 pièces | Pour partager\nBoîte de 24 pièces | Pour vos réceptions\nPlateau sur mesure | Composé selon vos envies"
+          }
+        },
+        {
+          "id": 26,
+          "type": "bloc-entete",
+          "position": 1,
+          "content": {
+            "libelle": "Sur mesure",
+            "titre": "Vos événements sur mesure",
+            "intro": "Mariages, fêtes de famille, Ramadan, cadeaux : Maison Nali prépare des assortiments de pâtisseries algériennes pour vos grands moments. Chaque demande fait l'objet d'un devis personnalisé. Contactez-nous pour en parler."
+          }
+        },
+        {
+          "id": 49,
+          "type": "hero",
+          "position": 0,
+          "content": {
+            "titre": "Des douceurs pour vos grands moments",
+            "photo": "/uploads/1791465609677-evenements-hero.jpg",
+            "texteBouton": "Nous contacter",
+            "lienBouton": "/adresse",
+            "focusX": 45,
+            "focusY": 45
+          }
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": 8,
+      "key": "social_instagram",
+      "value": "https://www.instagram.com/maison.nali/"
+    },
+    {
+      "id": 9,
+      "key": "social_facebook",
+      "value": "https://www.facebook.com/profile.php?id=100065774161250&locale=fr_FR"
+    },
+    {
+      "id": 10,
+      "key": "social_tiktok",
+      "value": "https://www.tiktok.com/@maison.nali"
+    },
+    {
+      "id": 37,
+      "key": "phone",
+      "value": "01 86 04 43 34"
+    },
+    {
+      "id": 48,
+      "key": "address_text",
+      "value": "7 Av. de la Prte de Montrouge, 75014 Paris"
+    }
+  ],
+  "opening_hours": [
+    {
+      "id": 1,
+      "day": "Lundi",
+      "open_time": null,
+      "close_time": null
+    },
+    {
+      "id": 2,
+      "day": "Mardi",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    },
+    {
+      "id": 3,
+      "day": "Mercredi",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    },
+    {
+      "id": 4,
+      "day": "Jeudi",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    },
+    {
+      "id": 5,
+      "day": "Vendredi",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    },
+    {
+      "id": 6,
+      "day": "Samedi",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    },
+    {
+      "id": 7,
+      "day": "Dimanche",
+      "open_time": "11:00",
+      "close_time": "19:00"
+    }
+  ],
+  "categories": [],
+  "products": [
+    {
+      "id": 23,
+      "name": "Makrout au four",
+      "description": "",
+      "photo_url": "/uploads/1788275208468-806382937.jpg",
+      "video_url": "",
+      "category_id": null,
+      "focus_x": 51,
+      "focus_y": 62,
+      "position": 1
+    },
+    {
+      "id": 29,
+      "name": "GHRIBIA Cacahuète",
+      "description": "une description teste pour le ghribia à la cacahuète",
+      "photo_url": "/uploads/1788264820761-621086916.jpg",
+      "video_url": "",
+      "category_id": null,
+      "focus_x": 51,
+      "focus_y": 61,
+      "position": 4
+    },
+    {
+      "id": 35,
+      "name": "KAAK TLEMCEN",
+      "description": "",
+      "photo_url": "/uploads/1788269342778-899301506.jpg",
+      "video_url": "",
+      "category_id": null,
+      "focus_x": 51,
+      "focus_y": 56,
+      "position": 3
+    },
+    {
+      "id": 37,
+      "name": "LE LINA",
+      "description": "",
+      "photo_url": "/uploads/1788276514651-827590811.jpg",
+      "video_url": "",
+      "category_id": null,
+      "focus_x": 53,
+      "focus_y": 49,
+      "position": 2
+    }
+  ],
+  "event_photos": [
+    {
+      "id": 11,
+      "image_url": "/uploads/1790610996428-756004240.webp",
+      "alt": null,
+      "position": 1
+    },
+    {
+      "id": 13,
+      "image_url": "/uploads/1790611002199-977951337.webp",
+      "alt": null,
+      "position": 3
+    },
+    {
+      "id": 14,
+      "image_url": "/uploads/1790611006735-605665827.webp",
+      "alt": null,
+      "position": 4
+    },
+    {
+      "id": 15,
+      "image_url": "/uploads/1790611019450-228229804.jpg",
+      "alt": null,
+      "position": 5
+    },
+    {
+      "id": 16,
+      "image_url": "/uploads/1790611021728-28457242.jpg",
+      "alt": null,
+      "position": 6
+    }
+  ],
+  "announcements": [
+    {
+      "id": 1,
+      "message": "Bienvenue chez Maison Nali",
+      "active": 0,
+      "start_date": null,
+      "end_date": null
+    }
+  ]
+}
