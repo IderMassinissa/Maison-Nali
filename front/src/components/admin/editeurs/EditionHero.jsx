@@ -15,6 +15,7 @@ export default function EditionHero({ section }) {
   const [texteBouton, setTexteBouton] = useState(contenuInitial.texteBouton || "");
   const [lienBouton, setLienBouton] = useState(contenuInitial.lienBouton || "");
   const [uploadEnCours, setUploadEnCours] = useState(false);
+  const [erreurUpload, setErreurUpload] = useState("");
   const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
 
   async function handlePhotoChange(e) {
@@ -22,6 +23,7 @@ export default function EditionHero({ section }) {
     if (!fichier) return;
 
     setUploadEnCours(true);
+    setErreurUpload("");
     const formData = new FormData();
     formData.append("photo", fichier);
 
@@ -37,7 +39,7 @@ export default function EditionHero({ section }) {
       setFocusX(50);
       setFocusY(50);
     } catch (err) {
-      alert("Erreur upload : " + err.message);
+      setErreurUpload(err.message);
     } finally {
       setUploadEnCours(false);
     }
@@ -156,6 +158,11 @@ export default function EditionHero({ section }) {
           />
           {uploadEnCours && (
             <p className="text-xs opacity-70 mt-2">Envoi en cours...</p>
+          )}
+          {erreurUpload && (
+            <p role="alert" className="text-red-600 text-sm mt-2">
+              {erreurUpload}
+            </p>
           )}
         </div>
         <div>

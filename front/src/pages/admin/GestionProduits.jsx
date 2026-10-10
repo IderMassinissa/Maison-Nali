@@ -193,12 +193,14 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
   const [focusY, setFocusY] = useState(produitExistant?.focus_y ?? 50);
   const [enregistrement, setEnregistrement] = useState(false);
   const [uploadEnCours, setUploadEnCours] = useState(false);
+  const [erreurUpload, setErreurUpload] = useState("");
 
   async function handlePhotoChange(e) {
     const fichier = e.target.files[0];
     if (!fichier) return;
 
     setUploadEnCours(true);
+    setErreurUpload("");
     const formData = new FormData();
     formData.append("photo", fichier);
 
@@ -214,7 +216,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       setFocusX(50);
       setFocusY(50);
     } catch (err) {
-      alert("Erreur upload : " + err.message);
+      setErreurUpload(err.message);
     } finally {
       setUploadEnCours(false);
     }
@@ -342,6 +344,11 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           />
           {uploadEnCours && (
             <p className="text-xs opacity-70 mt-1">Envoi en cours...</p>
+          )}
+          {erreurUpload && (
+            <p role="alert" className="text-red-600 text-sm mt-1">
+              {erreurUpload}
+            </p>
           )}
         </div>
         <div>

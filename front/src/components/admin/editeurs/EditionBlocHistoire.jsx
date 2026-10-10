@@ -16,6 +16,7 @@ export default function EditionBlocHistoire({ section }) {
   const [focusX, setFocusX] = useState(contenuInitial.focusX ?? 50);
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
   const [uploadEnCours, setUploadEnCours] = useState(false);
+  const [erreurUpload, setErreurUpload] = useState("");
   const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
 
   async function handlePhotoChange(e) {
@@ -23,6 +24,7 @@ export default function EditionBlocHistoire({ section }) {
     if (!fichier) return;
 
     setUploadEnCours(true);
+    setErreurUpload("");
     const formData = new FormData();
     formData.append("photo", fichier);
 
@@ -38,7 +40,7 @@ export default function EditionBlocHistoire({ section }) {
       setFocusX(50);
       setFocusY(50);
     } catch (err) {
-      alert("Erreur upload : " + err.message);
+      setErreurUpload(err.message);
     } finally {
       setUploadEnCours(false);
     }
@@ -194,6 +196,11 @@ export default function EditionBlocHistoire({ section }) {
           />
           {uploadEnCours && (
             <p className="text-xs opacity-70 mt-2">Envoi en cours...</p>
+          )}
+          {erreurUpload && (
+            <p role="alert" className="text-red-600 text-sm mt-2">
+              {erreurUpload}
+            </p>
           )}
         </div>
         <div>
