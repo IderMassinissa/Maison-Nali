@@ -222,60 +222,99 @@ function rapportFichiersManquants() {
   return manquants;
 }
 
-function main() {
-  if (!fs.existsSync(CHEMIN_ENTREE)) {
-    echouer(
-      `${CHEMIN_ENTREE} introuvable. Lance d'abord npm run content:export sur une base qui a du contenu, ou récupère back/seed/contenu.json versionné dans le dépôt.`,
+class FichierEntreeIntrouvableError extends Error {}
+class BaseNonVideError extends Error {
+  constructor(message, comptes) {
+    super(message);
+    this.comptes = comptes;
+  }
+}
+class SauvegardeInsuffisanteError extends Error {}
+
+// Logique complète, sans aucun console.log/process.exit -- testable
+// directement. Lève une erreur typée à chaque refus, ne modifie la base
+// que si tout est validé (transaction unique, annulée automatiquement par
+// better-sqlite3 si ContenuInvalideError remonte depuis l'intérieur).
+// Retourne { comptes, manquants, sauvegardeUtilisee } en cas de succès.
+function importerDepuisFichier({ cheminEntree = CHEMIN_ENTREE, forcer = false } = {}) {
+  if (!fs.existsSync(cheminEntree)) {
+    throw new FichierEntreeIntrouvableError(
+      `${cheminEntree} introuvable. Lance d'abord npm run content:export sur une base qui a du contenu, ou récupère back/seed/contenu.json versionné dans le dépôt.`,
     );
   }
 
   const { vide, comptes } = etatBase();
+  let sauvegardeUtilisee = null;
 
   if (!vide) {
-    if (!FORCER) {
+    if (!forcer) {
       const nonVides = TABLES_CONTENU.filter((t) => comptes[t] > 0).map(
         (t) => `${t} (${comptes[t]})`,
       );
-      echouer(
+      throw new BaseNonVideError(
         `la base contient déjà du contenu : ${nonVides.join(", ")}. Relance sur une base vide (après npm run init-db), ou avec --force si tu sais ce que tu fais.`,
+        comptes,
       );
     }
 
     const sauvegarde = trouverSauvegardeRecente("data");
     if (!estRecente(sauvegarde)) {
-      echouer(
+      throw new SauvegardeInsuffisanteError(
         `--force refusé sans sauvegarde de back/data/*.sqlite datant de moins d'1h dans ${dossierSauvegardes()}. Lance \`npm run backup\` puis réessaie.`,
       );
     }
-    console.log(
-      `--force : sauvegarde récente trouvée (${sauvegarde.chemin}, il y a ${((Date.now() - sauvegarde.date.getTime()) / 60000).toFixed(0)} min) -- le contenu existant va être remplacé.`,
-    );
+    sauvegardeUtilisee = sauvegarde;
   }
 
-  const contenu = JSON.parse(fs.readFileSync(CHEMIN_ENTREE, "utf8"));
+  const contenu = JSON.parse(fs.readFileSync(cheminEntree, "utf8"));
 
   const transaction = db.transaction(() => {
     if (!vide) viderTablesContenu();
     importerContenu(contenu);
   });
+  transaction();
 
+  return {
+    comptes: etatBase().comptes,
+    manquants: rapportFichiersManquants(),
+    sauvegardeUtilisee,
+  };
+}
+
+function main() {
+  let resultat;
   try {
-    transaction();
+    resultat = importerDepuisFichier({ forcer: FORCER });
   } catch (err) {
+    if (
+      err instanceof FichierEntreeIntrouvableError ||
+      err instanceof BaseNonVideError ||
+      err instanceof SauvegardeInsuffisanteError
+    ) {
+      echouer(err.message);
+    }
     if (err instanceof ContenuInvalideError) {
       echouer(`contenu invalide, import annulé (rien n'a été écrit) -- ${err.message}`);
     }
     throw err;
   }
 
-  const { comptes: comptesApres } = etatBase();
-  console.log("Import terminé :");
-  for (const t of TABLES_CONTENU) {
-    console.log(`  ${t} : ${comptesApres[t]}`);
+  if (resultat.sauvegardeUtilisee) {
+    const minutes = (
+      (Date.now() - resultat.sauvegardeUtilisee.date.getTime()) /
+      60000
+    ).toFixed(0);
+    console.log(
+      `--force : sauvegarde récente trouvée (${resultat.sauvegardeUtilisee.chemin}, il y a ${minutes} min) -- le contenu existant a été remplacé.`,
+    );
   }
 
-  const manquants = rapportFichiersManquants();
-  if (manquants.length > 0) {
+  console.log("Import terminé :");
+  for (const t of TABLES_CONTENU) {
+    console.log(`  ${t} : ${resultat.comptes[t]}`);
+  }
+
+  if (resultat.manquants.length > 0) {
     console.log("");
     console.log(
       "Fichiers référencés manquants dans back/public/uploads -- affichage cassé (image brisée) tant" +
@@ -283,10 +322,23 @@ function main() {
         " automatique vers le placeholder visuel sur une image qui échoue à charger, seulement sur une" +
         " valeur de photo vide) :",
     );
-    for (const f of manquants) console.log(`  ${f}`);
+    for (const f of resultat.manquants) console.log(`  ${f}`);
   } else {
     console.log("Aucun fichier référencé manquant.");
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  importerDepuisFichier,
+  etatBase,
+  ContenuInvalideError,
+  FichierEntreeIntrouvableError,
+  BaseNonVideError,
+  SauvegardeInsuffisanteError,
+  TABLES_CONTENU,
+  CHEMIN_ENTREE,
+};

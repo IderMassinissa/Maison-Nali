@@ -50,8 +50,10 @@ function exporterTable(nom, colonnes) {
   return lignes.sort(parCroissant);
 }
 
-function main() {
-  const contenu = {
+// Construit l'objet exporté (sans toucher au disque) -- utilisé tel quel
+// par les tests (round-trip) et par main() ci-dessous (écriture réelle).
+function exporterContenu() {
+  return {
     exportedAt: new Date().toISOString(),
     pages: exporterPages(),
     settings: exporterTable("settings", ["id", "key", "value"]),
@@ -87,6 +89,10 @@ function main() {
       "end_date",
     ]),
   };
+}
+
+function main() {
+  const contenu = exporterContenu();
 
   fs.mkdirSync(path.dirname(CHEMIN_SORTIE), { recursive: true });
   fs.writeFileSync(CHEMIN_SORTIE, JSON.stringify(contenu, null, 2) + "\n");
@@ -104,4 +110,8 @@ function main() {
   );
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = { exporterContenu, CHEMIN_SORTIE };
