@@ -6,7 +6,7 @@ Vérifié dans le code le 2026-10-10 (`back/src/server.js`, `.env.example`, `pac
 
 ## Prérequis
 
-- Node.js **≥ 23.7.0** — déclaré dans `back/package.json`/`front/package.json` (`engines.node`) et `back/.nvmrc`/`front/.nvmrc`, d'après la version réellement utilisée en développement (`node -v`).
+- Node.js **≥ 22** (LTS "Jod") — déclaré dans `back/package.json`/`front/package.json` (`engines.node`) et `back/.nvmrc`/`front/.nvmrc`. Choix vérifié, pas supposé : suite de tests back (129/129), `npm run lint` et `npm run build` front exécutés avec succès sous Node 22.23.3 **et** Node 24.21.0 (LTS "Krypton") ; 22 retenu car c'est le plus petit major LTS qui passe tout, sans imposer une version plus récente que nécessaire à un environnement de production.
 - Outils de compilation C++ uniquement si `npm install` doit compiler `better-sqlite3`/`bcrypt` depuis les sources (pas nécessaire si des binaires précompilés correspondant à la plateforme cible sont disponibles sur le registre npm, ce qui est le cas pour les plateformes Linux x64 courantes). `sharp` embarque toujours un binaire précompilé (`@img/sharp-*`), jamais de compilation.
 - Un reverse proxy HTTPS devant le process Node (nginx, exemple plus bas) — le serveur Express lui-même ne termine pas le TLS.
 

@@ -5,7 +5,7 @@
   "description": "Front-end de Maison Nali (React + Vite).",
   "type": "module",
   "engines": {
-    "node": ">=23.7.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "dev": "vite",

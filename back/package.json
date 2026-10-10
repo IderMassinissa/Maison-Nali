@@ -15,7 +15,7 @@
   "license": "ISC",
   "type": "commonjs",
   "engines": {
-    "node": ">=23.7.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
