@@ -1,0 +1,167 @@
+// Applique le même pipeline d'optimisation que l'upload (cf.
+// src/utils/optimiserImage.js) aux fichiers déjà présents dans
+// back/public/uploads, EN PLACE : même nom, même extension -- les
+// références en base (photo, photoUrl, focusX/focusY...) ne changent pas.
+//
+// Dry-run par défaut (aucune écriture) : affiche un tableau poids/dimensions
+// avant-après par fichier. N'écrit sur disque qu'avec --apply, et refuse de
+// le faire sans sauvegarde récente (< 1h) de back/public/uploads dans
+// Code/Sauvegardes (cf. src/db/backup.js) -- cette garde ne s'applique pas
+// au dry-run, qui ne modifie rien.
+//
+// Usage :
+//   node src/db/optimize-uploads.js            (dry-run, rien n'est écrit)
+//   node src/db/optimize-uploads.js --apply     (écrit, après vérif sauvegarde)
+
+const fs = require("fs");
+const path = require("path");
+const { optimiserImage, ImageTropLourdeError } = require("../utils/optimiserImage");
+const { detecterTypeImage } = require("../utils/detecterTypeImage");
+
+const APPLIQUER = process.argv.includes("--apply");
+
+const DOSSIER_UPLOADS = path.join(__dirname, "../../public/uploads");
+
+const racineDepot = path.join(__dirname, "../../../");
+const DOSSIER_SAUVEGARDES = process.env.BACKUP_DIR
+  ? path.resolve(process.env.BACKUP_DIR)
+  : path.join(racineDepot, "..", "Sauvegardes");
+
+const UNE_HEURE_MS = 60 * 60 * 1000;
+
+// Les dossiers de sauvegarde sont nommés "YYYY-MM-DD_HHhMM" par
+// src/db/backup.js -- on parse ce nom plutôt que de se fier au mtime du
+// dossier (peu fiable sur Windows pour un dossier dont seul le contenu a
+// été copié après coup).
+function dateDepuisNomDossier(nom) {
+  const m = nom.match(/^(\d{4})-(\d{2})-(\d{2})_(\d{2})h(\d{2})$/);
+  if (!m) return null;
+  const [, annee, mois, jour, heure, minute] = m;
+  return new Date(Number(annee), Number(mois) - 1, Number(jour), Number(heure), Number(minute));
+}
+
+function trouverSauvegardeRecenteDesUploads() {
+  if (!fs.existsSync(DOSSIER_SAUVEGARDES)) return null;
+
+  let meilleure = null;
+  for (const nom of fs.readdirSync(DOSSIER_SAUVEGARDES)) {
+    const date = dateDepuisNomDossier(nom);
+    if (!date) continue;
+
+    const dossierUploadsSauvegarde = path.join(DOSSIER_SAUVEGARDES, nom, "uploads");
+    if (!fs.existsSync(dossierUploadsSauvegarde)) continue;
+
+    if (!meilleure || date > meilleure.date) {
+      meilleure = { date, chemin: dossierUploadsSauvegarde };
+    }
+  }
+  return meilleure;
+}
+
+function formatKio(octets) {
+  return (octets / 1024).toFixed(1) + " Kio";
+}
+
+async function main() {
+  const sauvegarde = trouverSauvegardeRecenteDesUploads();
+  const ageMs = sauvegarde ? Date.now() - sauvegarde.date.getTime() : null;
+  const sauvegardeRecente = sauvegarde && ageMs < UNE_HEURE_MS;
+
+  console.log(
+    sauvegarde
+      ? `Dernière sauvegarde des uploads trouvée : ${sauvegarde.chemin} (il y a ${(ageMs / 60000).toFixed(0)} min)`
+      : "Aucune sauvegarde des uploads trouvée dans " + DOSSIER_SAUVEGARDES,
+  );
+
+  if (APPLIQUER && !sauvegardeRecente) {
+    console.error(
+      "Échec : --apply refusé sans sauvegarde de back/public/uploads datant de moins d'1h dans " +
+        DOSSIER_SAUVEGARDES +
+        ". Lance `npm run backup` puis réessaie.",
+    );
+    process.exit(1);
+  }
+
+  const fichiers = fs
+    .readdirSync(DOSSIER_UPLOADS)
+    .filter((nom) => fs.statSync(path.join(DOSSIER_UPLOADS, nom)).isFile());
+
+  const lignes = [];
+  let totalAvant = 0;
+  let totalApres = 0;
+  let ignores = 0;
+
+  for (const nom of fichiers) {
+    const cheminFichier = path.join(DOSSIER_UPLOADS, nom);
+    const original = fs.readFileSync(cheminFichier);
+    const typeReel = detecterTypeImage(original);
+
+    if (!typeReel) {
+      console.warn(`Ignoré (pas une image JPEG/PNG/WebP reconnue) : ${nom}`);
+      ignores++;
+      continue;
+    }
+
+    let resultat;
+    try {
+      resultat = await optimiserImage(original, typeReel);
+    } catch (err) {
+      if (err instanceof ImageTropLourdeError) {
+        console.warn(`Ignoré (${err.message}) : ${nom}`);
+        ignores++;
+        continue;
+      }
+      throw err;
+    }
+
+    totalAvant += original.length;
+    totalApres += resultat.buffer.length;
+
+    lignes.push({
+      fichier: nom,
+      poidsAvant: original.length,
+      poidsApres: resultat.buffer.length,
+      dimAvant: `${resultat.largeurAvant}x${resultat.hauteurAvant}`,
+      dimApres: `${resultat.largeurApres}x${resultat.hauteurApres}`,
+    });
+
+    if (APPLIQUER) {
+      fs.writeFileSync(cheminFichier, resultat.buffer);
+    }
+  }
+
+  console.log("");
+  console.log(
+    "Fichier".padEnd(45) +
+      "Poids avant".padStart(14) +
+      "Poids après".padStart(14) +
+      "Dimensions avant".padStart(20) +
+      "Dimensions après".padStart(20),
+  );
+  for (const l of lignes) {
+    console.log(
+      l.fichier.padEnd(45) +
+        formatKio(l.poidsAvant).padStart(14) +
+        formatKio(l.poidsApres).padStart(14) +
+        l.dimAvant.padStart(20) +
+        l.dimApres.padStart(20),
+    );
+  }
+
+  console.log("");
+  console.log(
+    `Total : ${formatKio(totalAvant)} -> ${formatKio(totalApres)} ` +
+      `(-${(100 - (totalApres / totalAvant) * 100).toFixed(1)}%), ` +
+      `${lignes.length} fichier(s) traité(s), ${ignores} ignoré(s)`,
+  );
+  console.log(
+    APPLIQUER
+      ? "Mode --apply : fichiers réécrits en place."
+      : "Mode dry-run : rien n'a été écrit. Relance avec --apply pour appliquer (sauvegarde < 1h requise).",
+  );
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
