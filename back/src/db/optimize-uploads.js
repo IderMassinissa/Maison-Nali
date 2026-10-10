@@ -25,47 +25,13 @@ const path = require("path");
 const { optimiserImage, ImageTropLourdeError } = require("../utils/optimiserImage");
 const { detecterTypeImage } = require("../utils/detecterTypeImage");
 const db = require("./connection");
+const { trouverSauvegardeRecente, dossierSauvegardes, estRecente } = require("./sauvegardeRecente");
 
 const APPLIQUER = process.argv.includes("--apply");
 
 const DOSSIER_UPLOADS = path.join(__dirname, "../../public/uploads");
 
-const racineDepot = path.join(__dirname, "../../../");
-const DOSSIER_SAUVEGARDES = process.env.BACKUP_DIR
-  ? path.resolve(process.env.BACKUP_DIR)
-  : path.join(racineDepot, "..", "Sauvegardes");
-
-const UNE_HEURE_MS = 60 * 60 * 1000;
 const GAIN_MIN_POURCENT = 15;
-
-// Les dossiers de sauvegarde sont nommés "YYYY-MM-DD_HHhMM" par
-// src/db/backup.js -- on parse ce nom plutôt que de se fier au mtime du
-// dossier (peu fiable sur Windows pour un dossier dont seul le contenu a
-// été copié après coup).
-function dateDepuisNomDossier(nom) {
-  const m = nom.match(/^(\d{4})-(\d{2})-(\d{2})_(\d{2})h(\d{2})$/);
-  if (!m) return null;
-  const [, annee, mois, jour, heure, minute] = m;
-  return new Date(Number(annee), Number(mois) - 1, Number(jour), Number(heure), Number(minute));
-}
-
-function trouverSauvegardeRecenteDesUploads() {
-  if (!fs.existsSync(DOSSIER_SAUVEGARDES)) return null;
-
-  let meilleure = null;
-  for (const nom of fs.readdirSync(DOSSIER_SAUVEGARDES)) {
-    const date = dateDepuisNomDossier(nom);
-    if (!date) continue;
-
-    const dossierUploadsSauvegarde = path.join(DOSSIER_SAUVEGARDES, nom, "uploads");
-    if (!fs.existsSync(dossierUploadsSauvegarde)) continue;
-
-    if (!meilleure || date > meilleure.date) {
-      meilleure = { date, chemin: dossierUploadsSauvegarde };
-    }
-  }
-  return meilleure;
-}
 
 function formatKio(octets) {
   return (octets / 1024).toFixed(1) + " Kio";
@@ -100,20 +66,19 @@ function trouverFichiersReferences() {
 }
 
 async function main() {
-  const sauvegarde = trouverSauvegardeRecenteDesUploads();
+  const sauvegarde = trouverSauvegardeRecente("uploads");
   const ageMs = sauvegarde ? Date.now() - sauvegarde.date.getTime() : null;
-  const sauvegardeRecente = sauvegarde && ageMs < UNE_HEURE_MS;
 
   console.log(
     sauvegarde
       ? `Dernière sauvegarde des uploads trouvée : ${sauvegarde.chemin} (il y a ${(ageMs / 60000).toFixed(0)} min)`
-      : "Aucune sauvegarde des uploads trouvée dans " + DOSSIER_SAUVEGARDES,
+      : "Aucune sauvegarde des uploads trouvée dans " + dossierSauvegardes(),
   );
 
-  if (APPLIQUER && !sauvegardeRecente) {
+  if (APPLIQUER && !estRecente(sauvegarde)) {
     console.error(
       "Échec : --apply refusé sans sauvegarde de back/public/uploads datant de moins d'1h dans " +
-        DOSSIER_SAUVEGARDES +
+        dossierSauvegardes() +
         ". Lance `npm run backup` puis réessaie.",
     );
     process.exit(1);
