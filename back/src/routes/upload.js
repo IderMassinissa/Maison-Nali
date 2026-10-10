@@ -8,6 +8,7 @@ const {
   detecterTypeImage,
   EXTENSION_PAR_TYPE,
 } = require("../utils/detecterTypeImage");
+const { optimiserImage, ImageTropLourdeError } = require("../utils/optimiserImage");
 
 // Stockage en mémoire (Buffer), pas directement sur disque : le temps de
 // vérifier le contenu réel du fichier (cf. plus bas), avant de l'écrire
@@ -36,7 +37,7 @@ const upload = multer({
 });
 
 router.post("/", requireAuth, (req, res) => {
-  upload.single("photo")(req, res, (err) => {
+  upload.single("photo")(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       return res
         .status(400)
@@ -61,6 +62,22 @@ router.post("/", requireAuth, (req, res) => {
       });
     }
 
+    // Rotation EXIF, suppression de toutes les métadonnées (GPS inclus),
+    // redimensionnement (sans jamais agrandir) et recompression -- cf.
+    // Documentation/A11y_Perf_Passe1_2026-10-09.md, A1/G2 (lot images).
+    let resultat;
+    try {
+      resultat = await optimiserImage(req.file.buffer, typeReel);
+    } catch (errOptim) {
+      if (errOptim instanceof ImageTropLourdeError) {
+        return res.status(400).json({ error: errOptim.message });
+      }
+      console.error(errOptim);
+      return res
+        .status(500)
+        .json({ error: "Erreur lors du traitement de l'image" });
+    }
+
     // L'extension du fichier écrit sur disque vient du type réellement
     // détecté, jamais du nom de fichier fourni par le client.
     const extension = EXTENSION_PAR_TYPE[typeReel];
@@ -71,7 +88,7 @@ router.post("/", requireAuth, (req, res) => {
       nomUnique,
     );
 
-    fs.writeFile(cheminDestination, req.file.buffer, (errEcriture) => {
+    fs.writeFile(cheminDestination, resultat.buffer, (errEcriture) => {
       if (errEcriture) {
         console.error(errEcriture);
         return res
