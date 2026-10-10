@@ -18,4 +18,12 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // Fichiers exécutés par Node (config Vite, scripts de build) --
+    // jamais dans le navigateur, donc `process` y est un global légitime.
+    files: ['vite.config.js', 'scripts/**/*.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])
