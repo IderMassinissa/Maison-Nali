@@ -14,6 +14,7 @@ import { Outlet } from "react-router-dom";
 import BanniereAnnonce from "./components/BanniereAnnonce";
 import ProduitDetail from "./pages/ProduitDetail";
 import NotFound from "./pages/NotFound";
+import useLocalBusinessSchema from "./hooks/useLocalBusinessSchema";
 
 const Connexion = lazy(() => import("./pages/admin/Connexion"));
 const DashboardLayout = lazy(() => import("./components/admin/DashboardLayout"));
@@ -32,6 +33,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function SiteLayout() {
   const [annonce, setAnnonce] = useState(null);
+  useLocalBusinessSchema();
 
   useEffect(() => {
     fetch(`${API_URL}/api/announcements`)
