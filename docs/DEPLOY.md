@@ -51,10 +51,8 @@ Le back ne doit **jamais** être exposé directement à Internet (pas de TLS nat
 cd back
 npm install --omit=dev
 npm run init-db        # première installation uniquement
-node src/db/init-admin.js admin@exemple.fr "mot-de-passe-fort"   # première installation uniquement
-node src/db/init-pages.js        # première installation uniquement
-node src/db/seed-opening-hours.js
-node src/db/seed-phone.js
+node src/db/init-admin.js admin@exemple.fr "mot-de-passe-fort"   # première installation uniquement, avant content:import
+npm run content:import # contenu complet (pages, sections, reglages, horaires, produits...) depuis back/seed/contenu.json
 
 NODE_ENV=production PORT=3001 FRONT_URL=https://www.maison-nali.fr SESSION_SECRET=<secret> \
   pm2 start src/server.js --name maison-nali-api
@@ -140,7 +138,7 @@ Le cookie de session est posé avec `sameSite: "lax"` (`back/src/server.js`), en
 
 ## Scripts de migration et correctifs de données (`back/src/db`)
 
-12 scripts hors `init.js`/`init-admin.js`/`init-pages.js`/`seed-*.js` (installation initiale, cf. plus haut) et hors `backup.js`/`optimize-uploads.js`/`init-test.js` (maintenance courante, déjà documentés ailleurs). Aucun mécanisme de migration automatique au démarrage — tous s'exécutent à la main, un par un, `node src/db/<fichier>.js` depuis `back/`. Ordre ci-dessous = ordre chronologique réel de création (vérifié via `git log --diff-filter=A`), qui correspond aussi à l'ordre de dépendance là où il y en a une.
+12 scripts hors `init.js`/`init-admin.js`/`init-pages.js`/`seed-*.js` (installation initiale historique, **dépréciée**, cf. plus haut et `docs/TESTS.md`) et hors `backup.js`/`optimize-uploads.js`/`init-test.js`/`content-export.js`/`content-import.js` (maintenance courante, déjà documentés ailleurs). Aucun mécanisme de migration automatique au démarrage — tous s'exécutent à la main, un par un, `node src/db/<fichier>.js` depuis `back/`. Ordre ci-dessous = ordre chronologique réel de création (vérifié via `git log --diff-filter=A`), qui correspond aussi à l'ordre de dépendance là où il y en a une. Pour une base neuve, ces 12 scripts n'ont normalement **plus besoin d'être rejoués un par un** : `content:import` (cf. plus haut) reproduit en un seul import le contenu réel actuel, déjà passé par toute cette histoire de migrations. Ils restent documentés ici pour la maintenance d'une base existante plus ancienne, ou si `back/seed/contenu.json` venait à manquer.
 
 | # | Script | Rôle | Idempotent ? |
 |---|---|---|---|
@@ -157,11 +155,11 @@ Le cookie de session est posé avec `sameSite: "lax"` (`back/src/server.js`), en
 | 11 | `fix-boutons-blocs-histoire-apropos.js` | Pose un texte/lien de bouton sur les 2 `bloc-histoire` d'À propos (sections identifiées par **ID en dur : 12 et 46**) | **Oui** — vérifie l'absence de bouton existant avant d'écrire. Porte en tête de fichier la mention explicite "à relire avant exécution — ne pas lancer sans validation" : les ID en dur ne correspondent qu'à **cette base précise**, pas transposables tels quels ailleurs. **Dépend de #8** (la section 46 n'existe qu'après l'ajout du 2e bloc-histoire) |
 | 12 | `fix-photo-manquante-atelier-apropos.js` | Vide `photo`/`photoAlt` sur la section 46 (À propos) si elle vaut encore `/images/atelier-2.jpg` (fichier jamais livré, image cassée) | **Oui** — compare la valeur exacte avant d'agir. Même mention "à relire avant exécution". **Constat vérifié en rédigeant cette doc** : la version actuelle de `add-bloc-histoire-2-apropos.js` (script #8) initialise `photo` à vide (`""`), pas à `/images/atelier-2.jpg` — ce script ne trouvera donc plus rien à corriger si #8 est rejoué tel qu'il est aujourd'hui. Il documente une anomalie historique déjà corrigée dans le script source, conservé pour mémoire et parce qu'il reste sans danger (gardé par la comparaison de valeur). |
 
-### Écart constaté : `init-pages.js` ne reproduit pas l'état actuel du contenu
+### `init-pages.js` déprécié — écart avec le contenu réel (résolu par `content:import`)
 
-**Vérifié en lisant `back/src/db/init-pages.js` dans son état actuel** (utilisé par `SETUP.md` pour une installation neuve) : il ne crée **pas** de section `hero` pour `patisseries`/`a-propos`/`evenements`, **pas** de 2e `bloc-histoire` pour `a-propos`, et **pas** de bouton par défaut sur les Hero. Autrement dit, la séquence d'installation documentée dans `SETUP.md` (`init-db` + `init-pages.js` + les `seed-*.js`) produit une base dont le **contenu éditorial** ne correspond pas à celui actuellement en production — il manque l'équivalent des scripts #7, #8 et #9 ci-dessus. Signalé ici sans correction (consigne : signaler les écarts, pas les corriger) ; `init-pages.js` lui-même n'est pas modifié par cette documentation.
+**Vérifié en lisant `back/src/db/init-pages.js`** : il ne crée **pas** de section `hero` pour `patisseries`/`a-propos`/`evenements`, **pas** de 2e `bloc-histoire` pour `a-propos`, et **pas** de bouton par défaut sur les Hero — l'équivalent des scripts #7, #8 et #9 ci-dessus manque. Une base installée via `init-pages.js` seul a donc un contenu éditorial différent de la production réelle. C'est précisément ce qui a motivé `content:export`/`content:import` : `init-pages.js` est maintenant **déprécié** (commentaire en tête du fichier, non supprimé) et remplacé dans `SETUP.md`/ci-dessus par `content:import`, qui importe le contenu réel exporté (`back/seed/contenu.json`), sans cet écart.
 
-Pour obtenir une base neuve dont le contenu correspond à l'état actuel, exécuter dans l'ordre après `init-pages.js` : `add-hero-3-pages.js`, `add-bloc-histoire-2-apropos.js`, `add-bouton-hero.js` (scripts #7-#9, tous idempotents/sans danger sur une base neuve). Les scripts #11/#12 ne sont pas nécessaires sur une base neuve (ID en dur spécifiques à la base de production existante). Le script #10 (photo provisoire) est une décision de contenu, pas structurelle — à la discrétion de qui installe.
+`init-pages.js` reste dans le dépôt comme filet de secours si `back/seed/contenu.json` venait à manquer (génère alors un jeu de pages minimal, avec l'écart décrit ci-dessus) — à compléter dans ce cas avec `add-hero-3-pages.js`, `add-bloc-histoire-2-apropos.js`, `add-bouton-hero.js` (scripts #7-#9, idempotents) si on veut s'approcher du contenu réel sans le fichier d'export.
 
 ## Persistance : `data/` et `public/uploads/`
 
@@ -180,6 +178,44 @@ node src/db/init-admin.js <email> <mot-de-passe>
 ```
 
 Pas idempotent (contrainte `UNIQUE` sur `users.email`) — à lancer une seule fois. Pas de compte par défaut, pas de mot de passe en dur dans le code (vérifié, cf. `docs/SECURITE.md`, H3).
+
+## Contenu éditorial : `content:export` / `content:import`
+
+Remplace `init-pages.js` + les `seed-*.js` (dépréciés, cf. plus haut) pour amener une base neuve au contenu réel du site. Source de vérité : `back/seed/contenu.json`, versionné dans le dépôt — pages, sections (content JSON), réglages, horaires, catégories, produits, photos événements, annonces. Jamais d'utilisateur, jamais de session, jamais de mot de passe dans ce fichier.
+
+**Importer** (après `npm run init-db` + `init-admin.js`, cf. ci-dessus) :
+
+```bash
+cd back
+npm run content:import
+```
+
+Refuse de tourner si la base contient déjà des pages/sections/réglages/... (sécurité anti-écrasement) :
+
+```
+Échec : la base contient déjà du contenu : pages (5), sections (13). Relance sur une base vide
+(après npm run init-db), ou avec --force si tu sais ce que tu fais.
+```
+
+Pour écraser un contenu existant volontairement (ex. resynchroniser un environnement de test avec la production) :
+
+```bash
+npm run backup                          # obligatoire, < 1h
+node src/db/content-import.js --force
+```
+
+Même garde que `optimize-uploads.js --apply` : `--force` est refusé sans sauvegarde de `back/data/*.sqlite` datant de moins d'1h dans `Code/Sauvegardes`. Transaction unique (tout ou rien) : si une seule section/réglage/produit/etc. échoue sa validation (mêmes règles que les routes `PUT` correspondantes), rien n'est écrit.
+
+En fin d'import, les chemins `/uploads/...` référencés mais absents de `back/public/uploads` sont listés ("fichiers référencés manquants") — les photos elles-mêmes ne font pas partie de l'export, à ré-uploader manuellement via l'admin.
+
+**Régénérer `back/seed/contenu.json`** depuis une base qui a du contenu réel (lecture seule, n'écrit que le fichier JSON, jamais la base) :
+
+```bash
+cd back
+npm run content:export
+```
+
+À relancer et recommiter après toute modification de contenu qu'on veut figer comme "état de référence" (ex. avant une démonstration, ou pour republier le même contenu sur un environnement de recette).
 
 ## Sauvegarde et restauration
 

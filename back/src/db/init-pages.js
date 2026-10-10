@@ -1,3 +1,13 @@
+// DÉPRÉCIÉ -- gardé pour compatibilité, mais ne reflète plus le contenu
+// réel du site (pas de section "hero" sur patisseries/a-propos/evenements,
+// pas de 2e bloc-histoire sur a-propos, pas de bouton par défaut sur les
+// Hero -- écart documenté dans docs/DEPLOY.md). Préférer désormais :
+//   npm run init-db  (schéma, node src/db/init.js)
+//   node src/db/init-admin.js <email> <mot-de-passe>
+//   node src/db/content-import.js   (contenu complet et à jour, depuis
+//                                     back/seed/contenu.json)
+// Ce fichier n'est pas supprimé : il reste le seul moyen de générer un jeu
+// de pages minimal si back/seed/contenu.json venait à manquer.
 const db = require("./connection");
 
 const pages = [

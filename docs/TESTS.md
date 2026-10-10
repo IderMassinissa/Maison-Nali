@@ -1,6 +1,6 @@
 # Tests
 
-Vérifié en exécutant réellement la suite le 2026-10-10 (branche `docs/v1`) : **129 tests, 129 passent, 0 échec**.
+Vérifié en exécutant réellement la suite le 2026-10-10 (branche `feat/contenu-export`) : **134 tests, 134 passent, 0 échec**. Suite également vérifiée verte sous Node 22.23.3 et Node 24.21.0, pas seulement la version de développement (cf. `docs/DEPLOY.md`, prérequis).
 
 ## Lancer les tests
 
@@ -19,10 +19,11 @@ npm run lint
 npm run build
 ```
 
-## Ce que couvrent les 129 tests, par fichier
+## Ce que couvrent les 134 tests, par fichier
 
 | Fichier | Nb tests | Couvre |
 |---|---|---|
+| `src/db/content-export-import.test.js` | 5 | Round-trip `content:export` → `content:import` strictement identique (hors horodatage) ; import refusé sur base non vide ; transaction annulée si une section est invalide (rien écrit, pas même les sections valides qui la suivaient) ; fichiers `/uploads/...` référencés mais absents du disque listés ; couverture des 8 tables de contenu |
 | `src/db/sqliteSessionStore.test.js` | 7 | Store de session maison : set/get, session inconnue, expiration, destroy, touch (prolongation), purge périodique, persistance après fermeture/réouverture du fichier (simulation de redémarrage) |
 | `src/middleware/rateLimitLogin.test.js` | 7 | Limite de connexion : 5 tentatives passent, 6e bloquée, IP indépendantes, expiration de fenêtre, réinitialisation après succès, purge des entrées expirées, arrêt propre du minuteur |
 | `src/repositories/announcements.test.js` | 2 | Lecture/écriture de la bannière, `active=false` stocké correctement |

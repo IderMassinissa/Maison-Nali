@@ -50,23 +50,19 @@ npm run init-db
 
 Crée le fichier SQLite et les tables depuis `src/db/database.sql`. **Ne pas relancer sur une base déjà initialisée** — `CREATE TABLE` échoue si les tables existent déjà (erreur normale, pas un bug).
 
-## 4. Seeds, dans cet ordre précis
+## 4. Compte admin puis contenu
 
 Toujours depuis `back/` :
 
 ```
 node src/db/init-admin.js <email> <mot-de-passe>
-node src/db/init-pages.js
-node src/db/seed-opening-hours.js
-node src/db/seed-phone.js
-node src/db/seed-evenements.js
+npm run content:import
 ```
 
-- `init-admin.js` (anciennement `seed-admin.js`, renommé car à usage unique) : crée le compte admin. **Pas idempotent** — relancer avec le même email échoue proprement (contrainte `UNIQUE` sur `users.email`), aucun doublon possible.
-- `init-pages.js` (anciennement `seed-pages.js`, renommé car à usage unique) : crée les pages + sections initiales. Protégé par `pages.slug UNIQUE` — une relance échoue dès la première page, aucun doublon.
-- `seed-opening-hours.js` : crée les 7 jours. Idempotent (vérifie avant insert) + protégé par un index `UNIQUE` sur `opening_hours.day` — relancer ne fait rien si déjà peuplé.
-- `seed-phone.js` : idempotent (vérifie avant insert).
-- `seed-evenements.js` : idempotent (vérifie avant insert).
+- `init-admin.js` : crée le compte admin. **Pas idempotent** — relancer avec le même email échoue proprement (contrainte `UNIQUE` sur `users.email`), aucun doublon possible. À lancer **avant** `content:import` (il faut un utilisateur en base pour rattacher les pages).
+- `npm run content:import` : importe le contenu éditorial complet (pages, sections, réglages, horaires, catégories, produits, photos événements, annonces) depuis `back/seed/contenu.json`, versionné dans le dépôt — reproduit l'état actuel du site. Refuse de tourner sur une base déjà peuplée (sécurité anti-écrasement) ; voir `docs/DEPLOY.md` pour `--force`. Les photos elles-mêmes ne sont pas incluses : les chemins référencés mais absents de `back/public/uploads` sont listés en fin d'exécution.
+
+**`init-pages.js` et les `seed-*.js` (`seed-opening-hours.js`, `seed-phone.js`, `seed-evenements.js`) sont dépréciés**, remplacés par `content:import` qui couvre tout ce qu'ils faisaient (et plus : horaires, téléphone, annonces inclus). Gardés dans le dépôt pour compatibilité, pas supprimés — à n'utiliser que si `back/seed/contenu.json` venait à manquer (génère alors un jeu de pages minimal, incomplet par rapport au site réel, cf. `docs/DEPLOY.md`).
 
 ## 5. Lancer le projet
 
