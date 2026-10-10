@@ -13,6 +13,7 @@ const path = require("path");
 const uploadRoutes = require("./routes/upload");
 const cors = require("cors");
 const helmet = require("helmet");
+const compression = require("compression");
 const SqliteSessionStore = require("./db/sqliteSessionStore");
 const { NOM_COOKIE_SESSION } = require("./constants");
 
@@ -69,6 +70,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use(compression());
 
 app.use(express.json());
 
