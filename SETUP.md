@@ -6,10 +6,10 @@ Ordre exact à suivre, une seule fois. Les scripts `seed-*` sont rejouables sans
 
 `better-sqlite3` compile un module natif en C++ à l'installation. Deux prérequis obligatoires sur Windows, sinon `npm install` plante dans `back` :
 
-- **Node 22 ou plus récent**
+- **Node ≥ 23.7.0** (version minimale déclarée dans `back/package.json`/`front/package.json` (`engines.node`) et `.nvmrc`, d'après la version réellement utilisée en développement)
 - **Outils de compilation C++** (Visual Studio Build Tools avec le workload "Desktop development with C++", ou `npm install --global windows-build-tools` selon la config)
 
-Vérifier avant de commencer :
+Vérifier avant de commencer (`nvm use` si `nvm`/`nvm-windows` est installé, applique directement la version du `.nvmrc`) :
 
 ```
 node --version
