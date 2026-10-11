@@ -1,3 +1,12 @@
+-- Schéma source de la base applicative (back/data/maison-nali.sqlite),
+-- appliqué par init.js (`npm run init-db`) sur une base neuve. Tenu à jour
+-- manuellement après chaque évolution de schéma — colonnes ajoutées après
+-- coup par ALTER TABLE visibles ici en fin de CREATE TABLE d'origine
+-- (announcements.start_date/end_date, products.focus_x/focus_y/position).
+-- Les sessions (table "sessions") vivent dans un fichier séparé
+-- (back/data/sessions.sqlite), créé au runtime par sqliteSessionStore.js,
+-- pas dans ce fichier.
+
 CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email VARCHAR NOT NULL UNIQUE,

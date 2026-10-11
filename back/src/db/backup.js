@@ -1,3 +1,12 @@
+/**
+ * Script de sauvegarde (`npm run backup`) : copie les bases SQLite
+ * applicatives (hors sessions.sqlite, volontairement exclu — ce ne sont que
+ * des sessions admin actives, pas des données du site) et public/uploads/
+ * dans un dossier horodaté sous Sauvegardes/ (ou BACKUP_DIR si défini).
+ * Les scripts qui écrivent de façon risquée (content-import.js --force,
+ * optimize-uploads.js --apply) exigent qu'une sauvegarde produite ici date
+ * de moins d'une heure avant de s'exécuter (cf. sauvegardeRecente.js).
+ */
 const fs = require("fs");
 const path = require("path");
 

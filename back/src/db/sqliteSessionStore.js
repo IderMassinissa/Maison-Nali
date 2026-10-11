@@ -1,3 +1,13 @@
+/**
+ * Store de session express-session écrit à la main (pas de dépendance
+ * tierce), persistant dans un fichier SQLite séparé de la base applicative
+ * (back/data/sessions.sqlite). Branché dans server.js via
+ * `session({ store: new SqliteSessionStore() })`. Implémente l'API "Store"
+ * documentée par express-session : get/set/destroy sont obligatoires,
+ * touch/all/length/clear sont optionnelles mais utiles (express-session les
+ * appelle si elles existent). Doc officielle :
+ * https://github.com/expressjs/session#session-store-implementation
+ */
 const Database = require("better-sqlite3");
 const path = require("path");
 const { Store } = require("express-session");
@@ -13,12 +23,6 @@ const INTERVALLE_PURGE_MS = 15 * 60 * 1000;
 
 const TABLE = "sessions";
 
-// Store de session express-session, persiste dans un fichier SQLite separe
-// de la base applicative (back/data/sessions.sqlite). Implemente l'API
-// "Store" documentee par express-session : get/set/destroy sont
-// obligatoires, touch/all/length/clear sont optionnelles mais utiles
-// (express-session les appelle si elles existent).
-// Doc officielle : https://github.com/expressjs/session#session-store-implementation
 class SqliteSessionStore extends Store {
   constructor(options = {}) {
     super(options);

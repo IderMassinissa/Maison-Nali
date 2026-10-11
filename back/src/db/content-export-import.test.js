@@ -1,3 +1,4 @@
+// Round-trip content-export.js -> content-import.js, et garde-fous d'import (base non vide, contenu invalide, fichiers manquants).
 const test = require("node:test");
 const assert = require("node:assert");
 const db = require("./connection");

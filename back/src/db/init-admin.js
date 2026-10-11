@@ -1,3 +1,11 @@
+/**
+ * Crée le compte admin (`node src/db/init-admin.js <email> <mot-de-passe>`),
+ * à lancer une fois après `init-db` et avant `content:import` (qui a besoin
+ * d'un utilisateur existant pour rattacher les pages importées). Mot de
+ * passe haché en bcrypt avant écriture, jamais stocké en clair. Pas
+ * idempotent : la contrainte UNIQUE sur users.email fait échouer une
+ * seconde exécution avec le même email plutôt que de créer un doublon.
+ */
 const bcrypt = require("bcrypt");
 const db = require("./connection");
 

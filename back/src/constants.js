@@ -1,7 +1,11 @@
-// Nom du cookie de session, partagé entre server.js (qui le configure) et
-// auth.js (qui doit le supprimer avec exactement le même nom à la
-// déconnexion) -- évite que les deux divergent un jour par une faute de
-// frappe.
+/**
+ * Constantes partagées entre plusieurs modules du back.
+ *
+ * NOM_COOKIE_SESSION est utilisé à la fois par server.js (qui configure le
+ * cookie de session) et par la route de déconnexion (qui doit le supprimer
+ * avec exactement le même nom) : centralisé ici pour que les deux ne
+ * puissent pas diverger par une faute de frappe.
+ */
 const NOM_COOKIE_SESSION = "maison_nali_sid";
 
 module.exports = { NOM_COOKIE_SESSION };

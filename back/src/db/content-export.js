@@ -1,15 +1,15 @@
-// Exporte le contenu éditorial complet de la base dans back/seed/contenu.json
-// -- pages, sections (content JSON, parsé pour rester lisible dans le
-// fichier), settings, opening_hours, categories, products, event_photos,
-// announcements. Jamais users, jamais sessions, jamais de mot de passe --
-// voir content-import.js pour la procédure de remise en place.
-//
-// JSON indenté, chaque tableau trié par id : un diff git sur ce fichier ne
-// doit montrer que ce qui a réellement changé, pas un réordonnancement.
-//
-// Usage (depuis back/) : node src/db/content-export.js
-// Lecture seule -- n'écrit que back/seed/contenu.json, jamais la base.
-
+/**
+ * Exporte le contenu éditorial complet de la base dans back/seed/contenu.json
+ * (`npm run content:export`) — pages, sections (content JSON, parsé pour
+ * rester lisible dans le fichier), settings, opening_hours, categories,
+ * products, event_photos, announcements. Jamais users, jamais sessions,
+ * jamais de mot de passe. Lit uniquement la base ; n'écrit que ce fichier
+ * JSON, jamais la base elle-même. Voir content-import.js pour la procédure
+ * de remise en place inverse.
+ *
+ * JSON indenté, chaque tableau trié par id : un diff git sur ce fichier ne
+ * doit montrer que ce qui a réellement changé, pas un réordonnancement.
+ */
 const fs = require("fs");
 const path = require("path");
 const db = require("./connection");
@@ -50,8 +50,12 @@ function exporterTable(nom, colonnes) {
   return lignes.sort(parCroissant);
 }
 
-// Construit l'objet exporté (sans toucher au disque) -- utilisé tel quel
-// par les tests (round-trip) et par main() ci-dessous (écriture réelle).
+/**
+ * Construit l'objet exporté en lisant la base, sans toucher au disque —
+ * utilisé tel quel par les tests (round-trip export/import) et par main()
+ * ci-dessous (écriture réelle du fichier JSON).
+ * @returns {object} contenu éditorial complet, prêt pour JSON.stringify.
+ */
 function exporterContenu() {
   return {
     exportedAt: new Date().toISOString(),

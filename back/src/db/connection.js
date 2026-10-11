@@ -1,3 +1,11 @@
+/**
+ * Connexion SQLite unique, partagée par tous les repositories et scripts
+ * (`require("./connection")` renvoie toujours la même instance ouverte).
+ * Choisit le fichier selon NODE_ENV : base applicative normale, ou
+ * data/test.sqlite en mode test (régénérée à chaque run par init-test.js).
+ * Aucune donnée ne transite ici : ce module expose seulement la connexion,
+ * les lectures/écritures réelles vivent dans back/src/repositories/.
+ */
 const Database = require("better-sqlite3");
 const path = require("path");
 

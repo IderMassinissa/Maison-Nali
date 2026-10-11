@@ -1,30 +1,25 @@
-// Importe back/seed/contenu.json (produit par content-export.js) dans la
-// base courante. Pensé pour une base VIDE, juste après `npm run init-db` +
-// `node src/db/init-admin.js` (il faut au moins un utilisateur, cf.
-// résolution de user_id plus bas).
-//
-// Refuse de tourner si la base contient déjà du contenu, sauf --force --
-// qui exige alors une sauvegarde de back/data/*.sqlite datant de moins
-// d'1h dans Code/Sauvegardes (même garde que optimize-uploads.js --apply).
-// --force écrase tout le contenu existant (pages/sections/settings/
-// opening_hours/categories/products/event_photos/announcements), jamais
-// les utilisateurs.
-//
-// Transaction unique : tout ou rien. Chaque section est validée avec les
-// mêmes validateurs que PUT /api/pages/sections/:id/content (et de même
-// pour settings/products/event_photos/opening_hours/announcements, avec
-// leurs validateurs respectifs) -- une seule valeur invalide annule tout
-// l'import, rien n'est écrit.
-//
-// Les photos elles-mêmes ne sont pas importées (back/seed/contenu.json ne
-// contient que des chemins) : une fois l'import terminé, les chemins
-// référencés mais absents de back/public/uploads sont listés en fin
-// d'exécution ("fichiers référencés manquants").
-//
-// Usage (depuis back/) :
-//   node src/db/content-import.js            (refuse si la base n'est pas vide)
-//   node src/db/content-import.js --force     (écrase, sauvegarde < 1h requise)
-
+/**
+ * Importe back/seed/contenu.json (produit par content-export.js) dans la
+ * base courante (`npm run content:import`). Pensé pour une base VIDE, juste
+ * après `init-db` + `init-admin.js` (il faut au moins un utilisateur, cf.
+ * résolution de user_id plus bas).
+ *
+ * Refuse de tourner si la base contient déjà du contenu, sauf --force, qui
+ * exige alors une sauvegarde de back/data/*.sqlite datant de moins d'1h
+ * (même garde que optimize-uploads.js --apply) et écrase tout le contenu
+ * existant (pages/sections/settings/opening_hours/categories/products/
+ * event_photos/announcements), jamais les utilisateurs.
+ *
+ * Transaction unique : tout ou rien. Chaque section est validée avec les
+ * mêmes validateurs que PUT /api/pages/sections/:id/content (et de même
+ * pour settings/products/event_photos/opening_hours/announcements, avec
+ * leurs validateurs respectifs) — une seule valeur invalide annule tout
+ * l'import, rien n'est écrit.
+ *
+ * Les photos elles-mêmes ne sont pas importées (contenu.json ne contient
+ * que des chemins) : une fois l'import terminé, les chemins référencés
+ * mais absents de back/public/uploads sont listés en fin d'exécution.
+ */
 const fs = require("fs");
 const path = require("path");
 const db = require("./connection");
@@ -231,11 +226,16 @@ class BaseNonVideError extends Error {
 }
 class SauvegardeInsuffisanteError extends Error {}
 
-// Logique complète, sans aucun console.log/process.exit -- testable
-// directement. Lève une erreur typée à chaque refus, ne modifie la base
-// que si tout est validé (transaction unique, annulée automatiquement par
-// better-sqlite3 si ContenuInvalideError remonte depuis l'intérieur).
-// Retourne { comptes, manquants, sauvegardeUtilisee } en cas de succès.
+/**
+ * Logique complète de l'import, sans aucun console.log/process.exit —
+ * testable directement. Lève une erreur typée à chaque refus, ne modifie
+ * la base que si tout est validé (transaction unique, annulée
+ * automatiquement par better-sqlite3 si ContenuInvalideError remonte
+ * depuis l'intérieur).
+ * @param {{cheminEntree?: string, forcer?: boolean}} options
+ * @returns {{comptes: object, manquants: string[], sauvegardeUtilisee: object|null}}
+ * @throws {FichierEntreeIntrouvableError|BaseNonVideError|SauvegardeInsuffisanteError|ContenuInvalideError}
+ */
 function importerDepuisFichier({ cheminEntree = CHEMIN_ENTREE, forcer = false } = {}) {
   if (!fs.existsSync(cheminEntree)) {
     throw new FichierEntreeIntrouvableError(

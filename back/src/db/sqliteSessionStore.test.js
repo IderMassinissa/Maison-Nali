@@ -1,3 +1,4 @@
+// Store de session maison : set/get, expiration, destroy, touch, purge périodique, persistance entre deux ouvertures du fichier.
 const test = require("node:test");
 const assert = require("node:assert");
 const fs = require("fs");

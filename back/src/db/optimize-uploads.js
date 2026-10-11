@@ -1,25 +1,21 @@
-// Applique le même pipeline d'optimisation que l'upload (cf.
-// src/utils/optimiserImage.js) aux fichiers déjà présents dans
-// back/public/uploads, EN PLACE : même nom, même extension -- les
-// références en base (photo, photoUrl, focusX/focusY...) ne changent pas.
-//
-// Deux exclusions avant tout traitement :
-// - fichiers non référencés en base (orphelins) : jamais touchés, listés à
-//   part -- un script d'optimisation n'est pas l'endroit pour décider si un
-//   fichier orphelin doit être supprimé, ça reste une décision manuelle.
-// - gain de poids < 15% : pas assez pour justifier de réécrire le fichier
-//   (risque de perte qualité pour un gain marginal) -- laissé tel quel.
-//
-// Dry-run par défaut (aucune écriture) : affiche un tableau poids/dimensions
-// avant-après par fichier. N'écrit sur disque qu'avec --apply, et refuse de
-// le faire sans sauvegarde récente (< 1h) de back/public/uploads dans
-// Code/Sauvegardes (cf. src/db/backup.js) -- cette garde ne s'applique pas
-// au dry-run, qui ne modifie rien.
-//
-// Usage :
-//   node src/db/optimize-uploads.js            (dry-run, rien n'est écrit)
-//   node src/db/optimize-uploads.js --apply     (écrit, après vérif sauvegarde)
-
+/**
+ * Applique le même pipeline d'optimisation que l'upload (optimiserImage.js)
+ * aux fichiers déjà présents dans back/public/uploads, EN PLACE : même nom,
+ * même extension — les références en base (photo, photoUrl, focusX/focusY)
+ * ne changent pas.
+ *
+ * Deux exclusions avant tout traitement :
+ * - fichiers non référencés en base (orphelins) : jamais touchés, listés à
+ *   part — un script d'optimisation n'est pas l'endroit pour décider si un
+ *   fichier orphelin doit être supprimé, ça reste une décision manuelle.
+ * - gain de poids < 15% : pas assez pour justifier de réécrire le fichier
+ *   (risque de perte qualité pour un gain marginal) — laissé tel quel.
+ *
+ * Dry-run par défaut (aucune écriture) : affiche un tableau poids/dimensions
+ * avant-après par fichier. N'écrit sur disque qu'avec --apply, et refuse de
+ * le faire sans sauvegarde récente (< 1h) de back/public/uploads (cf.
+ * backup.js) — cette garde ne s'applique pas au dry-run, qui ne modifie rien.
+ */
 const fs = require("fs");
 const path = require("path");
 const { optimiserImage, ImageTropLourdeError } = require("../utils/optimiserImage");

@@ -1,6 +1,9 @@
-// Localise la sauvegarde la plus récente produite par src/db/backup.js,
-// pour les scripts qui exigent une sauvegarde fraîche avant une écriture
-// risquée (optimize-uploads.js --apply, content-import.js --force).
+/**
+ * Localise la sauvegarde la plus récente produite par backup.js, pour les
+ * scripts qui exigent une sauvegarde fraîche (< 1h) avant une écriture
+ * risquée (optimize-uploads.js --apply, content-import.js --force). Lit le
+ * système de fichiers sous Sauvegardes/ (ou BACKUP_DIR) ; n'écrit rien.
+ */
 const fs = require("fs");
 const path = require("path");
 
@@ -19,15 +22,20 @@ function dateDepuisNomDossier(nom) {
   return new Date(Number(annee), Number(mois) - 1, Number(jour), Number(heure), Number(minute));
 }
 
+/** @returns {string} racine des sauvegardes (BACKUP_DIR si défini, sinon Sauvegardes/ par défaut). */
 function dossierSauvegardes() {
   return process.env.BACKUP_DIR
     ? path.resolve(process.env.BACKUP_DIR)
     : DOSSIER_SAUVEGARDES_DEFAUT;
 }
 
-// sousDossier : "uploads" ou "data" -- le sous-dossier que backup.js crée
-// dans chaque snapshot, utilisé ici comme preuve que ce snapshot couvre
-// bien ce qu'on s'apprête à écraser.
+/**
+ * @param {string} sousDossier "uploads" ou "data" — le sous-dossier que
+ * backup.js crée dans chaque snapshot, utilisé ici comme preuve que ce
+ * snapshot couvre bien ce qu'on s'apprête à écraser.
+ * @returns {{date: Date, chemin: string} | null} le snapshot le plus
+ * récent contenant ce sous-dossier, ou null si aucun n'existe.
+ */
 function trouverSauvegardeRecente(sousDossier) {
   const racine = dossierSauvegardes();
   if (!fs.existsSync(racine)) return null;
@@ -47,6 +55,7 @@ function trouverSauvegardeRecente(sousDossier) {
   return meilleure;
 }
 
+/** @returns {boolean} vrai si la sauvegarde date de moins d'une heure. */
 function estRecente(sauvegarde) {
   return !!sauvegarde && Date.now() - sauvegarde.date.getTime() < UNE_HEURE_MS;
 }
