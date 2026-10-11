@@ -1,3 +1,8 @@
+/**
+ * Gestion du catalogue de pâtisseries : création/édition/suppression,
+ * upload de photo + point focal, réorganisation par glisser-déposer
+ * (@dnd-kit, même mécanique que GestionPhotosEvenements.jsx).
+ */
 import { useEffect, useState } from "react";
 import {
   DndContext,
@@ -12,11 +17,6 @@ import {
   useSortable,
   arrayMove,
 } from "@dnd-kit/sortable";
-/**
- * Gestion du catalogue de pâtisseries : création/édition/suppression,
- * upload de photo + point focal, réorganisation par glisser-déposer
- * (@dnd-kit, même mécanique que GestionPhotosEvenements.jsx).
- */
 import { CSS } from "@dnd-kit/utilities";
 import { urlImage } from "../../utils/urlImage";
 import { gererSessionExpiree } from "../../utils/sessionExpiree";

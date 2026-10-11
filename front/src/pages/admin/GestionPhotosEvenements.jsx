@@ -1,3 +1,11 @@
+/**
+ * Gestion de la galerie "nos réalisations" (événements) : upload, texte
+ * alternatif par photo, réorganisation par glisser-déposer (@dnd-kit),
+ * suppression. LIMITE_PHOTOS dédouble côté front la limite imposée par
+ * le back (repositories/eventPhotos.js) — purement pour désactiver le
+ * bouton d'ajout sans attendre un aller-retour serveur, le back reste la
+ * seule source de vérité qui l'applique réellement.
+ */
 import { useEffect, useState } from "react";
 import {
   DndContext,
@@ -12,14 +20,6 @@ import {
   useSortable,
   arrayMove,
 } from "@dnd-kit/sortable";
-/**
- * Gestion de la galerie "nos réalisations" (événements) : upload, texte
- * alternatif par photo, réorganisation par glisser-déposer (@dnd-kit),
- * suppression. LIMITE_PHOTOS dédouble côté front la limite imposée par
- * le back (repositories/eventPhotos.js) — purement pour désactiver le
- * bouton d'ajout sans attendre un aller-retour serveur, le back reste la
- * seule source de vérité qui l'applique réellement.
- */
 import { CSS } from "@dnd-kit/utilities";
 import { urlImage } from "../../utils/urlImage";
 import { gererSessionExpiree } from "../../utils/sessionExpiree";
