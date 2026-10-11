@@ -1,3 +1,4 @@
+// Repository announcements : création vs mise à jour de l'unique ligne, conversion active en booléen.
 const test = require("node:test");
 const assert = require("node:assert");
 const { getAnnouncement, setAnnouncement } = require("./announcements");

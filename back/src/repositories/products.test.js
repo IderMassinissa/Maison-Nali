@@ -1,3 +1,4 @@
+// Repository products : CRUD, calcul de position, valeurs par défaut focus_x/focus_y.
 const test = require("node:test");
 const assert = require("node:assert");
 const {

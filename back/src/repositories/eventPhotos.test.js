@@ -1,3 +1,4 @@
+// Repository eventPhotos : CRUD, limite de 5 photos, transaction atomique createEventPhotoAvecLimite.
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert");
 const {

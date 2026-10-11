@@ -1,3 +1,4 @@
+// Repository settings : création vs mise à jour par clé, lecture d'une clé absente.
 const test = require("node:test");
 const assert = require("node:assert");
 const db = require("../db/connection");

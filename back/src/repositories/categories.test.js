@@ -1,3 +1,4 @@
+// Repository categories : création et lecture de la liste complète.
 const test = require("node:test");
 const assert = require("node:assert");
 const db = require("../db/connection");
