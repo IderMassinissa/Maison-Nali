@@ -31,6 +31,8 @@ Vérifié dans le code le 2026-10-10 (`back/src/server.js`, `.env.example`, `pac
 
 Les variables `VITE_*` sont injectées **au build** (pas au runtime) — un changement de valeur impose de relancer `npm run build`.
 
+**Test local en `NODE_ENV=production` sans TLS :** le cookie de session est posé avec `secure: true` dès que `NODE_ENV=production` (`back/src/server.js`). Testé en répétition d'installation à froid le 2026-10-11 : sur un back lancé en HTTP simple (sans reverse proxy HTTPS), `POST /api/auth/login` répond bien `200 {"message":"Connecté"}`, mais le `Set-Cookie` n'est jamais envoyé — comportement documenté d'`express-session` (une connexion non sécurisée ne reçoit pas de cookie `secure`). Vérifié : une requête `GET /api/auth/me` juste après renvoie alors `{"error":"Non authentifié"}`. Ce n'est pas un bug, mais une session admin ne peut pas être validée de bout en bout en local sans TLS — nécessite soit le reverse proxy HTTPS décrit plus bas, soit un lancement temporaire sans `NODE_ENV=production` pour ce seul test.
+
 ## Build du front
 
 ```bash
