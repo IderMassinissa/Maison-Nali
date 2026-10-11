@@ -1,3 +1,9 @@
+/**
+ * Bloc hero en tête de page (photo pleine largeur + titre + bouton
+ * optionnel). `estPremier` bascule les balises de titre entre h1/h2 (hero
+ * en tête de page) et h2/h3 (hero réutilisé plus bas dans la page) — garde
+ * une hiérarchie de titres valide quel que soit l'agencement.
+ */
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ImageAvecRepli from "./ImageAvecRepli";

@@ -1,3 +1,9 @@
+/**
+ * Bloc de la page Événements : galerie photos (CarrouselPhotos), liste de
+ * formats (texte libre admin, une ligne par format, "nom|détail" optionnel)
+ * et coordonnées de contact. Charge lui-même photos et réglages (téléphone,
+ * réseaux) via l'API, indépendamment du reste de la page.
+ */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";

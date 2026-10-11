@@ -1,3 +1,9 @@
+/**
+ * Bloc boutique (page Adresse) : photo, adresse, téléphone, horaires et
+ * lien Google Maps. Charge adresse/téléphone lui-même via l'API (doublon
+ * volontaire avec Footer/useLocalBusinessSchema) ; ADRESSE_REPLI s'affiche
+ * si la requête échoue, pour ne jamais laisser la page vide d'adresse.
+ */
 import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
 import { telHref } from "../utils/telephone";

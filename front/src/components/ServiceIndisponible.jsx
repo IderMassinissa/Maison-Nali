@@ -1,3 +1,4 @@
+/** Repli affiché quand une page ne parvient pas à charger ses données (API en erreur ou injoignable). */
 export default function ServiceIndisponible() {
   return (
     <div className="px-6 md:px-12 py-24 md:py-32 max-w-xl mx-auto text-center">

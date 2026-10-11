@@ -1,3 +1,10 @@
+/**
+ * Carrousel de photos "nos réalisations" (page Événements). Défilement
+ * horizontal natif (scroll-snap) plutôt qu'une librairie tierce : autoplay
+ * en pause au survol/interaction, respecte prefers-reduced-motion, et un
+ * IntersectionObserver suit quelle(s) photo(s) sont au premier plan pour
+ * leur effet visuel (opacité/échelle) sans recalcul au scroll.
+ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { urlImage } from "../utils/urlImage";
 import ImageAvecRepli from "./ImageAvecRepli";

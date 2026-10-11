@@ -1,3 +1,9 @@
+/**
+ * Grille du catalogue de pâtisseries (page Pâtisseries), chargé depuis
+ * l'API indépendamment du reste de la page. alt="" sur la photo de chaque
+ * carte : décoratif, le nom du produit est déjà porté par le titre affiché
+ * en surimpression, pas besoin de le répéter pour un lecteur d'écran.
+ */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
@@ -48,10 +54,8 @@ export default function GrillePatisseries() {
   }, []);
 
   // Reserve une hauteur approximative pendant le chargement des produits :
-  // meme cause de decalage de mise en page (CLS) que pour le contenu de
-  // page (cf. ChargementPage.jsx et A11y_Perf_Passe1_2026-10-09.md, A2),
-  // rencontree ici aussi car cette grille charge ses donnees separement du
-  // reste de la page.
+  // meme logique anti-CLS que ChargementPage.jsx, necessaire ici aussi car
+  // cette grille charge ses donnees separement du reste de la page.
   if (chargement)
     return <div className="my-12 md:my-16 min-h-[420px]" aria-hidden="true" />;
   if (erreur) return <ServiceIndisponible />;

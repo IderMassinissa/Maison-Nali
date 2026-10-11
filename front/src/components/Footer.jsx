@@ -1,3 +1,10 @@
+/**
+ * Pied de page, présent sur toutes les pages publiques : nav secondaire,
+ * téléphone et réseaux sociaux. Charge ces réglages lui-même via l'API —
+ * doublon volontaire avec d'autres composants (BlocLocalisation,
+ * useLocalBusinessSchema) qui ont le même besoin, chacun sur sa propre
+ * portion de page.
+ */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";

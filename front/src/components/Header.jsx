@@ -1,3 +1,9 @@
+/**
+ * En-tête du site, présent sur toutes les pages publiques : logo, nav
+ * desktop, et menu plein écran accessible en mobile (piège de focus,
+ * fermeture au clavier). Pas de dépendance au contenu de la page — les
+ * liens de navigation sont fixes, pas chargés depuis l'API.
+ */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -23,9 +29,7 @@ export default function Header() {
 
   // Piège de focus + fermeture au clavier pendant que le menu plein écran
   // est ouvert : sans ça, Tab fait sortir le focus vers le contenu de la
-  // page masqué derrière l'overlay (mesuré en pratique, cf.
-  // Documentation/A11y_Perf_Passe1_2026-10-09.md, C1), et Échap ne
-  // fermait rien.
+  // page masqué derrière l'overlay, et Échap ne fermait rien.
   useEffect(() => {
     if (!menuOuvert) return;
 

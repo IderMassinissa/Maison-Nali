@@ -1,3 +1,10 @@
+/**
+ * En-tête de page (titre + libellé optionnel + intro optionnelle).
+ * `estPremier` bascule les balises de titre entre h1/h2 (page qui
+ * commence par ce bloc) et h2/h3 (bloc inséré après un Hero qui porte
+ * déjà le h1) — garde une hiérarchie de titres valide quel que soit
+ * l'agencement choisi dans l'admin.
+ */
 export default function BlocEntete({ libelle, titre, intro, estPremier = true }) {
   const TitreTag = estPremier ? "h1" : "h2";
   const LibelleTag = estPremier ? "h2" : "h3";

@@ -1,3 +1,8 @@
+/**
+ * Bloc "notre histoire" (page À propos, jusqu'à 2 instances) : photo +
+ * texte + bouton optionnel. `fondSombre` bascule entre les deux variantes
+ * visuelles utilisées sur cette page (claire/sombre en alternance).
+ */
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ImageAvecRepli from "./ImageAvecRepli";

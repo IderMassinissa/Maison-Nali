@@ -1,3 +1,9 @@
+/**
+ * Visuel de repli affiché à la place d'une photo absente ou en échec de
+ * chargement (voir ImageAvecRepli, qui est le seul composant à en décider
+ * l'affichage). Le SVG est décoratif et marqué aria-hidden ; `children`
+ * permet d'y glisser un texte sr-only portant l'alt d'origine.
+ */
 export default function PlaceholderPhoto({ className = "", children }) {
   return (
     <div

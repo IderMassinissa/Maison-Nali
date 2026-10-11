@@ -1,3 +1,9 @@
+/**
+ * Bandeau d'annonce affiché en haut des pages publiques. `active` est déjà
+ * calculé côté appelant (fenêtre de dates + drapeau en base, voir
+ * back/src/utils/bannerVisibility.js) : ce composant se contente d'afficher
+ * ou de masquer, sans logique de visibilité propre.
+ */
 export default function BanniereAnnonce({ message, active }) {
   if (!active) return null;
 

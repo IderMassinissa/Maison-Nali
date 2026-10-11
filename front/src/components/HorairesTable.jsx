@@ -1,3 +1,9 @@
+/**
+ * Tableau des horaires d'ouverture, utilisé sur la page Adresse (et
+ * dupliqué volontairement dans le JSON-LD, voir useLocalBusinessSchema).
+ * Les jours viennent de la base dans un ordre quelconque : retriés ici sur
+ * un ordre français fixe (lundi à dimanche) pour l'affichage.
+ */
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
