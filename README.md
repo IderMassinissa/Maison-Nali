@@ -106,6 +106,8 @@ Procédure détaillée, ordre exact et pièges connus : **`SETUP.md`**. Déploie
 
 ## Structure des dossiers
 
+Vue d'ensemble ci-dessous ; détail fichier par fichier (rôle en une ligne) : **`docs/STRUCTURE.md`**.
+
 ```
 back/
   src/
@@ -160,6 +162,7 @@ axe-core : 0 violation sur les 6 pages publiques. Le LCP mobile résiduel sur Ac
 
 | Document | Contenu |
 |---|---|
+| `docs/STRUCTURE.md` | Arbre annoté du dépôt (rôle de chaque fichier), schéma du flux back route→validateur→repository, scripts utilitaires |
 | `docs/ARCHITECTURE.md` | Couches, flux de requête public/admin, sections JSON, sessions, pipeline d'upload |
 | `docs/API.md` | Toutes les routes : méthode, auth, corps, validations, codes de retour |
 | `docs/BASE-DE-DONNEES.md` | MCD/MLD/MPD, dictionnaire des tables, vérification contre le schéma réel |
