@@ -150,3 +150,11 @@ back/data/*.sqlite-shm
 # uploads
 back/public/uploads/*
 !back/public/uploads/.gitkeep
+
+# outils d'assistance au developpement (config locale, pas partagee)
+.claude/
+CLAUDE.md
+.mcp.json
+.cursor*
+.github/copilot*
+*.log
