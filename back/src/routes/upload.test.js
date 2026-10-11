@@ -1,3 +1,4 @@
+// Route d'upload : type réel vs déclaré, taille max, traitement sharp appliqué, fichiers écrits sous un nom généré.
 const test = require("node:test");
 const assert = require("node:assert");
 const { before, after } = require("node:test");

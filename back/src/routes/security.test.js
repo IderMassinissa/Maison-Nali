@@ -1,3 +1,4 @@
+// Garde-fous transverses : route admin sans auth, injection SQL dans un paramètre.
 const test = require("node:test");
 const assert = require("node:assert");
 const request = require("supertest");

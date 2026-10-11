@@ -1,3 +1,9 @@
+/**
+ * Routes des horaires d'ouverture (7 lignes fixes, une par jour — pas de
+ * création/suppression, seulement la lecture publique et la mise à jour
+ * admin d'un jour donné). validateOpeningHours impose une paire
+ * ouverture/fermeture cohérente ou les deux vides (jour fermé).
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

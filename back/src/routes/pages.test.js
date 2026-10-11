@@ -1,3 +1,4 @@
+// Routes pages/sections : lecture publique, écriture du contenu d'une section (auth, validation, 404).
 const test = require("node:test");
 const assert = require("node:assert");
 const { before, after } = require("node:test");

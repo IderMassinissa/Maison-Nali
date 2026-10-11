@@ -1,3 +1,11 @@
+/**
+ * Route d'upload de photo (admin uniquement). Pipeline en deux temps :
+ * (1) vérification du contenu binaire réel du fichier, jamais de son
+ * Content-Type déclaré ni de son extension d'origine, l'un et l'autre
+ * falsifiables ; (2) traitement sharp (rotation EXIF, suppression des
+ * métadonnées, redimensionnement, recompression) avant écriture sur
+ * disque sous un nom généré par le serveur.
+ */
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
@@ -13,7 +21,7 @@ const { optimiserImage, ImageTropLourdeError } = require("../utils/optimiserImag
 // Stockage en mémoire (Buffer), pas directement sur disque : le temps de
 // vérifier le contenu réel du fichier (cf. plus bas), avant de l'écrire
 // nous-mêmes avec un nom et une extension que NOUS choisissons -- jamais
-// l'extension fournie par le client (voir E2 dans le rapport sécurité).
+// l'extension fournie par le client, qui est falsifiable.
 const storage = multer.memoryStorage();
 
 const TYPES_AUTORISES = ["image/jpeg", "image/png", "image/webp"];
@@ -63,8 +71,9 @@ router.post("/", requireAuth, (req, res) => {
     }
 
     // Rotation EXIF, suppression de toutes les métadonnées (GPS inclus),
-    // redimensionnement (sans jamais agrandir) et recompression -- cf.
-    // Documentation/A11y_Perf_Passe1_2026-10-09.md, A1/G2 (lot images).
+    // redimensionnement (sans jamais agrandir) et recompression -- allège
+    // le poids des photos uploadées et retire les données personnelles
+    // potentiellement embarquées (localisation GPS notamment).
     let resultat;
     try {
       resultat = await optimiserImage(req.file.buffer, typeReel);

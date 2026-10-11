@@ -1,3 +1,10 @@
+/**
+ * Routes d'authentification admin : login (rate-limité par IP, session
+ * régénérée pour empêcher la fixation de session), logout, lecture de la
+ * session courante (/me), changement de mot de passe. Mots de passe
+ * jamais manipulés en clair hors de ce fichier et de repositories/auth.js
+ * (hash/vérification bcrypt) — la base ne stocke que le hash.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

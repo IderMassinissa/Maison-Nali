@@ -1,3 +1,10 @@
+/**
+ * Routes des pages publiques et de leurs sections (les blocs de contenu
+ * édités depuis l'admin). GET /:slug compose la page avec ses sections
+ * dans une seule réponse. PUT sur une section attend `content` déjà
+ * sérialisé en chaîne JSON (cohérent avec son stockage en base), reparsé
+ * ici juste pour validation avant d'être réécrit tel quel.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

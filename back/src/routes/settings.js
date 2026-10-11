@@ -1,3 +1,9 @@
+/**
+ * Routes des réglages génériques clé/valeur (adresse, téléphone, réseaux
+ * sociaux...). GET sur une clé inexistante renvoie `value: null` plutôt
+ * qu'une 404 — un réglage jamais encore défini n'est pas une erreur côté
+ * front, qui affiche alors son propre texte de repli.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

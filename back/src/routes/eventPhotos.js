@@ -1,3 +1,9 @@
+/**
+ * Routes de la galerie "nos réalisations" (événements, max 5 photos — la
+ * limite est imposée côté repository, createEventPhotoAvecLimite). Chaque
+ * écriture revalide intégralement la ligne (alt, position) via
+ * validateEventPhoto, même sur les champs non modifiés par la requête.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

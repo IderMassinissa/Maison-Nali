@@ -1,3 +1,10 @@
+/**
+ * Routes de la bannière d'annonce (une seule, affichée sur toutes les pages
+ * publiques). GET / filtre par fenêtre de visibilité (dates, heure de
+ * Paris) pour le public ; GET /admin renvoie l'annonce brute, dates
+ * incluses, pour l'édition. PUT valide les dates (validateBannerDates)
+ * avant d'écrire via repositories/announcements.js.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");

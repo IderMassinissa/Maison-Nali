@@ -1,3 +1,9 @@
+/**
+ * Routes du catalogue de pâtisseries public. photoUrl doit être un chemin
+ * interne /uploads/... (validatePhotoInterne) et videoUrl un lien externe
+ * https:// ou vide (validateLienBouton) — jamais une URL arbitraire côté
+ * photo, pour empêcher d'afficher une image hébergée ailleurs.
+ */
 const express = require("express");
 const router = express.Router();
 const requireAuth = require("../middleware/requireAuth");
