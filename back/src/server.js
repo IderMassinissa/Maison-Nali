@@ -1,3 +1,10 @@
+/**
+ * Point d'entrée du back Express : middlewares globaux (sécurité, CORS,
+ * session, compression) puis montage de toutes les routes API et des
+ * fichiers statiques /uploads. Lu par `npm start`/`node src/server.js`
+ * (écoute réellement le port) et par les tests, qui importent `app` sans
+ * jamais appeler `.listen()` (cf. `require.main === module` plus bas).
+ */
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
@@ -51,7 +58,8 @@ if (process.env.TRUST_PROXY === "true") {
 }
 
 // helmet() pose un ensemble d'en-têtes de sécurité par défaut (retire aussi
-// X-Powered-By, cf. F2). Son réglage crossOriginResourcePolicy par défaut
+// X-Powered-By, qui révèle inutilement la techno serveur). Son réglage
+// crossOriginResourcePolicy par défaut
 // ("same-origin") bloquerait le chargement de /uploads/... par le front :
 // front (http://localhost:5173) et back (http://localhost:3001) sont deux
 // origines différentes par construction (même en production, sauf si un
