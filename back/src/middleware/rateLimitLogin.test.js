@@ -1,3 +1,4 @@
+// Limite de tentatives par IP : passe sous la limite, bloque au-dessus, réinitialisation, purge périodique.
 const test = require("node:test");
 const assert = require("node:assert");
 const rateLimitLogin = require("./rateLimitLogin");

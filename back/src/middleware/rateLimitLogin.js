@@ -1,8 +1,12 @@
-// Limite le nombre de tentatives de connexion par adresse IP, pour freiner
-// une attaque par force brute sur le mot de passe admin. Implementation
-// volontairement simple (compteur en memoire) : pas besoin de persistance
-// entre redemarrages pour ce besoin, contrairement aux sessions.
-
+/**
+ * Middleware Express branché sur POST /api/auth/login (voir routes/auth.js)
+ * : limite le nombre de tentatives de connexion par adresse IP, pour
+ * freiner une attaque par force brute sur le mot de passe admin.
+ * Implémentation volontairement simple (compteur en mémoire, clé = IP) :
+ * pas besoin de persistance entre redémarrages pour ce besoin, contrairement
+ * aux sessions. Purge périodique + API de réinitialisation exportées pour
+ * les tests et pour auth.js (succès de connexion = repart à zéro pour cette IP).
+ */
 const LIMITE_TENTATIVES = 5;
 const FENETRE_MS = 15 * 60 * 1000; // 15 minutes
 const INTERVALLE_PURGE_MS = 15 * 60 * 1000;
