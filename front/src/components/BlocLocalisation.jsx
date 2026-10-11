@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import HorairesTable from "./HorairesTable";
 import { telHref } from "../utils/telephone";
 import { urlImage } from "../utils/urlImage";
-import PlaceholderPhoto from "./PlaceholderPhoto";
+import ImageAvecRepli from "./ImageAvecRepli";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ADRESSE_REPLI = "Adresse momentanément indisponible";
@@ -81,17 +81,13 @@ export default function BlocLocalisation({
 
         <div className="lg:col-span-8 relative">
           <div className="aspect-video rounded overflow-hidden shadow-soft group">
-            {photo ? (
-              <img
-                className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
-                src={urlImage(photo)}
-                alt={photoAlt}
-                loading="lazy"
-                style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-              />
-            ) : (
-              <PlaceholderPhoto />
-            )}
+            <ImageAvecRepli
+              className="w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+              src={photo ? urlImage(photo) : null}
+              alt={photoAlt}
+              loading="lazy"
+              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+            />
           </div>
         </div>
       </div>

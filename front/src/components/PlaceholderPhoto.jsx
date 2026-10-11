@@ -1,4 +1,4 @@
-export default function PlaceholderPhoto({ className = "" }) {
+export default function PlaceholderPhoto({ className = "", children }) {
   return (
     <div
       className={`w-full h-full flex items-center justify-center bg-brand-gradient ${className}`}
@@ -22,6 +22,7 @@ export default function PlaceholderPhoto({ className = "" }) {
         />
         <circle cx="22" cy="22" r="2" fill="currentColor" />
       </svg>
+      {children}
     </div>
   );
 }

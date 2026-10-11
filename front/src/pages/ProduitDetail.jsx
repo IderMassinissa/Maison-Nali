@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ServiceIndisponible from "../components/ServiceIndisponible";
 import ChargementPage from "../components/ChargementPage";
+import ImageAvecRepli from "../components/ImageAvecRepli";
 import usePageSeo from "../hooks/usePageSeo";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -52,8 +53,8 @@ export default function ProduitDetail() {
       </Link>
 
       <div className="rounded-lg overflow-hidden mb-10 aspect-[4/3]">
-        <img
-          src={urlImage(produit.photo_url)}
+        <ImageAvecRepli
+          src={produit.photo_url ? urlImage(produit.photo_url) : null}
           alt={produit.name}
           className="w-full h-full object-cover"
           style={{

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
 import ServiceIndisponible from "./ServiceIndisponible";
+import ImageAvecRepli from "./ImageAvecRepli";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,21 +10,13 @@ function CartePatisserie({ id, nom, image, focusX, focusY }) {
   return (
     <Link to={`/patisseries/${id}`} className="block group">
       <article className="relative aspect-[3/4] rounded overflow-hidden shadow-soft bg-brand-surface transition-all duration-300 ease-out hover:shadow-medium hover:-translate-y-1">
-        {image ? (
-          <img
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
-            src={urlImage(image)}
-            alt=""
-            loading="lazy"
-            style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-brand-border/20">
-            <span className="text-xs uppercase tracking-widest opacity-40">
-              Photo à venir
-            </span>
-          </div>
-        )}
+        <ImageAvecRepli
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]"
+          src={image ? urlImage(image) : null}
+          alt=""
+          loading="lazy"
+          style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+        />
 
         <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 

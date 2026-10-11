@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
-import PlaceholderPhoto from "./PlaceholderPhoto";
+import ImageAvecRepli from "./ImageAvecRepli";
 
 export default function BlocHistoire({
   titre,
@@ -23,17 +23,13 @@ export default function BlocHistoire({
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
         <div className="order-2 lg:order-1 lg:col-span-2">
           <div className="aspect-[4/3] rounded overflow-hidden shadow-medium">
-            {photo ? (
-              <img
-                className="w-full h-full object-cover"
-                src={urlImage(photo)}
-                alt={photoAlt}
-                loading="lazy"
-                style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-              />
-            ) : (
-              <PlaceholderPhoto />
-            )}
+            <ImageAvecRepli
+              className="w-full h-full object-cover"
+              src={photo ? urlImage(photo) : null}
+              alt={photoAlt}
+              loading="lazy"
+              style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+            />
           </div>
         </div>
         <div className="order-1 lg:order-2">

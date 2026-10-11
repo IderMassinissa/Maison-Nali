@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { urlImage } from "../utils/urlImage";
+import ImageAvecRepli from "./ImageAvecRepli";
 
 const DELAI_AUTOPLAY_MS = 3000;
 
@@ -159,8 +160,8 @@ export default function CarrouselPhotos({ photos }) {
                 auPremierPlan ? "opacity-100 scale-100" : "opacity-60 scale-95"
               } ${reduitMotion ? "" : "transition-all duration-500 ease-out"}`}
             >
-              <img
-                src={urlImage(photo.image_url)}
+              <ImageAvecRepli
+                src={photo.image_url ? urlImage(photo.image_url) : null}
                 alt={photo.alt || "Réalisation Maison Nali"}
                 loading={index === 0 ? "eager" : "lazy"}
                 className="w-full h-full object-cover"

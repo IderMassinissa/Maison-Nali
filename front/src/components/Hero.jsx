@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";
-import PlaceholderPhoto from "./PlaceholderPhoto";
+import ImageAvecRepli from "./ImageAvecRepli";
 
 export default function Hero({
   titre,
@@ -19,16 +19,12 @@ export default function Hero({
   return (
     <section className="relative w-full aspect-video min-h-[420px] md:min-h-0">
       <div className="absolute inset-0 z-0">
-        {photo ? (
-          <img
-            className="w-full h-full object-cover"
-            src={urlImage(photo)}
-            alt="Pâtisseries algériennes dorées, glacées au miel"
-            style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
-          />
-        ) : (
-          <PlaceholderPhoto />
-        )}
+        <ImageAvecRepli
+          className="w-full h-full object-cover"
+          src={photo ? urlImage(photo) : null}
+          alt="Pâtisseries algériennes dorées, glacées au miel"
+          style={{ objectPosition: `${focusX ?? 50}% ${focusY ?? 50}%` }}
+        />
         <div className="absolute inset-0 opacity-45 bg-brand-dark"></div>
       </div>
 
