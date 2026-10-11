@@ -1,3 +1,9 @@
+/**
+ * Écran de connexion admin. Un succès de connexion pose directement un
+ * cookie de session (voir back/src/routes/auth.js) ; cette page se
+ * contente de naviguer vers /admin ensuite, sans gérer elle-même de
+ * jeton ou d'état de session.
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import usePageSeo from "../../hooks/usePageSeo";

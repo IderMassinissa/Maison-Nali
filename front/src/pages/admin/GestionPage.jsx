@@ -1,3 +1,8 @@
+/**
+ * Liste des blocs d'une page admin, chacun renvoyant vers son écran
+ * d'édition (EditionBloc). `key={slug}` force un remount complet au
+ * changement de page plutôt que de réutiliser l'état React précédent.
+ */
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;

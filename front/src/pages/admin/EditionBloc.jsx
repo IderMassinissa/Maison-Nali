@@ -1,3 +1,10 @@
+/**
+ * Route générique d'édition d'un bloc : charge la section par id puis
+ * délègue au formulaire correspondant à son `type` (EDITEURS). `key={id}`
+ * sur le wrapper force un remount complet au changement d'id (navigation
+ * d'un bloc à l'autre) plutôt que de réutiliser l'état React du formulaire
+ * précédent.
+ */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditionHero from "../../components/admin/editeurs/EditionHero";

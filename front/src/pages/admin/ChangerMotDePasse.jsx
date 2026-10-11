@@ -1,3 +1,9 @@
+/**
+ * Formulaire admin de changement de mot de passe. La confirmation (deux
+ * fois le même mot de passe) est vérifiée côté client avant tout appel
+ * réseau ; l'ancien mot de passe est revérifié côté serveur dans tous
+ * les cas (voir back/src/routes/auth.js).
+ */
 import { useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 

@@ -1,3 +1,10 @@
+/**
+ * Formulaire admin de la bannière d'annonce (une seule, pas de liste).
+ * Le statut affiché (Programmée/Expirée/Affichée) est recalculé côté
+ * front après chaque sauvegarde, en relisant l'annonce — pas déduit
+ * localement des champs du formulaire, pour refléter ce que le serveur
+ * a réellement validé et stocké.
+ */
 import { useEffect, useState } from "react";
 import { statutBanniere } from "../../utils/bannerStatus";
 const API_URL = import.meta.env.VITE_API_URL;

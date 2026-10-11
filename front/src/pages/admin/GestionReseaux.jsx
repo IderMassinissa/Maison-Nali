@@ -1,3 +1,9 @@
+/**
+ * Formulaire admin des coordonnées (adresse, téléphone, réseaux sociaux),
+ * un champ `settings` par ligne — chaque champ se sauvegarde
+ * indépendamment des autres (son propre bouton, son propre état
+ * enregistrement/succès), pas un seul submit global.
+ */
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
