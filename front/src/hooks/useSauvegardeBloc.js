@@ -1,3 +1,10 @@
+/**
+ * Sauvegarde le contenu d'une section (PUT /api/pages/sections/:id/content)
+ * depuis les éditeurs admin (EditionHero, EditionBlocHistoire...). Sérialise
+ * le contenu en JSON côté client, cohérent avec son stockage en chaîne brute
+ * en base. En cas de succès, revient à l'écran précédent après un court
+ * délai (le temps de voir le message de confirmation).
+ */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;

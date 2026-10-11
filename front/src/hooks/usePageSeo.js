@@ -1,3 +1,10 @@
+/**
+ * Pose titre, meta description, lien canonique et balises Open Graph pour
+ * la page courante — appelé une fois par page publique, avec son propre
+ * titre/description/image. Manipule directement le DOM (document.title,
+ * meta tags) plutôt que `<head>` de react-router : pas de dépendance
+ * supplémentaire pour un besoin aussi simple.
+ */
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 

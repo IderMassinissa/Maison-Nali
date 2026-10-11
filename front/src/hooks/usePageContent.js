@@ -1,3 +1,9 @@
+/**
+ * Charge une page publique par son slug (GET /api/pages/:slug) et reparse
+ * le `content` JSON de chaque section (stocké en base comme une chaîne
+ * brute) en objet, pour que les composants de page n'aient jamais à faire
+ * ce parsing eux-mêmes.
+ */
 import { useEffect, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
