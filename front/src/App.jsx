@@ -1,3 +1,11 @@
+/**
+ * Racine de l'app : toutes les routes (public + admin). Les routes admin
+ * sont chargées en lazy (`lazy()`/`Suspense`) — jamais téléchargées par un
+ * visiteur public, qui ne charge que SiteLayout et les pages publiques.
+ * `/admin/reseaux` et `/admin/prestations` redirigent vers leurs routes
+ * renommées (coordonnees, photos-evenements) — compatibilité d'anciens
+ * liens, pas des routes actives.
+ */
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Header from "./components/Header";
