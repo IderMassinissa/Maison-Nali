@@ -1,3 +1,4 @@
+/** Page 404, route de repli (voir App.jsx) pour toute URL qui ne correspond à aucune route déclarée. */
 import { Link } from "react-router-dom";
 import usePageSeo from "../hooks/usePageSeo";
 

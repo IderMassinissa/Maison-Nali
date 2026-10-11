@@ -1,3 +1,9 @@
+/**
+ * Page d'accueil : compose ses blocs (Hero, en-tête, histoire, grille de
+ * pâtisseries, localisation) à partir des sections chargées pour le slug
+ * "accueil". SEO (titre/description) dérivé du contenu du bloc-entête,
+ * avec un repli fixe si ce bloc est absent.
+ */
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";

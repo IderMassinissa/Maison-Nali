@@ -1,3 +1,4 @@
+/** Page Événements : Hero, en-tête, puis galerie/formats/contact (BlocEvenements). SEO dérivé du bloc-entête, avec repli fixe si absent. */
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";

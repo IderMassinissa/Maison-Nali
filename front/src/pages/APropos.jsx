@@ -1,3 +1,8 @@
+/**
+ * Page À propos : jusqu'à 2 blocs-histoire, alternant fond clair/sombre
+ * selon leur position dans la liste (index pair/impair). SEO dérivé du
+ * bloc-entête, avec repli fixe si absent.
+ */
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";

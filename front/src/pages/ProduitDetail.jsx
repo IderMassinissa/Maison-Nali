@@ -1,3 +1,8 @@
+/**
+ * Fiche produit (/patisseries/:id). ID absent en base (404 API) traité
+ * comme "non trouvé", pas comme une erreur réseau — seul un vrai échec de
+ * requête affiche ServiceIndisponible.
+ */
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { urlImage } from "../utils/urlImage";

@@ -1,3 +1,8 @@
+/**
+ * Mentions légales — seule page à contenu fixe (pas de section éditable
+ * depuis l'admin). Le téléphone est néanmoins chargé dynamiquement depuis
+ * les réglages, pour rester cohérent si le numéro change.
+ */
 import { useEffect, useState } from "react";
 import usePageSeo from "../hooks/usePageSeo";
 

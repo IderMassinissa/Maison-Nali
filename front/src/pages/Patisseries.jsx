@@ -1,3 +1,4 @@
+/** Page catalogue : Hero, en-tête, puis grille de produits (chargée séparément par GrillePatisseries). SEO dérivé du bloc-entête, avec repli fixe si absent. */
 import usePageContent from "../hooks/usePageContent";
 import usePageSeo from "../hooks/usePageSeo";
 import ServiceIndisponible from "../components/ServiceIndisponible";
