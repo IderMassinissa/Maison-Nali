@@ -1,5 +1,11 @@
+/**
+ * Validation d'une paire d'horaires d'ouverture (routes/openingHours.js).
+ * Les deux heures doivent être renseignées ensemble ou vides ensemble (jour
+ * fermé) — jamais une seule des deux.
+ */
 const REGEX_HEURE = /^\d{2}:\d{2}$/;
 
+/** @returns {{valid: true, openTime: string|null, closeTime: string|null} | {valid: false, error: string}} */
 function validateOpeningHours(openTime, closeTime) {
   const ouverture = openTime && openTime.trim() ? openTime.trim() : null;
   const fermeture = closeTime && closeTime.trim() ? closeTime.trim() : null;

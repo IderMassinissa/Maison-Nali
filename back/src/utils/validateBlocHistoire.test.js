@@ -1,3 +1,4 @@
+// Bouton de bloc-histoire : texte trop long, délégation à validateLienBouton.
 const test = require("node:test");
 const assert = require("node:assert");
 const { validateBlocHistoire } = require("./validateBlocHistoire");

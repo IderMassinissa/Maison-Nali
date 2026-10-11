@@ -1,3 +1,4 @@
+// Pipeline sharp : rotation EXIF, suppression des métadonnées, redimensionnement, repli si le résultat est plus lourd, limite de pixels.
 const test = require("node:test");
 const assert = require("node:assert");
 const sharp = require("sharp");

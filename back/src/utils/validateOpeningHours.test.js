@@ -1,3 +1,4 @@
+// Jour fermé, heure manquante d'un seul côté, format invalide, fermeture avant ouverture.
 const test = require("node:test");
 const assert = require("node:assert");
 const { validateOpeningHours } = require("./validateOpeningHours");

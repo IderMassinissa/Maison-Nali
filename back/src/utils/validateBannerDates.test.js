@@ -1,3 +1,4 @@
+// Dates de bannière : vides, partielles, invalides, fin avant début, cohérentes.
 const test = require("node:test");
 const assert = require("node:assert");
 const { validateBannerDates } = require("./validateBannerDates");

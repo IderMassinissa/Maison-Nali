@@ -1,3 +1,9 @@
+/**
+ * Validation des dates de la bannière d'annonce (routes/announcements.js).
+ * Les deux dates sont optionnelles indépendamment (annonce permanente,
+ * ou ouverte/fermée d'un seul côté) ; si les deux sont fournies, la fin
+ * doit être après (ou égale à) le début.
+ */
 const REGEX_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 function estDateCalendaireValide(valeur) {
@@ -11,6 +17,7 @@ function estDateCalendaireValide(valeur) {
   );
 }
 
+/** @returns {{valid: true, startDate: string|null, endDate: string|null} | {valid: false, error: string}} */
 function validateBannerDates(startDate, endDate) {
   const debut = startDate && startDate.trim() ? startDate.trim() : null;
   const fin = endDate && endDate.trim() ? endDate.trim() : null;

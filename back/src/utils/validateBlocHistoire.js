@@ -1,5 +1,11 @@
+/**
+ * Validation du bouton optionnel d'un bloc-histoire (texte + lien),
+ * utilisée par validateSectionContent.js. Délègue la validation du lien à
+ * validateLienBouton.js — ne duplique pas ses règles.
+ */
 const { validateLienBouton } = require("./validateLienBouton");
 
+/** @returns {{valid: true, texteBouton: string, lienBouton: string} | {valid: false, error: string}} */
 function validateBlocHistoire(texteBouton, lienBouton) {
   const texte = texteBouton && texteBouton.trim() ? texteBouton.trim() : "";
 

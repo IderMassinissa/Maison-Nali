@@ -1,3 +1,4 @@
+// Détection par signature binaire (JPEG/PNG/WebP), rejet des buffers trop courts ou non reconnus.
 const test = require("node:test");
 const assert = require("node:assert");
 const { detecterTypeImage } = require("./detecterTypeImage");

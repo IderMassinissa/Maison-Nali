@@ -1,10 +1,14 @@
-// Détecte le type réel d'une image à partir de ses premiers octets
-// ("magic bytes" / signature de fichier), indépendamment de ce que le
-// client a déclaré (nom de fichier, en-tête Content-Type) -- ces deux
-// informations sont entièrement contrôlées par celui qui envoie la
-// requête, donc falsifiables (un fichier HTML peut être envoyé avec un nom
-// en .jpg et un Content-Type "image/jpeg"). Les vraies images, elles,
-// commencent toujours par une signature fixe propre à leur format.
+/**
+ * Détecte le type réel d'une image à partir de ses premiers octets ("magic
+ * bytes" / signature de fichier), indépendamment de ce que le client a
+ * déclaré (nom de fichier, en-tête Content-Type) — ces deux informations
+ * sont entièrement contrôlées par celui qui envoie la requête, donc
+ * falsifiables (un fichier HTML peut être envoyé avec un nom en .jpg et un
+ * Content-Type "image/jpeg"). Les vraies images, elles, commencent
+ * toujours par une signature fixe propre à leur format. Utilisé par
+ * routes/upload.js avant tout traitement du fichier reçu.
+ */
+/** @returns {"image/jpeg"|"image/png"|"image/webp"|null} le type MIME réel détecté, ou null si aucune signature connue ne correspond. */
 function detecterTypeImage(buffer) {
   if (!buffer || buffer.length < 12) return null;
 

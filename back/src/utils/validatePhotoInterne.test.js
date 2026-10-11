@@ -1,3 +1,4 @@
+// Chemin /uploads/... valide, extensions, chemin hors uploads, parcours ("..").
 const test = require("node:test");
 const assert = require("node:assert");
 const { validatePhotoInterne } = require("./validatePhotoInterne");

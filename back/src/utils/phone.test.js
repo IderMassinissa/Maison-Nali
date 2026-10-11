@@ -1,3 +1,4 @@
+// Formats de téléphone acceptés/rejetés (longueur, caractères autorisés).
 const test = require("node:test");
 const assert = require("node:assert");
 const { validatePhone } = require("./phone");

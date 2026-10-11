@@ -1,3 +1,4 @@
+// Chemin interne vs URL externe, schémas rejetés (javascript:, data:, http:), longueur.
 const test = require("node:test");
 const assert = require("node:assert");
 const { validateLienBouton } = require("./validateLienBouton");

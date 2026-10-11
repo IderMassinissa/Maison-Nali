@@ -1,12 +1,19 @@
-// Validation du contenu JSON d'une section, selon son type -- extrait de
-// back/src/routes/pages.js (PUT /sections/:id/content) pour être réutilisé
-// tel quel par l'import de contenu (back/src/db/content-import.js) : les
-// deux chemins doivent appliquer EXACTEMENT les mêmes règles, jamais une
-// copie qui pourrait diverger.
+/**
+ * Validation du contenu JSON d'une section, selon son type — extrait de
+ * routes/pages.js (PUT /sections/:id/content) pour être réutilisé tel quel
+ * par l'import de contenu (db/content-import.js) : les deux chemins
+ * doivent appliquer EXACTEMENT les mêmes règles, jamais une copie qui
+ * pourrait diverger.
+ */
 const { validateBlocHistoire } = require("./validateBlocHistoire");
 const { validateLienBouton } = require("./validateLienBouton");
 const { validatePhotoInterne } = require("./validatePhotoInterne");
 
+/**
+ * @param {string} type type de la section (hero, bloc-histoire, bloc-localisation, bloc-entete, bloc-evenements, bloc-patisseries...).
+ * @param {object} parsed contenu JSON déjà parsé (pas la chaîne brute).
+ * @returns {{valid: true} | {valid: false, error: string}}
+ */
 function validateSectionContent(type, parsed) {
   if (type === "bloc-evenements") {
     const { titre = "", intro = "", formats = "" } = parsed || {};

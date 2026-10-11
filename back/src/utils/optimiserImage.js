@@ -1,3 +1,11 @@
+/**
+ * Pipeline de traitement d'image appliqué à chaque photo uploadée
+ * (routes/upload.js) et, à la demande, aux fichiers déjà présents sur
+ * disque (optimize-uploads.js) : rotation EXIF, suppression de toutes les
+ * métadonnées (GPS inclus), redimensionnement (sans jamais agrandir) et
+ * recompression. Limite de pixels décodés pour refuser une image "bombe"
+ * (petit fichier qui décompresse en image énorme, coûteuse en mémoire/CPU).
+ */
 const sharp = require("sharp");
 
 const LARGEUR_MAX = 1600;
@@ -30,6 +38,12 @@ function appliquerFormat(pipeline, format) {
 // à `withMetadata()` -- il suffit donc de ne jamais l'appeler. `.rotate()`
 // sans argument applique l'orientation EXIF puis la retire (l'image rendue
 // n'a plus besoin de ce tag).
+/**
+ * @param {Buffer} buffer contenu binaire de l'image d'origine.
+ * @param {string} typeMime type MIME réel (détecté par detecterTypeImage, pas déclaré par le client).
+ * @returns {Promise<{buffer: Buffer, largeurAvant: number, hauteurAvant: number, largeurApres: number, hauteurApres: number}>}
+ * @throws {ImageTropLourdeError} si l'image décompressée dépasse PIXELS_MAX.
+ */
 async function optimiserImage(buffer, typeMime) {
   const format = FORMAT_SHARP_PAR_TYPE[typeMime];
   if (!format) {

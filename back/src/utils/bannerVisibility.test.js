@@ -1,3 +1,4 @@
+// Date du jour à Paris autour du changement de jour UTC, visibilité de la bannière selon sa fenêtre de dates.
 const test = require("node:test");
 const assert = require("node:assert");
 const { getParisDate, isBannerVisible } = require("./bannerVisibility");
