@@ -1,3 +1,4 @@
+/** Écran informatif : ce bloc n'a pas de contenu propre à éditer, il affiche directement la table "Produits" — renvoie simplement vers cette section du menu. */
 export default function EditionGrillePatisseries() {
   return (
     <div>

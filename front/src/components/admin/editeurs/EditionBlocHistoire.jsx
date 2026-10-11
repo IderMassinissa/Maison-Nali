@@ -1,3 +1,9 @@
+/**
+ * Formulaire admin d'un bloc-histoire : texte, upload de photo + point
+ * focal (même mécanique que EditionHero.jsx), bouton optionnel. Chaque
+ * page À propos peut avoir jusqu'à 2 instances de ce bloc, éditées
+ * indépendamment (une par section).
+ */
 import { useState } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";

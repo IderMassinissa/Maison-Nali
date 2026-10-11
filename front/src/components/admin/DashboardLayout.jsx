@@ -1,3 +1,9 @@
+/**
+ * Ossature commune de toutes les pages admin : nav latérale (pages à
+ * éditer + contenu transverse) et zone de contenu (`<Outlet>`). PAGES est
+ * un ordre d'affichage fixe choisi ici, indépendant de la colonne
+ * `position` en base (qui pilote l'ordre sur le site public, pas celui-ci).
+ */
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import usePageSeo from "../../hooks/usePageSeo";
 const API_URL = import.meta.env.VITE_API_URL;

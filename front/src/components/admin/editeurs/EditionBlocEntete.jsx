@@ -1,3 +1,9 @@
+/**
+ * Formulaire admin d'édition d'un bloc-entête (libellé, titre, intro).
+ * Lit le contenu initial depuis `section.content` (JSON brut en base),
+ * sauvegarde via useSauvegardeBloc. Limites de longueur alignées sur
+ * celles de back/src/utils/validateSectionContent.js.
+ */
 import { useState } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { parseContenuSection } from "../../../utils/parseContenuSection";

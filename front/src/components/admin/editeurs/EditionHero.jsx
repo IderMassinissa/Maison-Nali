@@ -1,3 +1,9 @@
+/**
+ * Formulaire admin du bloc Hero : titre/accroche/texte, upload de photo et
+ * choix du point focal de recadrage (clic sur l'aperçu -> coordonnées en
+ * pourcentage), bouton optionnel. Un nouvel upload remet le point focal au
+ * centre (50/50) : l'ancien point n'a plus de sens sur une autre image.
+ */
 import { useState } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";

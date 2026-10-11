@@ -1,3 +1,8 @@
+/**
+ * Formulaire admin du bloc Événements : liste de formats de boîtes en
+ * texte libre, une ligne par format, "nom|détail" optionnel (parsé côté
+ * public par BlocEvenements.jsx — même format des deux côtés).
+ */
 import { useState } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { parseContenuSection } from "../../../utils/parseContenuSection";

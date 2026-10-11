@@ -1,3 +1,8 @@
+/**
+ * Formulaire admin du bloc boutique (page Adresse) : texte, upload de
+ * photo + point focal (même mécanique que EditionHero.jsx), et édition
+ * des horaires d'ouverture (7 lignes fixes, pas de création/suppression).
+ */
 import { useState, useEffect } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";
