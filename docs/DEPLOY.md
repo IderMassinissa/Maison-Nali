@@ -138,30 +138,9 @@ Avec ce montage (front et back sur le **même nom de domaine**, `/api` et `/uplo
 
 Le cookie de session est posé avec `sameSite: "lax"` (`back/src/server.js`), en dur, pas configurable par variable d'environnement. Conséquence directe : **front et back doivent être vus comme le même site par le navigateur** (même domaine racine — un sous-domaine `api.maison-nali.fr` pour le back et `www.maison-nali.fr` pour le front restent "same-site" au sens de la spec, ce n'est que les domaines complètement différents, ex. `maison-nali-api.un-hebergeur.com`, qui posent problème). Si le choix d'hébergement final sépare front et back sur des domaines racine différents, le cookie `lax` ne sera pas envoyé sur les requêtes cross-site en `fetch` et l'admin cessera de fonctionner — il faudrait alors passer à `sameSite: "none"` (et donc obligatoirement `secure: true`, déjà le cas en production).
 
-## Scripts de migration et correctifs de données (`back/src/db`)
+## Scripts de migration et correctifs de données (historique)
 
-12 scripts hors `init.js`/`init-admin.js`/`init-pages.js`/`seed-*.js` (installation initiale historique, **dépréciée**, cf. plus haut et `docs/TESTS.md`) et hors `backup.js`/`optimize-uploads.js`/`init-test.js`/`content-export.js`/`content-import.js` (maintenance courante, déjà documentés ailleurs). Aucun mécanisme de migration automatique au démarrage — tous s'exécutent à la main, un par un, `node src/db/<fichier>.js` depuis `back/`. Ordre ci-dessous = ordre chronologique réel de création (vérifié via `git log --diff-filter=A`), qui correspond aussi à l'ordre de dépendance là où il y en a une. Pour une base neuve, ces 12 scripts n'ont normalement **plus besoin d'être rejoués un par un** : `content:import` (cf. plus haut) reproduit en un seul import le contenu réel actuel, déjà passé par toute cette histoire de migrations. Ils restent documentés ici pour la maintenance d'une base existante plus ancienne, ou si `back/seed/contenu.json` venait à manquer.
-
-| # | Script | Rôle | Idempotent ? |
-|---|---|---|---|
-| 1 | `migrate-rename-grille-patisseries.js` | Renomme le type de section `grille-patisseries` → `bloc-patisseries` | **Oui** — `UPDATE ... WHERE type = 'grille-patisseries'`, no-op dès que plus aucune ligne ne porte l'ancien nom |
-| 2 | `migrate-relative-photo-urls.js` | Retire le préfixe `http://localhost:3001` en dur des `photo_url`/`content` existants (passage en chemins relatifs) | **Oui** — ne touche que les lignes contenant encore le préfixe, no-op sinon |
-| 3 | `migrate-add-banner-dates.js` | Ajoute les colonnes `announcements.start_date`/`end_date` (`ALTER TABLE`) | **Oui** — vérifie `PRAGMA table_info` avant d'ajouter chaque colonne |
-| 4 | `migrate-add-event-photos.js` | Crée la table `event_photos` | **Oui** — `CREATE TABLE IF NOT EXISTS` |
-| 5 | `migrate-drop-event-services.js` | Supprime l'ancienne table `event_services` (remplacée par `event_photos`) | **Oui** — `DROP TABLE IF EXISTS` |
-| 6 | `migrate-add-bloc-entete.js` | Ajoute un bloc `bloc-entete` en tête de chaque page connue, corrige le titre de test du Hero Accueil, allège le contenu de `bloc-evenements` (titre/intro migrés vers le nouveau bloc-entête) | **Oui** — vérifie l'absence de `bloc-entete` avant d'en créer un ; corrections de contenu conditionnées à la valeur exacte attendue |
-| 7 | `add-hero-3-pages.js` | Ajoute une section `hero` aux pages `patisseries`, `a-propos`, `evenements` (absente à l'origine) ; normalise les positions `hero`/`bloc-entete` sur Accueil | **Oui** — vérifie l'absence de `hero` avant d'en créer un ; normalisation conditionnée à une position incorrecte constatée. **Dépend de #6** (lit `bloc-entete` pour la normalisation des positions) |
-| 8 | `add-bloc-histoire-2-apropos.js` | Ajoute un 2e bloc `bloc-histoire` à la page `a-propos` | **Oui** — n'agit que si moins de 2 `bloc-histoire` existent déjà sur la page |
-| 9 | `add-bouton-hero.js` | Pose un texte/lien de bouton par défaut sur le Hero d'Accueil et d'Événements | **Partiellement.** Vérifie `texteBouton \|\| lienBouton` avant d'écrire — mais un bouton explicitement *vidé* depuis l'admin (chaîne vide des deux côtés) redeviendrait indiscernable d'un bouton jamais configuré, et serait réécrasé par une relance. Sans risque sur une base qui n'a jamais eu ce bouton touché manuellement. |
-| 10 | `TEMP-photo-boutique-accueil-bouche-trou.js` | Pose une photo provisoire (enseigne en contre-plongée) + point focal sur le bloc-localisation d'Accueil, en attendant une vraie photo de façade | **Non.** Écrit `photo`/`focusX`/`focusY` **sans aucune vérification préalable** — une relance écraserait une vraie photo uploadée depuis via l'admin. Explicitement marqué "DETTE TECHNIQUE" dans le code, avec instruction d'être supprimé une fois une vraie photo livrée. **Ne pas relancer** sans avoir vérifié l'état actuel du bloc-localisation Accueil. |
-| 11 | `fix-boutons-blocs-histoire-apropos.js` | Pose un texte/lien de bouton sur les 2 `bloc-histoire` d'À propos (sections identifiées par **ID en dur : 12 et 46**) | **Oui** — vérifie l'absence de bouton existant avant d'écrire. Porte en tête de fichier la mention explicite "à relire avant exécution — ne pas lancer sans validation" : les ID en dur ne correspondent qu'à **cette base précise**, pas transposables tels quels ailleurs. **Dépend de #8** (la section 46 n'existe qu'après l'ajout du 2e bloc-histoire) |
-| 12 | `fix-photo-manquante-atelier-apropos.js` | Vide `photo`/`photoAlt` sur la section 46 (À propos) si elle vaut encore `/images/atelier-2.jpg` (fichier jamais livré, image cassée) | **Oui** — compare la valeur exacte avant d'agir. Même mention "à relire avant exécution". **Constat vérifié en rédigeant cette doc** : la version actuelle de `add-bloc-histoire-2-apropos.js` (script #8) initialise `photo` à vide (`""`), pas à `/images/atelier-2.jpg` — ce script ne trouvera donc plus rien à corriger si #8 est rejoué tel qu'il est aujourd'hui. Il documente une anomalie historique déjà corrigée dans le script source, conservé pour mémoire et parce qu'il reste sans danger (gardé par la comparaison de valeur). |
-
-### `init-pages.js` déprécié — écart avec le contenu réel (résolu par `content:import`)
-
-**Vérifié en lisant `back/src/db/init-pages.js`** : il ne crée **pas** de section `hero` pour `patisseries`/`a-propos`/`evenements`, **pas** de 2e `bloc-histoire` pour `a-propos`, et **pas** de bouton par défaut sur les Hero — l'équivalent des scripts #7, #8 et #9 ci-dessus manque. Une base installée via `init-pages.js` seul a donc un contenu éditorial différent de la production réelle. C'est précisément ce qui a motivé `content:export`/`content:import` : `init-pages.js` est maintenant **déprécié** (commentaire en tête du fichier, non supprimé) et remplacé dans `SETUP.md`/ci-dessus par `content:import`, qui importe le contenu réel exporté (`back/seed/contenu.json`), sans cet écart.
-
-`init-pages.js` reste dans le dépôt comme filet de secours si `back/seed/contenu.json` venait à manquer (génère alors un jeu de pages minimal, avec l'écart décrit ci-dessus) — à compléter dans ce cas avec `add-hero-3-pages.js`, `add-bloc-histoire-2-apropos.js`, `add-bouton-hero.js` (scripts #7-#9, idempotents) si on veut s'approcher du contenu réel sans le fichier d'export.
+16 scripts de migration/correctif ponctuels et de première installation historique ont existé dans `back/src/db/` jusqu'au nettoyage du dépôt (branche `chore/menage`, après le tag `v1.0.0-rc1`). Tous à usage unique déjà exécuté, jamais importés ailleurs, absents de `package.json` — entièrement subsumés par `database.sql` (schéma final, vérifié identique à la base réelle) et `back/seed/contenu.json` (`content:import` reproduit le contenu réel en un seul import sur une base neuve). Supprimés une fois ces deux garanties établies. Contenu et détail de chaque script : **historique git, tag `v1.0.0-rc1`**.
 
 ## Persistance : `data/` et `public/uploads/`
 
@@ -183,7 +162,7 @@ Pas idempotent (contrainte `UNIQUE` sur `users.email`) — à lancer une seule f
 
 ## Contenu éditorial : `content:export` / `content:import`
 
-Remplace `init-pages.js` + les `seed-*.js` (dépréciés, cf. plus haut) pour amener une base neuve au contenu réel du site. Source de vérité : `back/seed/contenu.json`, versionné dans le dépôt — pages, sections (content JSON), réglages, horaires, catégories, produits, photos événements, annonces. Jamais d'utilisateur, jamais de session, jamais de mot de passe dans ce fichier.
+Remplace l'installation initiale historique (scripts désormais supprimés, cf. plus haut — historique git, tag `v1.0.0-rc1`) pour amener une base neuve au contenu réel du site. Source de vérité : `back/seed/contenu.json`, versionné dans le dépôt — pages, sections (content JSON), réglages, horaires, catégories, produits, photos événements, annonces. Jamais d'utilisateur, jamais de session, jamais de mot de passe dans ce fichier.
 
 **Importer** (après `npm run init-db` + `init-admin.js`, cf. ci-dessus) :
 
@@ -251,7 +230,7 @@ Pas de script de déploiement automatisé (CI/CD) trouvé dans le dépôt. Proc�
 3. `cd back && npm install && cd ../front && npm install` (dépendances).
 4. `cd front && npm run build` (nouveau build statique).
 5. Redémarrer le process back (`pm2 restart maison-nali-api` ou `systemctl restart maison-nali-api`).
-6. Vérifier qu'aucune nouvelle migration de schéma ou de contenu n'est nécessaire (`back/src/db/migrate-*.js`, `add-*.js`, `fix-*.js` — liste et ordre détaillés dans la section "Scripts de migration et correctifs de données" ci-dessus ; à exécuter manuellement si la mise à jour en introduit une nouvelle, aucun mécanisme de migration automatique au démarrage n'existe dans le code).
+6. Vérifier qu'aucune nouvelle migration de schéma ou de contenu n'est nécessaire (convention historique : un script `back/src/db/migrate-<nom>.js` par migration ponctuelle, cf. "Scripts de migration et correctifs de données" ci-dessus pour le contexte — aucun mécanisme de migration automatique au démarrage n'existe dans le code, à exécuter manuellement si la mise à jour en introduit une nouvelle).
 
 **Retour arrière :**
 1. Arrêter le process back.

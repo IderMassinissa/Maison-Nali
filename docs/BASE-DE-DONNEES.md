@@ -4,7 +4,7 @@ SQLite, un seul fichier applicatif : `back/data/maison-nali.sqlite` (gitignoré,
 
 ## Vérification database.sql vs schéma réel
 
-**Méthode** : introspection directe de `back/data/maison-nali.sqlite` (`SELECT sql FROM sqlite_master WHERE type IN ('table','index')`), comparée colonne par colonne à `database.sql`, le 2026-10-10. Les scripts `back/src/db/migrate-*.js` et `add-*.js` ont pu altérer le schéma depuis sa création initiale (ce sont des `ALTER TABLE` exécutés à la main, hors du fichier `database.sql`).
+**Méthode** : introspection directe de `back/data/maison-nali.sqlite` (`SELECT sql FROM sqlite_master WHERE type IN ('table','index')`), comparée colonne par colonne à `database.sql`, le 2026-10-10. Des scripts de migration ponctuels ont pu altérer le schéma depuis sa création initiale (des `ALTER TABLE` exécutés à la main, hors du fichier `database.sql`) — supprimés depuis (historique git, tag `v1.0.0-rc1`), une fois cette vérification établie.
 
 **Résultat : aucun écart constaté.** Les 9 tables et l'unique index (`idx_opening_hours_day`) du fichier réel correspondent exactement à ce que déclare `database.sql`, colonne pour colonne, y compris les colonnes manifestement ajoutées après coup par migration (`announcements.start_date`/`end_date`, `products.focus_x`/`focus_y`/`position`) — visibles dans le schéma réel par leur formatage SQL différent (ajoutées en fin de `CREATE TABLE` d'origine par `ALTER TABLE ... ADD COLUMN`), mais présentes aussi dans `database.sql`. Interprétation : `database.sql` a été tenu à jour manuellement après chaque migration. Rien à corriger (consigne : signaler sans corriger — ici il n'y a rien à signaler).
 
@@ -176,7 +176,7 @@ Un seul compte dans l'usage réel (pas de gestion multi-utilisateur côté front
 | `password_hash` | VARCHAR | NOT NULL | hash bcrypt, jamais le mot de passe en clair |
 
 ### `pages`
-5 pages publiques créées par `init-pages.js` : `accueil`, `patisseries`, `evenements`, `a-propos`, `adresse`. `position` pilote l'ordre dans la nav admin (`DashboardLayout.jsx` a cependant son propre ordre codé en dur, indépendant de cette colonne).
+5 pages publiques, reproduites par `content:import` depuis `back/seed/contenu.json` : `accueil`, `patisseries`, `evenements`, `a-propos`, `adresse`. `position` pilote l'ordre dans la nav admin (`DashboardLayout.jsx` a cependant son propre ordre codé en dur, indépendant de cette colonne).
 
 | Colonne | Type | Contrainte | Rôle |
 |---|---|---|---|
@@ -232,7 +232,7 @@ Une seule ligne utilisée en pratique (bannière d'annonce du site public), gér
 | `end_date` | TEXT | nullable | `AAAA-MM-JJ`, bannière invisible après cette date |
 
 ### `opening_hours`
-7 lignes (une par jour), créées par `seed-opening-hours.js`. Gérées depuis `/admin/coordonnees`.
+7 lignes (une par jour), reproduites par `content:import`. Gérées depuis `/admin/coordonnees`.
 
 | Colonne | Type | Contrainte | Rôle |
 |---|---|---|---|

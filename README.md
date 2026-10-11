@@ -70,10 +70,7 @@ npm install
 cp .env.example .env      # remplir SESSION_SECRET au minimum
 npm run init-db
 node src/db/init-admin.js <email> <mot-de-passe>
-node src/db/init-pages.js
-node src/db/seed-opening-hours.js
-node src/db/seed-phone.js
-node src/db/seed-evenements.js
+npm run content:import
 node src/server.js
 
 # Front (autre terminal)
@@ -94,6 +91,7 @@ Procédure détaillée, ordre exact et pièges connus : **`SETUP.md`**. Déploie
 | `npm start` | Démarre le serveur (`src/server.js`) |
 | `npm test` | Lance les 129 tests (`node:test`) contre une base SQLite de test jetable |
 | `npm run init-db` | Crée `back/data/maison-nali.sqlite` depuis `src/db/database.sql` (une fois) |
+| `npm run content:import` | Importe le contenu éditorial réel depuis `back/seed/contenu.json` (une fois, après `init-admin.js`) |
 | `npm run backup` | Sauvegarde `data/*.sqlite` (hors sessions) + `public/uploads/` dans `Sauvegardes/<horodatage>/` |
 | `node src/db/optimize-uploads.js [--apply]` | Réapplique le pipeline d'optimisation d'image aux fichiers déjà uploadés (dry-run par défaut) |
 
@@ -115,7 +113,7 @@ back/
     repositories/    # accès SQL (requêtes préparées), pas de logique HTTP
     utils/           # fonctions pures (validation, détection image, optimisation sharp)
     middleware/      # requireAuth, rateLimitLogin
-    db/              # connexion SQLite, schéma, scripts de migration/seed/maintenance
+    db/              # connexion SQLite, schéma, import/export de contenu, sauvegarde, maintenance
   data/              # bases SQLite (gitignoré)
   public/uploads/    # photos uploadées (gitignoré sauf .gitkeep)
 

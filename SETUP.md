@@ -62,7 +62,7 @@ npm run content:import
 - `init-admin.js` : crée le compte admin. **Pas idempotent** — relancer avec le même email échoue proprement (contrainte `UNIQUE` sur `users.email`), aucun doublon possible. À lancer **avant** `content:import` (il faut un utilisateur en base pour rattacher les pages).
 - `npm run content:import` : importe le contenu éditorial complet (pages, sections, réglages, horaires, catégories, produits, photos événements, annonces) depuis `back/seed/contenu.json`, versionné dans le dépôt — reproduit l'état actuel du site. Refuse de tourner sur une base déjà peuplée (sécurité anti-écrasement) ; voir `docs/DEPLOY.md` pour `--force`. Les photos elles-mêmes ne sont pas incluses : les chemins référencés mais absents de `back/public/uploads` sont listés en fin d'exécution.
 
-**`init-pages.js` et les `seed-*.js` (`seed-opening-hours.js`, `seed-phone.js`, `seed-evenements.js`) sont dépréciés**, remplacés par `content:import` qui couvre tout ce qu'ils faisaient (et plus : horaires, téléphone, annonces inclus). Gardés dans le dépôt pour compatibilité, pas supprimés — à n'utiliser que si `back/seed/contenu.json` venait à manquer (génère alors un jeu de pages minimal, incomplet par rapport au site réel, cf. `docs/DEPLOY.md`).
+Les scripts de première installation historique (dépréciés par `content:import` qui couvrait tout ce qu'ils faisaient et plus : horaires, téléphone, annonces inclus) ont été supprimés du dépôt lors du nettoyage `chore/menage` — historique git, tag `v1.0.0-rc1`.
 
 ## 5. Lancer le projet
 
