@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useSauvegardeBloc from "./SauvegardeBloc";
+import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";
 import { parseContenuSection } from "../../../utils/parseContenuSection";
 const API_URL = import.meta.env.VITE_API_URL;

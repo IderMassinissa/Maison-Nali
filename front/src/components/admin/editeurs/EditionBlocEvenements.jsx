@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useSauvegardeBloc from "./SauvegardeBloc";
+import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { parseContenuSection } from "../../../utils/parseContenuSection";
 
 export default function EditionBlocEvenements({ section }) {
