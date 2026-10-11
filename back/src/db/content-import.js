@@ -317,10 +317,9 @@ function main() {
   if (resultat.manquants.length > 0) {
     console.log("");
     console.log(
-      "Fichiers référencés manquants dans back/public/uploads -- affichage cassé (image brisée) tant" +
-        " qu'une photo n'est pas réuploadée via l'admin pour ces entrées (le front n'a pas de repli" +
-        " automatique vers le placeholder visuel sur une image qui échoue à charger, seulement sur une" +
-        " valeur de photo vide) :",
+      "Fichiers référencés manquants dans back/public/uploads -- le front bascule sur le" +
+        " placeholder visuel pour ces entrées (ImageAvecRepli), à remplacer en réuploadant la" +
+        " vraie photo via l'admin :",
     );
     for (const f of resultat.manquants) console.log(`  ${f}`);
   } else {
