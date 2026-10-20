@@ -3,6 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "description": "Front-end de Maison Nali (React + Vite).",
+  "keywords": ["react", "vitrine"],
+  "author": "Massinissa Ider",
   "type": "module",
   "engines": {
     "node": ">=22.0.0"

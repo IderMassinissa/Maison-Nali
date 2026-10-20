@@ -12,7 +12,7 @@
     "content:export": "node src/db/content-export.js",
     "content:import": "node src/db/content-import.js"
   },
-  "keywords": [],
+  "keywords": ["express", "sqlite", "vitrine"],
   "author": "Massinissa Ider",
   "license": "ISC",
   "type": "commonjs",
