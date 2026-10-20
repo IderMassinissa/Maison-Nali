@@ -1,5 +1,6 @@
 {
   "name": "back",
+  "private": true,
   "version": "1.0.0",
   "description": "API back-end de Maison Nali (Express + SQLite).",
   "main": "src/server.js",
@@ -14,7 +15,7 @@
   },
   "keywords": ["express", "sqlite", "vitrine"],
   "author": "Massinissa Ider",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "type": "commonjs",
   "engines": {
     "node": ">=22.0.0"
