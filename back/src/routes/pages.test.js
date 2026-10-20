@@ -8,9 +8,9 @@ const db = require("../db/connection");
 const { createUser } = require("../repositories/users");
 const app = require("../server");
 
-const EMAIL_TEST = "test-sections-phase4d@example.test";
+const EMAIL_TEST = "test-sections-01@example.test";
 const MOT_DE_PASSE_TEST = "MotDePasseTest123!";
-const SLUG_PAGE_TEMP = "test-page-phase5b2";
+const SLUG_PAGE_TEMP = "test-page-temp";
 
 let agent;
 

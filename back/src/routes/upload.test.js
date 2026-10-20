@@ -11,7 +11,7 @@ const db = require("../db/connection");
 const { createUser } = require("../repositories/users");
 const app = require("../server");
 
-const EMAIL_TEST = "test-upload-lot-images@example.test";
+const EMAIL_TEST = "test-upload-01@example.test";
 const MOT_DE_PASSE_TEST = "MotDePasseTest123!";
 const DOSSIER_UPLOADS = path.join(__dirname, "../../public/uploads");
 
