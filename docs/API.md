@@ -2,7 +2,7 @@
 
 Toutes les routes vérifiées en lisant `back/src/routes/*.js` le 2026-10-10 (branche `docs/v1`). Base : `/api`. Format : JSON (`Content-Type: application/json`), sauf `/api/upload` (`multipart/form-data`). Toutes les réponses d'erreur ont la forme `{ "error": "message en français" }`, sauf mention contraire.
 
-Le tableau d'autorisation ci-dessous reprend celui du rapport `Documentation/Securite_Passe1_2026-10-09.md` (section C) — **revérifié ligne par ligne contre le code actuel** pour cette documentation, aucun écart trouvé.
+Le tableau d'autorisation ci-dessous a été **revérifié ligne par ligne contre le code actuel** pour cette documentation, aucun écart trouvé.
 
 ## Authentification (`/api/auth`) — `back/src/routes/auth.js`
 

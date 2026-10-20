@@ -51,7 +51,7 @@ Toutes les suites `repositories`/`routes` s'exécutent contre une vraie base SQL
 
 ## Ce qui n'est testé qu'à la main
 
-Aucun test automatisé de bout en bout (navigateur) n'est versionné dans le dépôt. Ont été vérifiés manuellement, au fil des passes successives (audit sécurité, a11y/perf, lot images — cf. `Documentation/`), via des sessions Playwright ponctuelles non conservées dans le dépôt :
+Aucun test automatisé de bout en bout (navigateur) n'est versionné dans le dépôt. Ont été vérifiés manuellement, au fil des passes successives (audit sécurité, audit accessibilité/performance, optimisation des images), via des sessions Playwright ponctuelles non conservées dans le dépôt :
 
 - Rendu visuel des pages publiques (6 pages, desktop + mobile).
 - Navigation clavier (menu mobile : piège de focus, Échap, retour de focus).
@@ -104,4 +104,4 @@ Tableau à remplir lors d'une recette manuelle (colonne "Résultat obtenu" vide 
 
 ## Limite connue de l'environnement de test
 
-`src/routes/upload.test.js` écrit dans le vrai dossier `back/public/uploads` (pas de dossier dédié aux tests pour cette route) ; les fichiers créés sont nettoyés en fin de test (`t.after`), mais une interruption brutale du run pourrait laisser un fichier orphelin. Documenté depuis l'audit sécurité (`Documentation/Securite_Passe1_2026-10-09.md`, section E, "Observation annexe"), non corrigé à ce jour.
+`src/routes/upload.test.js` écrit dans le vrai dossier `back/public/uploads` (pas de dossier dédié aux tests pour cette route) ; les fichiers créés sont nettoyés en fin de test (`t.after`), mais une interruption brutale du run pourrait laisser un fichier orphelin. Limite connue depuis l'audit sécurité, non corrigée à ce jour.

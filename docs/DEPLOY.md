@@ -2,7 +2,7 @@
 
 Vérifié dans le code le 2026-10-10 (`back/src/server.js`, `.env.example`, `package.json`). Rien de ce document ne décrit une infrastructure déjà en place — c'est une procédure à suivre, pas un constat d'un serveur existant.
 
-**Hébergeur retenu : À COMPLÉTER.** Aucune information sur l'hébergeur cible n'existe dans le dépôt (cf. rapport sécurité, constat K2 — mentions légales et `trust proxy` en attente du même choix).
+**Hébergeur retenu : À COMPLÉTER.** Aucune information sur l'hébergeur cible n'existe dans le dépôt — mentions légales et `trust proxy` sont en attente du même choix.
 
 ## Prérequis
 

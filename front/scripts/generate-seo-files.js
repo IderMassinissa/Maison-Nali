@@ -5,8 +5,7 @@
 //
 // Nécessaire car en dev/preview, Vite sert index.html (du HTML) pour
 // n'importe quelle URL non reconnue -- y compris /robots.txt et
-// /sitemap.xml, qui "répondaient" 200 sans jamais exister réellement (cf.
-// Documentation/A11y_Perf_Passe1_2026-10-09.md, H1).
+// /sitemap.xml, qui "répondaient" 200 sans jamais exister réellement.
 import { loadEnv } from "vite";
 import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";

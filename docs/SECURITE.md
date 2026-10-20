@@ -1,6 +1,6 @@
 # Sécurité
 
-Synthèse des mesures effectivement en place dans le code, rattachées à l'OWASP Top 10:2021. Source de vérité détaillée : `Documentation/Securite_Passe1_2026-10-09.md` (audit + correctifs complets, branche `security/audit-1`, 23/25 constats corrigés) — ce document en est un résumé organisé par catégorie OWASP, avec renvoi vers les commits réels. Vérifié contre le code le 2026-10-10.
+Synthèse des mesures effectivement en place dans le code, rattachées à l'OWASP Top 10:2021, suite à l'audit sécurité (branche `security/audit-1`, 23/25 constats corrigés) — ce document est organisé par catégorie OWASP, avec renvoi vers les commits réels. Vérifié contre le code le 2026-10-10.
 
 ## Règle — aucune valeur réelle de secret, nulle part
 
@@ -46,7 +46,7 @@ Toutes les routes d'écriture (`POST`/`PUT`/`DELETE`) sont protégées par le mi
 ## A06:2021 — Vulnerable and Outdated Components
 
 - Vulnérabilité **critique** `proxy-addr` (transitif via `express`, CVSS 9.1) corrigée par `npm audit fix` sans montée de version majeure — commit `c2e6fac`. `npm audit` : 0 vulnérabilité après correctif (back et front).
-- Chaque nouvelle dépendance ajoutée depuis (`helmet`, `compression`, `sharp`) a fait l'objet d'une vérification de licence et de maintenance active avant ajout (licence, dernière publication, mainteneur) — démarche documentée dans `Documentation/A11y_Perf_Passe1_2026-10-09.md`.
+- Chaque nouvelle dépendance ajoutée depuis (`helmet`, `compression`, `sharp`) a fait l'objet d'une vérification de licence et de maintenance active avant ajout (licence, dernière publication, mainteneur).
 - Le store de session maison (`sqliteSessionStore.js`) a été écrit à la main plutôt que d'ajouter une dépendance tierce, après constat que les paquets npm existants pour ce besoin étaient soit abandonnés (dernière publication 2022) soit sous licence GPL-3.0 (incompatible avec un livrable client réutilisable).
 
 ## A07:2021 — Identification and Authentication Failures

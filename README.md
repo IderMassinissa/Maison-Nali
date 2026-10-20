@@ -127,7 +127,6 @@ front/
     utils/           # urlImage, sessionExpiree, telephone, bannerStatus...
 
 docs/                # cette documentation technique
-Documentation/        # rapports d'audit (sécurité, a11y/perf) et preuves (JSON Lighthouse/axe-core)
 Schémas/              # anciens schémas de conception — obsolètes, voir note en fin de fichier
 ```
 
@@ -141,11 +140,11 @@ cd back && npm test
 
 ## Sécurité
 
-23 constats sur 25 corrigés lors de l'audit sécurité (`Documentation/Securite_Passe1_2026-10-09.md`), synthétisés par catégorie OWASP Top 10:2021 dans **`docs/SECURITE.md`**. Points clés : requêtes SQL 100% paramétrées, mots de passe bcrypt (coût 12), sessions régénérées à la connexion + store SQLite persistant, rate limiting sur le login, `helmet()`, CORS restreint à une origine, upload validé sur signature binaire réelle (pas le `Content-Type` déclaré), vulnérabilité critique de dépendance corrigée (`proxy-addr`).
+23 constats sur 25 corrigés lors de l'audit sécurité, synthétisés par catégorie OWASP Top 10:2021 dans **`docs/SECURITE.md`**. Points clés : requêtes SQL 100% paramétrées, mots de passe bcrypt (coût 12), sessions régénérées à la connexion + store SQLite persistant, rate limiting sur le login, `helmet()`, CORS restreint à une origine, upload validé sur signature binaire réelle (pas le `Content-Type` déclaré), vulnérabilité critique de dépendance corrigée (`proxy-addr`).
 
 ## Performance — résultats Lighthouse (état final)
 
-Mesuré le 2026-10-10 après le lot d'optimisation des images (médiane de 3 runs par page/mode, protocole complet et rapports bruts : `Documentation/A11y_Perf_Passe1_2026-10-09.md`, section "Après traitement des images").
+Mesuré le 2026-10-10 après le lot d'optimisation des images (médiane de 3 runs par page/mode).
 
 | Page | Perf desktop | Perf mobile | A11y | LCP mobile | CLS mobile | Poids de page |
 |---|---|---|---|---|---|---|
@@ -156,7 +155,7 @@ Mesuré le 2026-10-10 après le lot d'optimisation des images (médiane de 3 run
 | Événements | 99 | 80 | 100 | 5.3s | 0 | 1079 Kio |
 | Mentions légales | 100 | 98 | 100 | 2.4s | 0.012 | 190 Kio |
 
-axe-core : 0 violation sur les 6 pages publiques. Le LCP mobile résiduel sur Accueil/Événements est diagnostiqué (chaîne de dépendance réseau côté rendu client, piste de pré-rendu pour une V2) dans `Documentation/A11y_Perf_Passe1_2026-10-09.md`, section "Limites connues".
+axe-core : 0 violation sur les 6 pages publiques. Le LCP mobile résiduel sur Accueil/Événements est diagnostiqué : chaîne de dépendance réseau côté rendu client, piste de pré-rendu pour une V2.
 
 ## Documentation
 
@@ -170,7 +169,6 @@ axe-core : 0 violation sur les 6 pages publiques. Le LCP mobile résiduel sur Ac
 | `docs/SECURITE.md` | Mesures en place par catégorie OWASP, limites connues |
 | `docs/TESTS.md` | Couverture des 129 tests, cahier de recettes manuel |
 | `SETUP.md` | Installation détaillée pas à pas |
-| `Documentation/` | Rapports d'audit complets (sécurité, accessibilité/performance) et preuves brutes |
 
 ### Note sur `Schémas/`
 

@@ -39,7 +39,7 @@ flowchart LR
 - Découpage en deux zones à l'exécution, cf. `front/src/App.jsx` :
   - zone **publique** (`SiteLayout`) : `Header`, `<main>`, `BanniereAnnonce`, `<Outlet>`, `Footer` — montée directement (import statique).
   - zone **admin** (`RouteProtegee` → `DashboardLayout`) : chargée en `React.lazy()` + `<Suspense>`, donc absente du bundle téléchargé par un visiteur public (cf. lot performance G1).
-- Pas de store global (Redux/Zustand/Context partagé pour les données) : chaque composant fetch ses propres données via `useEffect`/hooks dédiés (`usePageContent`, `usePageSeo`, `useLocalBusinessSchema`). Assumé comme duplication de requêtes connue (cf. `docs/../Documentation/A11y_Perf_Passe1_2026-10-09.md`, constat G6).
+- Pas de store global (Redux/Zustand/Context partagé pour les données) : chaque composant fetch ses propres données via `useEffect`/hooks dédiés (`usePageContent`, `usePageSeo`, `useLocalBusinessSchema`). Assumé comme duplication de requêtes connue, identifiée lors de l'audit de performance.
 
 ### Back (`back/`)
 
@@ -163,5 +163,5 @@ Points clés vérifiés dans le code (`back/src/routes/upload.js`, `back/src/uti
 - Le fichier n'est **jamais** écrit avec le nom ou l'extension fournis par le client : l'extension vient du type réellement détecté (magic bytes), le nom est généré (`Date.now()-random`).
 - Double contrôle de type : `Content-Type` déclaré (rapide, insuffisant seul) **puis** signature binaire réelle des premiers octets.
 - Pipeline `sharp` appliqué uniquement sur le flux retenu pour l'écriture — jamais le buffer brut reçu du client.
-- `back/src/db/optimize-uploads.js` applique le même pipeline a posteriori aux fichiers déjà présents sur disque (mode dry-run par défaut, détails dans `docs/DEPLOY.md` et le rapport `Documentation/A11y_Perf_Passe1_2026-10-09.md`).
+- `back/src/db/optimize-uploads.js` applique le même pipeline a posteriori aux fichiers déjà présents sur disque (mode dry-run par défaut, détails dans `docs/DEPLOY.md`).
 - Les fichiers servis statiquement (`express.static`, `maxAge: "7d"`) ne passent par aucune authentification — ce sont des photos publiques du site.
