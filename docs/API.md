@@ -1,6 +1,6 @@
 # API
 
-Toutes les routes vérifiées en lisant `back/src/routes/*.js` le 2026-10-10 (branche `docs/v1`). Base : `/api`. Format : JSON (`Content-Type: application/json`), sauf `/api/upload` (`multipart/form-data`). Toutes les réponses d'erreur ont la forme `{ "error": "message en français" }`, sauf mention contraire.
+Toutes les routes vérifiées en lisant `back/src/routes/*.js`, version v1.0.0 (candidate de livraison). Base : `/api`. Format : JSON (`Content-Type: application/json`), sauf `/api/upload` (`multipart/form-data`). Toutes les réponses d'erreur ont la forme `{ "error": "message en français" }`, sauf mention contraire.
 
 Le tableau d'autorisation ci-dessous a été **revérifié ligne par ligne contre le code actuel** pour cette documentation, aucun écart trouvé.
 

@@ -2,7 +2,7 @@
 
 Site vitrine administrable pour la pâtisserie algérienne Maison Nali (Paris) : pages publiques (accueil, catalogue de pâtisseries, événements, à propos, adresse, mentions légales) entièrement éditables depuis un espace d'administration, sans intervention sur le code pour changer un texte, une photo ou un horaire.
 
-Vérifié dans le code le 2026-10-10 (branche `docs/v1`).
+Version v1.0.0 (candidate de livraison).
 
 ## Fonctionnalités
 

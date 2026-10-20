@@ -1,6 +1,6 @@
 # Architecture
 
-Tout ce document est vérifié directement dans le code (`back/src`, `front/src`) au moment de la rédaction (2026-10-10, branche `docs/v1`).
+Tout ce document est vérifié directement dans le code (`back/src`, `front/src`), version v1.0.0 (candidate de livraison).
 
 ## Vue d'ensemble
 
