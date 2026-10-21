@@ -5,10 +5,11 @@
  * repositories/users.js.
  */
 const bcrypt = require("bcrypt");
+const { COUT_BCRYPT } = require("../constants");
 
 /** @returns {Promise<string>} le hash bcrypt du mot de passe en clair. */
 async function hashPassword(plainPassword) {
-  return bcrypt.hash(plainPassword, 12);
+  return bcrypt.hash(plainPassword, COUT_BCRYPT);
 }
 
 /** @returns {Promise<boolean>} vrai si le mot de passe en clair correspond au hash stocké. */

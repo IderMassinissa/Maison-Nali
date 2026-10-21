@@ -8,6 +8,7 @@
  */
 const bcrypt = require("bcrypt");
 const db = require("./connection");
+const { COUT_BCRYPT } = require("../constants");
 
 const email = process.argv[2];
 const password = process.argv[3];
@@ -17,7 +18,7 @@ if (!email || !password) {
   process.exit(1);
 }
 
-bcrypt.hash(password, 10).then((hash) => {
+bcrypt.hash(password, COUT_BCRYPT).then((hash) => {
   db.prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)").run(
     email,
     hash,
