@@ -7,6 +7,7 @@
  */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { gererSessionExpiree } from "../utils/sessionExpiree";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function useSauvegardeBloc(sectionId) {
@@ -28,6 +29,7 @@ export default function useSauvegardeBloc(sectionId) {
           body: JSON.stringify({ content: JSON.stringify(contenu) }),
         },
       );
+      if (gererSessionExpiree(res.status)) return;
       if (!res.ok) throw new Error("Échec de la sauvegarde");
       setSucces(true);
       setTimeout(() => navigate(-1), 800);
