@@ -89,7 +89,7 @@ Procédure détaillée, ordre exact et pièges connus : **`SETUP.md`**. Déploie
 | Commande | Effet |
 |---|---|
 | `npm start` | Démarre le serveur (`src/server.js`) |
-| `npm test` | Lance les 129 tests (`node:test`) contre une base SQLite de test jetable |
+| `npm test` | Lance les 134 tests (`node:test`) contre une base SQLite de test jetable |
 | `npm run init-db` | Crée `back/data/maison-nali.sqlite` depuis `src/db/database.sql` (une fois) |
 | `npm run content:import` | Importe le contenu éditorial réel depuis `back/seed/contenu.json` (une fois, après `init-admin.js`) |
 | `npm run backup` | Sauvegarde `data/*.sqlite` (hors sessions) + `public/uploads/` dans `Sauvegardes/<horodatage>/` |
@@ -127,12 +127,11 @@ front/
     utils/           # urlImage, sessionExpiree, telephone, bannerStatus...
 
 docs/                # cette documentation technique
-Schémas/              # anciens schémas de conception — obsolètes, voir note en fin de fichier
 ```
 
 ## Tests
 
-129 tests (`node:test`), tous verts à la date de ce document. Couverture détaillée par fichier, cahier de recettes manuel (32 scénarios) : **`docs/TESTS.md`**.
+134 tests (`node:test`), tous verts à la date de ce document. Couverture détaillée par fichier, cahier de recettes manuel (32 scénarios) : **`docs/TESTS.md`**.
 
 ```bash
 cd back && npm test
@@ -167,9 +166,5 @@ axe-core : 0 violation sur les 6 pages publiques. Le LCP mobile résiduel sur Ac
 | `docs/BASE-DE-DONNEES.md` | MCD/MLD/MPD, dictionnaire des tables, vérification contre le schéma réel |
 | `docs/DEPLOY.md` | Variables d'environnement, build, pm2/systemd, nginx, sauvegarde/restauration |
 | `docs/SECURITE.md` | Mesures en place par catégorie OWASP, limites connues |
-| `docs/TESTS.md` | Couverture des 129 tests, cahier de recettes manuel |
+| `docs/TESTS.md` | Couverture des 134 tests, cahier de recettes manuel |
 | `SETUP.md` | Installation détaillée pas à pas |
-
-### Note sur `Schémas/`
-
-Le dossier `Schémas/` (racine du projet, hors dépôt `Code/Mainson-Nali`) contient des diagrammes de conception antérieurs. Vérifiés contre le schéma réel le 2026-10-10 : **obsolètes** — `ModeleConceptuel.md`, `ModeleLogique.md` et `ModelePhysique.md` ne reflètent pas la table `event_photos` réelle (nommée "Gallery" avec des colonnes différentes), ni les colonnes ajoutées depuis (`products.focus_x`/`focus_y`/`position`, `announcements.start_date`/`end_date`), ni les tables `settings`/`opening_hours` en relation. `NavMaisonNAli.md` ne liste pas les routes `/evenements` et `/patisseries/:id`. Non modifiés (hors périmètre) — remplacés par `docs/BASE-DE-DONNEES.md` pour toute information à jour sur le schéma.
