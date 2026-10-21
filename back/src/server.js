@@ -5,7 +5,7 @@
  * (écoute réellement le port) et par les tests, qui importent `app` sans
  * jamais appeler `.listen()` (cf. `require.main === module` plus bas).
  */
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const express = require("express");
 const session = require("express-session");
 const authRoutes = require("./routes/auth");
