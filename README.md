@@ -32,13 +32,13 @@ Chaque photo envoyée depuis l'admin est automatiquement : réorientée selon se
 
 | Couche | Techno | Version |
 |---|---|---|
-| Front | React | 19.2 |
-| Front | React Router | 7.18 |
-| Front | Vite | 8.2 |
-| Front | Tailwind CSS | 4.3 |
-| Back | Node.js / Express | 5.2 |
-| Back | SQLite (`better-sqlite3`) | 13.0 |
-| Back | `express-session` + store SQLite maison | 1.19 |
+| Front | React | 19 |
+| Front | React Router | 7 |
+| Front | Vite | 8 |
+| Front | Tailwind CSS | 4 |
+| Back | Node.js / Express | 5 |
+| Back | SQLite (`better-sqlite3`) | 13 |
+| Back | `express-session` + store SQLite maison | 1 |
 | Back | `sharp` (traitement d'image) | 0.35 |
 | Back | `bcrypt`, `helmet`, `cors`, `compression`, `multer` | — |
 | Tests | `node:test` (natif Node) + `supertest` | — |

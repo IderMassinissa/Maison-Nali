@@ -88,12 +88,12 @@ Non applicable en l'état : le back ne fait aucune requête HTTP sortante vers u
 
 | Paquet | Rôle | Version (`back/package.json`) |
 |---|---|---|
-| `bcrypt` | Hash des mots de passe | `^6.0.0` |
-| `helmet` | En-têtes HTTP de sécurité | `^8.3.0` |
-| `cors` | Contrôle CORS | `^2.8.6` |
-| `express-session` | Sessions (store maison, cf. `docs/ARCHITECTURE.md`) | `^1.19.0` |
-| `multer` | Réception des uploads (stockage mémoire uniquement) | `^2.3.0` |
-| `sharp` | Nettoyage/recompression des images uploadées | `^0.35.5` |
+| `bcrypt` | Hash des mots de passe | `6` |
+| `helmet` | En-têtes HTTP de sécurité | `8` |
+| `cors` | Contrôle CORS | `2` |
+| `express-session` | Sessions (store maison, cf. `docs/ARCHITECTURE.md`) | `1` |
+| `multer` | Réception des uploads (stockage mémoire uniquement) | `2` |
+| `sharp` | Nettoyage/recompression des images uploadées | `0.35` |
 
 ## Tests liés à la sécurité
 
