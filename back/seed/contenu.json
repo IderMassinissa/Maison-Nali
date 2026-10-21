@@ -1,5 +1,5 @@
 {
-  "exportedAt": "2026-10-10T17:21:10.914Z",
+  "exportedAt": "2026-10-21T10:42:22.186Z",
   "pages": [
     {
       "id": 1,
@@ -298,7 +298,7 @@
     {
       "id": 23,
       "name": "Makrout au four",
-      "description": "",
+      "description": "Petites bouchées dorées façonnées à la main en forme de fleur, nappées d'un voile brillant — une finesse à offrir ou à savourer.",
       "photo_url": "/uploads/1788275208468-806382937.jpg",
       "video_url": "",
       "category_id": null,
@@ -309,7 +309,7 @@
     {
       "id": 29,
       "name": "GHRIBIA Cacahuète",
-      "description": "une description teste pour le ghribia à la cacahuète",
+      "description": "Un biscuit tout en rondeur, à la croûte craquelée, façonné à la main avec l'exigence de la maison.",
       "photo_url": "/uploads/1788264820761-621086916.jpg",
       "video_url": "",
       "category_id": null,
@@ -320,7 +320,7 @@
     {
       "id": 35,
       "name": "KAAK TLEMCEN",
-      "description": "",
+      "description": "Une couronne façonnée à la main, le geste artisanal de Maison Nali — à partager autour d'un thé.",
       "photo_url": "/uploads/1788269342778-899301506.jpg",
       "video_url": "",
       "category_id": null,
@@ -331,7 +331,7 @@
     {
       "id": 37,
       "name": "LE LINA",
-      "description": "",
+      "description": "Un dôme délicat au glaçage satiné, orné de fleurs — une pièce d'élégance façonnée à la main, pensée pour vos plus belles occasions.",
       "photo_url": "/uploads/1788276514651-827590811.jpg",
       "video_url": "",
       "category_id": null,
