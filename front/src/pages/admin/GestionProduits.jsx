@@ -199,6 +199,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
   const [enregistrement, setEnregistrement] = useState(false);
   const [uploadEnCours, setUploadEnCours] = useState(false);
   const [erreurUpload, setErreurUpload] = useState("");
+  const [erreurSubmit, setErreurSubmit] = useState("");
 
   async function handlePhotoChange(e) {
     const fichier = e.target.files[0];
@@ -206,6 +207,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
 
     setUploadEnCours(true);
     setErreurUpload("");
+    setErreurSubmit("");
     const formData = new FormData();
     formData.append("photo", fichier);
 
@@ -238,6 +240,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setEnregistrement(true);
+    setErreurSubmit("");
 
     const url = produitId
       ? `${API_URL}/api/products/${produitId}`
@@ -265,7 +268,7 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
       }
       onTermine();
     } catch (err) {
-      alert("Erreur : " + err.message);
+      setErreurSubmit(err.message);
     } finally {
       setEnregistrement(false);
     }
@@ -288,7 +291,10 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             id="produit-nom"
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setErreurSubmit("");
+              setName(e.target.value);
+            }}
             required
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
@@ -303,7 +309,10 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
           <textarea
             id="produit-description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {
+              setErreurSubmit("");
+              setDescription(e.target.value);
+            }}
             rows={4}
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
@@ -367,11 +376,19 @@ function FormulaireProduit({ produitId, produits, onTermine }) {
             id="produit-video"
             type="url"
             value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
+            onChange={(e) => {
+              setErreurSubmit("");
+              setVideoUrl(e.target.value);
+            }}
             placeholder="https://youtube.com/... ou instagram.com/..."
             className="w-full px-5 py-3.5 border border-brand-border rounded-lg bg-white text-base"
           />
         </div>
+        {erreurSubmit && (
+          <p role="alert" className="text-red-600 text-sm mt-1">
+            {erreurSubmit}
+          </p>
+        )}
         <div className="flex gap-3">
           <button
             type="submit"
