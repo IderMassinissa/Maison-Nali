@@ -47,7 +47,7 @@ Toutes les routes d'écriture (`POST`/`PUT`/`DELETE`) sont protégées par le mi
 
 - Vulnérabilité **critique** `proxy-addr` (transitif via `express`, CVSS 9.1) corrigée par `npm audit fix` sans montée de version majeure — commit `c2e6fac`. `npm audit` : 0 vulnérabilité après correctif (back et front).
 - Chaque nouvelle dépendance ajoutée depuis (`helmet`, `compression`, `sharp`) a fait l'objet d'une vérification de licence et de maintenance active avant ajout (licence, dernière publication, mainteneur).
-- Le store de session maison (`sqliteSessionStore.js`) a été écrit à la main plutôt que d'ajouter une dépendance tierce, après constat que les paquets npm existants pour ce besoin étaient soit abandonnés (dernière publication 2022) soit sous licence GPL-3.0 (incompatible avec un livrable client réutilisable).
+- Le store de session maison (`sqliteSessionStore.js`) a été implémenté sur mesure plutôt que d'ajouter une dépendance tierce, après constat que les paquets npm existants pour ce besoin étaient soit abandonnés (dernière publication 2022) soit sous licence GPL-3.0 (incompatible avec un livrable client réutilisable).
 
 ## A07:2021 — Identification and Authentication Failures
 

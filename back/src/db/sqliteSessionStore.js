@@ -1,5 +1,5 @@
 /**
- * Store de session express-session écrit à la main (pas de dépendance
+ * Store de session express-session maison (sans dépendance
  * tierce), persistant dans un fichier SQLite séparé de la base applicative
  * (back/data/sessions.sqlite). Branché dans server.js via
  * `session({ store: new SqliteSessionStore() })`. Implémente l'API "Store"

@@ -48,7 +48,7 @@ flowchart LR
   - `src/routes/*.js` : définition des endpoints HTTP, validation des entrées, codes de retour.
   - `src/repositories/*.js` : accès SQL (requêtes préparées `better-sqlite3`), aucune logique HTTP.
   - `src/utils/*.js` : fonctions pures (validation de formats, détection de type image, optimisation image).
-- Pas d'ORM : SQL écrit à la main, uniquement via requêtes préparées paramétrées (jamais de concaténation de chaîne dans une requête).
+- Pas d'ORM : SQL écrit directement, uniquement via requêtes préparées paramétrées (jamais de concaténation de chaîne dans une requête).
 - Middlewares globaux (ordre réel dans `server.js`) : `helmet()` → `cors()` → `compression()` → `express.json()` → `session()` → routes `/api/*` → `express.static("/uploads")` → `/api/upload` → 404 → gestionnaire d'erreur générique.
 
 ### Base de données
