@@ -75,7 +75,7 @@ Tableau à remplir lors d'une recette manuelle (colonne "Résultat obtenu" vide 
 | R04 | Menu mobile | Sous 768px, ouvrir le menu, naviguer au clavier (Tab), appuyer sur Échap | Menu plein écran s'ouvre, focus piégé dedans, Échap ferme et rend le focus au bouton hamburger | |
 | R05 | Bannière d'annonce | Activer une bannière avec dates englobant aujourd'hui depuis l'admin | Bannière visible sur le site public | |
 | R06 | Bannière d'annonce | Activer une bannière avec `endDate` dans le passé | Bannière invisible sur le site public (contrôlé côté back) | |
-| R07 | Horaires | Modifier un horaire d'ouverture depuis `/admin/coordonnees` | Nouvel horaire visible immédiatement sur `/adresse` | |
+| R07 | Horaires | Modifier un horaire d'ouverture depuis l'éditeur du bloc Localisation (`/admin/pages/adresse`, bloc Localisation) | Nouvel horaire visible immédiatement sur `/adresse` | |
 | R08 | Horaires | Cocher "Fermé" sur un jour | `open_time`/`close_time` passent à `null`, jour affiché "Fermé" côté public | |
 | R09 | Connexion admin | Se connecter avec un email/mot de passe valides | Redirection vers `/admin/produits`, session active | |
 | R10 | Connexion admin | Se connecter avec un mauvais mot de passe | 401, message "Identifiants incorrects", pas d'indice sur l'existence du compte | |

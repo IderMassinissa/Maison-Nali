@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import useSauvegardeBloc from "../../../hooks/useSauvegardeBloc";
 import { urlImage } from "../../../utils/urlImage";
 import { parseContenuSection } from "../../../utils/parseContenuSection";
+import { gererSessionExpiree } from "../../../utils/sessionExpiree";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ORDRE_JOURS = [
@@ -30,11 +31,13 @@ export default function EditionBlocLocalisation({ section }) {
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
   const [uploadEnCours, setUploadEnCours] = useState(false);
   const [erreurUpload, setErreurUpload] = useState("");
-  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+  const { sauvegarder, enregistrement, succes, erreur } =
+    useSauvegardeBloc(section.id);
 
   const [horaires, setHoraires] = useState([]);
   const [chargementHoraires, setChargementHoraires] = useState(true);
   const [enregistrementHoraire, setEnregistrementHoraire] = useState(null);
+  const [erreurHoraire, setErreurHoraire] = useState("");
 
   useEffect(() => {
     fetch(`${API_URL}/api/opening-hours`)
@@ -90,13 +93,21 @@ export default function EditionBlocLocalisation({ section }) {
 
   async function sauvegarderHoraire(id, openTime, closeTime) {
     setEnregistrementHoraire(id);
+    setErreurHoraire("");
     try {
-      await fetch(`${API_URL}/api/opening-hours/${id}`, {
+      const res = await fetch(`${API_URL}/api/opening-hours/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ openTime, closeTime }),
       });
+      if (gererSessionExpiree(res.status)) return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Échec de l'enregistrement de l'horaire");
+      }
+    } catch (err) {
+      setErreurHoraire(err.message);
     } finally {
       setEnregistrementHoraire(null);
     }
@@ -245,6 +256,11 @@ export default function EditionBlocLocalisation({ section }) {
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {erreur && (
+          <p role="alert" className="text-red-600 text-sm">
+            {erreur}
+          </p>
+        )}
       </form>
 
       <p className="text-xs opacity-70 mb-6">
@@ -331,6 +347,11 @@ export default function EditionBlocLocalisation({ section }) {
               );
             })}
           </div>
+        )}
+        {erreurHoraire && (
+          <p role="alert" className="text-red-600 text-sm mt-3">
+            {erreurHoraire}
+          </p>
         )}
       </div>
     </div>

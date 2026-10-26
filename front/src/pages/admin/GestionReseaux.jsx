@@ -5,6 +5,7 @@
  * enregistrement/succès), pas un seul submit global.
  */
 import { useEffect, useState } from "react";
+import { gererSessionExpiree } from "../../utils/sessionExpiree";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CHAMPS = [
@@ -20,6 +21,7 @@ export default function GestionReseaux() {
   const [chargement, setChargement] = useState(true);
   const [enregistrement, setEnregistrement] = useState(null);
   const [succes, setSucces] = useState(null);
+  const [erreurs, setErreurs] = useState({});
 
   useEffect(() => {
     Promise.all(
@@ -37,6 +39,7 @@ export default function GestionReseaux() {
   async function sauvegarder(key) {
     setEnregistrement(key);
     setSucces(null);
+    setErreurs((prev) => ({ ...prev, [key]: "" }));
     try {
       const res = await fetch(`${API_URL}/api/settings/${key}`, {
         method: "PUT",
@@ -44,7 +47,14 @@ export default function GestionReseaux() {
         credentials: "include",
         body: JSON.stringify({ value: valeurs[key] }),
       });
-      if (res.ok) setSucces(key);
+      if (gererSessionExpiree(res.status)) return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Échec de l'enregistrement");
+      }
+      setSucces(key);
+    } catch (err) {
+      setErreurs((prev) => ({ ...prev, [key]: err.message }));
     } finally {
       setEnregistrement(null);
     }
@@ -90,13 +100,18 @@ export default function GestionReseaux() {
               <button
                 onClick={() => sauvegarder(key)}
                 disabled={enregistrement === key}
-                className="px-6 py-3 bg-brand-dark text-brand-accent rounded-full text-xs uppercase tracking-widest disabled:opacity-50"
+                className="self-start px-6 py-3 bg-brand-dark text-brand-accent rounded-full text-xs uppercase tracking-widest disabled:opacity-50"
               >
                 {enregistrement === key ? "..." : "Enregistrer"}
               </button>
             </div>
             {succes === key && (
               <p className="text-green-600 text-xs mt-1">Enregistré !</p>
+            )}
+            {erreurs[key] && (
+              <p role="alert" className="text-red-600 text-xs mt-1">
+                {erreurs[key]}
+              </p>
             )}
           </div>
         ))}

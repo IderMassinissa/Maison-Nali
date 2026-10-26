@@ -13,7 +13,8 @@ export default function EditionBlocEntete({ section }) {
   const [libelle, setLibelle] = useState(contenuInitial.libelle || "");
   const [titre, setTitre] = useState(contenuInitial.titre || "");
   const [intro, setIntro] = useState(contenuInitial.intro || "");
-  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+  const { sauvegarder, enregistrement, succes, erreur } =
+    useSauvegardeBloc(section.id);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -81,6 +82,11 @@ export default function EditionBlocEntete({ section }) {
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {erreur && (
+          <p role="alert" className="text-red-600 text-sm">
+            {erreur}
+          </p>
+        )}
       </form>
     </div>
   );

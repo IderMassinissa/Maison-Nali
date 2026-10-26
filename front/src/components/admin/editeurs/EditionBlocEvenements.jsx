@@ -10,7 +10,8 @@ import { parseContenuSection } from "../../../utils/parseContenuSection";
 export default function EditionBlocEvenements({ section }) {
   const contenuInitial = parseContenuSection(section.content);
   const [formats, setFormats] = useState(contenuInitial.formats || "");
-  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+  const { sauvegarder, enregistrement, succes, erreur } =
+    useSauvegardeBloc(section.id);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -51,6 +52,11 @@ export default function EditionBlocEvenements({ section }) {
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {erreur && (
+          <p role="alert" className="text-red-600 text-sm">
+            {erreur}
+          </p>
+        )}
       </form>
     </div>
   );

@@ -3,7 +3,9 @@
  * depuis les éditeurs admin (EditionHero, EditionBlocHistoire...). Sérialise
  * le contenu en JSON côté client, cohérent avec son stockage en chaîne brute
  * en base. En cas de succès, revient à l'écran précédent après un court
- * délai (le temps de voir le message de confirmation).
+ * délai (le temps de voir le message de confirmation). En cas de refus du
+ * serveur (400), expose le message d'erreur renvoyé par l'API pour que
+ * l'éditeur l'affiche dans la page.
  */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +15,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function useSauvegardeBloc(sectionId) {
   const [enregistrement, setEnregistrement] = useState(false);
   const [succes, setSucces] = useState(false);
+  const [erreur, setErreur] = useState("");
   const navigate = useNavigate();
 
   async function sauvegarder(contenu) {
     setEnregistrement(true);
     setSucces(false);
+    setErreur("");
 
     try {
       const res = await fetch(
@@ -30,15 +34,18 @@ export default function useSauvegardeBloc(sectionId) {
         },
       );
       if (gererSessionExpiree(res.status)) return;
-      if (!res.ok) throw new Error("Échec de la sauvegarde");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Échec de la sauvegarde");
+      }
       setSucces(true);
       setTimeout(() => navigate(-1), 800);
     } catch (err) {
-      console.error(err);
+      setErreur(err.message);
     } finally {
       setEnregistrement(false);
     }
   }
 
-  return { sauvegarder, enregistrement, succes };
+  return { sauvegarder, enregistrement, succes, erreur };
 }

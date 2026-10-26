@@ -23,7 +23,8 @@ export default function EditionBlocHistoire({ section }) {
   const [focusY, setFocusY] = useState(contenuInitial.focusY ?? 50);
   const [uploadEnCours, setUploadEnCours] = useState(false);
   const [erreurUpload, setErreurUpload] = useState("");
-  const { sauvegarder, enregistrement, succes } = useSauvegardeBloc(section.id);
+  const { sauvegarder, enregistrement, succes, erreur } =
+    useSauvegardeBloc(section.id);
 
   async function handlePhotoChange(e) {
     const fichier = e.target.files[0];
@@ -233,6 +234,11 @@ export default function EditionBlocHistoire({ section }) {
           {enregistrement ? "Enregistrement..." : "Enregistrer"}
         </button>
         {succes && <p className="text-green-600 text-sm">Enregistré !</p>}
+        {erreur && (
+          <p role="alert" className="text-red-600 text-sm">
+            {erreur}
+          </p>
+        )}
       </form>
     </div>
   );
