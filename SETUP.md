@@ -6,7 +6,7 @@ Ordre exact à suivre, une seule fois. Les scripts `seed-*` sont rejouables sans
 
 `better-sqlite3` compile un module natif en C++ à l'installation. Deux prérequis obligatoires sur Windows, sinon `npm install` plante dans `back` :
 
-- **Node ≥ 22** (LTS "Jod"), déclaré dans `back/package.json`/`front/package.json` (`engines.node`) et `.nvmrc`. Choisi comme le plus petit major LTS sur lequel la suite de tests back (129 tests), le lint et le build front passent intégralement — vérifié aussi sous Node 24 (LTS "Krypton"), qui passe également. Développé à l'origine sous Node 23.7.0 (non-LTS, jamais la bonne cible pour `engines`) ; re-testé et abaissé à 22 pour ne pas imposer une version plus récente que nécessaire.
+- **Node ≥ 22** (LTS "Jod"), déclaré dans `back/package.json`/`front/package.json` (`engines.node`) et `.nvmrc`. Choisi comme le plus petit major LTS sur lequel la suite de tests back (129 tests lors de cette vérification ; 134 aujourd'hui, revérifiés sous Node 22 le 26/10/2026), le lint et le build front passent intégralement — vérifié aussi sous Node 24 (LTS "Krypton"), qui passe également. Développé à l'origine sous Node 23.7.0 (non-LTS, jamais la bonne cible pour `engines`) ; re-testé et abaissé à 22 pour ne pas imposer une version plus récente que nécessaire.
 - **Outils de compilation C++** (Visual Studio Build Tools avec le workload "Desktop development with C++", ou `npm install --global windows-build-tools` selon la config)
 
 Vérifier avant de commencer (`nvm use` si `nvm`/`nvm-windows` est installé, applique directement la version du `.nvmrc`) :
